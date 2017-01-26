@@ -1,5 +1,5 @@
 module.exports = {
-    devtool: "cheap-eval-source-map",
+    devtool: "source-map",
     entry: "./app/main.js",
     output: {
         filename: "1d5.js"

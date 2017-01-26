@@ -4,8 +4,6 @@ import { Application } from "pixi.js";
 export const app = new PIXI.Application(1280, 720, { transparent: true });
 document.body.appendChild(app.view);
 
-// Track pressed keys
-app.keyDown = {};
 function formatKey(k) {
     let key = k.toLowerCase();
     if      (key == "arrowleft")  key = "left";
@@ -15,13 +13,42 @@ function formatKey(k) {
     else if (key == " ")          key = "space";
     return key;
 }
-document.onkeydown = function(event) {
-    if (event.repeat) return;
-    let key = formatKey(event.key);
-    app.keyDown[key] = true;
+
+app.input = {
+    isKeyDown: {},
+    isMouseDown: {},
+    mouseX: null,
+    mouseY: null
 };
-document.onkeyup = function(event) {
+
+// Track pressed keys
+document.onkeydown = (event) => {
     if (event.repeat) return;
     let key = formatKey(event.key);
-    app.keyDown[key] = false;
+    app.input.isKeyDown[key] = true;
+};
+document.onkeyup = (event) => {
+    if (event.repeat) return;
+    let key = formatKey(event.key);
+    app.input.isKeyDown[key] = false;
+};
+
+// Track mouse input
+app.view.onmousedown = (event) => {
+    event.preventDefault();
+    app.input.isMouseDown[event.button] = true;
+};
+document.onmouseup = (event) => {
+    event.preventDefault();
+    app.input.isMouseDown[event.button] = false;
+};
+document.onmousemove = (event) => {
+    let rect = app.view.getBoundingClientRect();
+    app.input.mouseX = Math.round((event.clientX - rect.left) / app.stage.scale.x);
+    app.input.mouseY = Math.round((event.clientY - rect.top) / app.stage.scale.y);
+};
+
+// Prevent context menu
+app.view.oncontextmenu = (event) => {
+    event.preventDefault();
 };

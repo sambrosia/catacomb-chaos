@@ -1,0 +1,15 @@
+{
+  "name": "1d5-js",
+  "version": "1.0.0",
+  "description": "An html5 game",
+  "main": "main.js",
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
+  "author": "Samuel Woodruff",
+  "devDependencies": {
+    "pixi.js": "^4.3.4",
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^1.16.2"
+  }
+}

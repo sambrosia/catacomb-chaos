@@ -22,9 +22,10 @@ export default class Character extends AnimatedSprite {
         let scaledH = app.renderer.height / app.stage.scale.y;
 
         // Constrain to screen
-        if      (this.x < 22)       this.x = 22;
+        // FIXME: constrain to dungeon instead
+        if      (this.x < 24)       this.x = 24;
         else if (this.x > scaledW - 22) this.x = scaledW - 22;
-        if      (this.y < 16)       this.y = 16;
-        else if (this.y > scaledH - 28) this.y = scaledH - 28;
+        if      (this.y < 24)       this.y = 24;
+        else if (this.y > scaledH - 20) this.y = scaledH - 20;
     }
 }

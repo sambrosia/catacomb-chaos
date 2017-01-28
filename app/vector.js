@@ -12,6 +12,7 @@ export default class Vector extends PIXI.Point {
             this.x /= l;
             this.y /= l;
         }
+        return this;
     }
 
     truncate(n) {
@@ -20,5 +21,6 @@ export default class Vector extends PIXI.Point {
             this.x *= s;
             this.y *= s;
         }
+        return this;
     }
 }

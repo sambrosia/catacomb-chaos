@@ -23,4 +23,16 @@ export default class Vector extends PIXI.Point {
         }
         return this;
     }
+
+    add(v) {
+        return new Vector(this.x + v.x, this.y + v.y);
+    }
+
+    subtract(v) {
+        return new Vector(this.x - v.x, this.y - v.y);
+    }
+
+    multiply(n) {
+        return new Vector(this.x * n, this.y * n);
+    }
 }

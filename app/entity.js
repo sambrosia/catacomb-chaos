@@ -1,17 +1,19 @@
 import { app } from "./engine/engine.js";
-import AnimatedSprite from "./engine/animatedsprite.js";
 import Vector from "./engine/vector.js";
+import AnimatedSprite from "./engine/animatedsprite.js";
 
-// Common functionality for player and enemies
-export default class Character extends AnimatedSprite {
+// Common functionality for game objects
+export default class Entity extends AnimatedSprite {
     constructor(textures) {
         super(textures);
         this.anchor.set(0.5, 1);
 
         this.velocity = new Vector(0, 0);
-        this.moveSpeed = 0.8;
-        this.turnSpeed = 0.1;
+        this.moveSpeed = 1;
+        this.turnSpeed = 1;
     }
+
+    process(dt) {}
 
     move(velocityScale) {
         // Move character

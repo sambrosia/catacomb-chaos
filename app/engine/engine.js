@@ -1,4 +1,5 @@
 import { Application } from "pixi.js";
+import Vector from "./vector.js";
 
 // Start PIXI
 export const app = new PIXI.Application(1280, 720, { transparent: true });
@@ -17,8 +18,7 @@ function formatKey(k) {
 app.input = {
     isKeyDown: {},
     isMouseDown: {},
-    mouseX: null,
-    mouseY: null
+    mousePos: new Vector(0, 0)
 };
 
 // Track pressed keys
@@ -44,8 +44,10 @@ document.onmouseup = (event) => {
 };
 document.onmousemove = (event) => {
     let rect = app.view.getBoundingClientRect();
-    app.input.mouseX = Math.round((event.clientX - rect.left) / app.stage.scale.x);
-    app.input.mouseY = Math.round((event.clientY - rect.top) / app.stage.scale.y);
+    app.input.mousePos.set(
+        Math.round((event.clientX - rect.left) / app.stage.scale.x),
+        Math.round((event.clientY - rect.top) / app.stage.scale.y)
+    );
 };
 
 // Prevent context menu

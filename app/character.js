@@ -1,31 +1,52 @@
-import { app } from "./engine.js";
-import AnimatedSprite from "./animatedsprite.js";
-import Vector from "./vector.js";
+import { app } from "./engine/engine.js";
+import AnimatedSprite from "./engine/animatedsprite.js";
+import Vector from "./engine/vector.js";
 
 // Common functionality for player and enemies
 export default class Character extends AnimatedSprite {
     constructor(textures) {
         super(textures);
-
         this.anchor.set(0.5, 1);
 
         this.velocity = new Vector(0, 0);
         this.moveSpeed = 0.8;
+        this.turnSpeed = 0.1;
     }
 
     move(velocityScale) {
         // Move character
-        this.x += this.velocity.x * velocityScale;
-        this.y += this.velocity.y * velocityScale;
+        // FIXME: constrain to room
+        let posVec = new Vector(this.x, this.y);
+        this.position = posVec.add(this.velocity.multiply(velocityScale));
+    }
 
-        let scaledW = app.renderer.width / app.stage.scale.x;
-        let scaledH = app.renderer.height / app.stage.scale.y;
+    chase(target) {
+        // Get desired velocity
+        let targetVec = new Vector(target.x, target.y);
+        let desired = targetVec
+            .subtract(this.position)
+            .normalize()
+            .multiply(this.moveSpeed);
 
-        // Constrain to screen
-        // FIXME: constrain to dungeon instead
-        if      (this.x < 24)       this.x = 24;
-        else if (this.x > scaledW - 22) this.x = scaledW - 22;
-        if      (this.y < 24)       this.y = 24;
-        else if (this.y > scaledH - 20) this.y = scaledH - 20;
+        // Calculate steering force
+        let steering = desired.subtract(this.velocity).truncate(this.turnSpeed);
+
+        // Integrate steering force with current velocity
+        this.velocity = this.velocity.add(steering).truncate(this.moveSpeed);
+    }
+
+    avoid(target, distance) {
+        // Get desired velocity
+        let posVec = new Vector(this.x, this.y);
+        let desired = posVec.subtract(target);
+
+        // If within range, apply steering force to avoid t
+        if (desired.length < distance) {
+            // Calculate steering force
+            let steering = desired.subtract(this.velocity).truncate(this.turnSpeed);
+
+            // Integrate steering force with current velocity
+            this.velocity = this.velocity.add(steering).truncate(this.moveSpeed);
+        }
     }
 }

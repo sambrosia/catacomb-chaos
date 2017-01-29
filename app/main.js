@@ -1,9 +1,8 @@
 import { settings, SCALE_MODES, Container, Texture } from "pixi.js";
-import { app } from "./engine.js";
+import { app } from "./engine/engine.js";
+import Vector from "./engine/vector.js";
+import TileSheet from "./engine/tilesheet.js";
 
-import Vector from "./vector.js";
-
-import TileSheet from "./tilesheet.js";
 import Dungeon from "./dungeon.js";
 import Player from "./player.js";
 import Enemy from "./enemy.js";
@@ -61,8 +60,7 @@ characters.addChild(player);
 const missiles = [];
 const enemies = [];
 
-// Create some enemies
-for (let i = 0; i < 30; i++) {
+function spawnEnemy() {
     let enemy = new Enemy(playerFrames.tiles);
     enemy.animationSpeed = 0.05;
     enemy.addAnimation("idle", 0, 3);
@@ -70,6 +68,11 @@ for (let i = 0; i < 30; i++) {
     enemy.position.set(Math.random() * 16 * 24, Math.random() * 16 * 16);
     characters.addChild(enemy);
     enemies.push(enemy);
+}
+
+// Create some enemies
+for (let i = 0; i < 20; i++) {
+    spawnEnemy();
 }
 
 // Update
@@ -122,7 +125,7 @@ function update(dt) {
 
     // Charge missiles
     if (app.input.isMouseDown[0] && player.spellCharge < player.maxCharge) {
-        player.spellCharge += app.ticker.elapsedMS / 1000;
+        player.spellCharge += app.ticker.elapsedMS / 500;
         if (player.spellCharge> player.maxCharge) player.spellCharge = player.maxCharge;
     }
 
@@ -158,9 +161,16 @@ function update(dt) {
     }
 
 
+
     for (const enemy of enemies) {
-        // Steer enemy
+        // Chase player
         enemy.chase(player.position);
+
+        // Avoid clumping with other enemies
+        for (const other of enemies) {
+            if (other == enemy) continue;
+            enemy.avoid(other.position, 16);
+        }
 
         // Play appropriate animation based on velocity
         if (enemy.velocity.x !== 0 || enemy.velocity.y !== 0) {
@@ -176,9 +186,15 @@ function update(dt) {
 
 
 
+    // Spawn enemies
+    if (enemies.length < 20) {
+        spawnEnemy();
+    }
+
+
+
     // Y-Sort character sprites
-    // TODO: Fix flickering w/ lots of characters
-    characters.children.sort((a, b) => { return a.y > b.y; });
+    characters.children.sort((a, b) => { return (a.x + a.y) - (b.x + b.y); });
 
     if (app.ticker.FPS < 59) console.log("FPS dropped to: " + app.ticker.FPS);
 }

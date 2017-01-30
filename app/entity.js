@@ -9,46 +9,70 @@ export default class Entity extends AnimatedSprite {
         this.anchor.set(0.5, 1);
 
         this.velocity = new Vector(0, 0);
+        this.desiredVelocity = new Vector(0, 0);
         this.moveSpeed = 1;
         this.turnSpeed = 1;
+
+        this.graph = this.addChild(new PIXI.Graphics());
+        this.graph.visible = false;
     }
 
     process(dt) {}
 
     move(velocityScale) {
         // Move character
-        // FIXME: constrain to room
+        // TODO: constrain to room
+        this.steer();
         let posVec = new Vector(this.x, this.y);
         this.position = posVec.add(this.velocity.multiply(velocityScale));
+
+        this.graphVector(this.velocity, 0xff0000, 50);
     }
 
-    chase(target) {
-        // Get desired velocity
-        let targetVec = new Vector(target.x, target.y);
-        let desired = targetVec
-            .subtract(this.position)
-            .normalize()
-            .multiply(this.moveSpeed);
-
+    steer() {
         // Calculate steering force
+        let desired = this.desiredVelocity;
         let steering = desired.subtract(this.velocity).truncate(this.turnSpeed);
 
         // Integrate steering force with current velocity
         this.velocity = this.velocity.add(steering).truncate(this.moveSpeed);
+
+        this.graphVector(desired, 0x0000ff, 50);
+        this.graphVector(steering, 0x00ff00, 50);
+
+        desired.set(0, 0);
     }
 
-    avoid(target, distance) {
+    chase(target, radius) {
+        // Get desired velocity
+        let targetVec = new Vector(target.x, target.y);
+        let diff = targetVec.subtract(this.position);
+
+        // Add to other desired velocities
+        if (diff.length > radius) {
+            let desired = diff.normalize().multiply(this.moveSpeed);
+            this.desiredVelocity = this.desiredVelocity.add(desired);
+        }
+    }
+
+    avoid(target, radius) {
         // Get desired velocity
         let posVec = new Vector(this.x, this.y);
-        let desired = posVec.subtract(target);
+        let diff = posVec.subtract(target);
+        let desired = diff.multiply(1 / Math.pow(diff.length, 2));
 
-        // If within range, apply steering force to avoid t
-        if (desired.length < distance) {
-            // Calculate steering force
-            let steering = desired.subtract(this.velocity).truncate(this.turnSpeed);
+        // Add to other desired velocities
+        if (diff.length < radius)
+            this.desiredVelocity = this.desiredVelocity.add(desired);
+    }
 
-            // Integrate steering force with current velocity
-            this.velocity = this.velocity.add(steering).truncate(this.moveSpeed);
-        }
+    graphVector(vector, color, scale) {
+        scale = scale || 1;
+        this.graph
+            .beginFill(color)
+            .lineStyle(1, color)
+            .moveTo(0, 0)
+            .lineTo(vector.x * scale, vector.y * scale)
+            .endFill();
     }
 }

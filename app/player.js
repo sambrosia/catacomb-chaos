@@ -19,7 +19,11 @@ export default class Player extends Entity {
     }
 
     process(dt) {
-        this.chase(app.input.mousePos);
+        // Clear debug graph
+        this.graph.clear();
+
+        // Chase mouse
+        this.chase(app.input.mousePos, 3);
 
         // Move player
         this.move(dt);

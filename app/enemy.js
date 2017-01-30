@@ -15,14 +15,19 @@ export default class Enemy extends Entity {
     }
 
     process(target, others, dt) {
+        // Clear debug graph
+        this.graph.clear();
+
         // Chase target
-        this.chase(target);
+        this.chase(target, 32);
 
         // Avoid clumping with other enemies
         for (const other of others) {
             if (other == this) continue;
-            this.avoid(other.position, 16);
+            this.avoid(other, 16);
         }
+
+        this.move(dt);
 
         // Play appropriate animation based on velocity
         if (this.velocity.x !== 0 || this.velocity.y !== 0) {
@@ -33,6 +38,5 @@ export default class Enemy extends Entity {
             this.playAnimation("idle");
         }
 
-        this.move(dt);
     }
 }

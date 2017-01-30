@@ -69,11 +69,6 @@ function update(dt) {
     // Update player
     player.process(dt);
 
-    // Spawn enemies
-    if (enemies.length < 20) {
-        spawnEnemy();
-    }
-
     // Update enemies
     for (const enemy of enemies) {
         enemy.process(player.position, enemies, dt);

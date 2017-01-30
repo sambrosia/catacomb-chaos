@@ -4,7 +4,9 @@ import Vector from "./engine/vector.js";
 import TileSheet from "./engine/tilesheet.js";
 
 import Dungeon from "./dungeon.js";
+import Entity from "./entity.js";
 import Player from "./player.js";
+import { Fireball, FireContainer } from "./fireball.js";
 import Enemy from "./enemy.js";
 
 // NOTE: (ideas)
@@ -49,8 +51,12 @@ const playerTexture = PIXI.Texture.fromImage("sprites/mage.png");
 const playerFrames = new TileSheet(playerTexture, 4, 2, 24, 30);
 const player = characters.addChild(new Player(playerFrames.tiles));
 
-// Arrays for iterating through active projectiles and enemies
-const missiles = [];
+// Container for fire particles
+const fire = app.stage.addChild(new FireContainer());
+
+fire.addChild(new Fireball());
+
+// Array for iterating through active enemies
 const enemies = [];
 
 // Create some enemies
@@ -60,9 +66,10 @@ function spawnEnemy() {
     enemies.push(enemy);
 }
 
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 5; i++) {
     spawnEnemy();
 }
+
 
 // Update
 function update(dt) {
@@ -74,8 +81,11 @@ function update(dt) {
         enemy.process(player.position, enemies, dt);
     }
 
+    // Update particles
+    fire.process(dt);
+
     // Y-Sort characters
-    characters.children.sort((a, b) => { return (a.x + a.y) - (b.x + b.y); });
+    characters.children.sort((a, b) => { return a.y - b.y; });
 }
 
 app.ticker.add(update);

@@ -27,6 +27,15 @@ export default class Entity extends AnimatedSprite {
         this.position = posVec.add(this.velocity.multiply(velocityScale));
 
         this.graphVector(this.velocity, 0xff0000, 50);
+
+        // Play appropriate animation based on velocity
+        if (this.animations.walk && (this.velocity.x !== 0 || this.velocity.y !== 0)) {
+            this.playAnimation("walk");
+            if      (this.velocity.x < 0) this.scale.x = -1;
+            else if (this.velocity.x > 0) this.scale.x = 1;
+        } else if (this.animations.idle) {
+            this.playAnimation("idle");
+        }
     }
 
     steer() {

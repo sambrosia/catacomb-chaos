@@ -28,15 +28,5 @@ export default class Enemy extends Entity {
         }
 
         this.move(dt);
-
-        // Play appropriate animation based on velocity
-        if (this.velocity.x !== 0 || this.velocity.y !== 0) {
-            this.playAnimation("walk");
-            if      (this.velocity.x < 0) this.scale.x = -1;
-            else if (this.velocity.x > 0) this.scale.x = 1;
-        } else {
-            this.playAnimation("idle");
-        }
-
     }
 }

@@ -28,15 +28,6 @@ export default class Player extends Entity {
         // Move player
         this.move(dt);
 
-        // Play appropriate animation based on velocity
-        if (this.velocity.x !== 0 || this.velocity.y !== 0) {
-            this.playAnimation("walk");
-            if      (this.velocity.x < 0) this.scale.x = -1;
-            else if (this.velocity.x > 0) this.scale.x = 1;
-        } else {
-            this.playAnimation("idle");
-        }
-
         // Charge spell
         if (app.input.isMouseDown[0] && this.spellCharge < this.maxCharge) {
             this.spellCharge += app.ticker.elapsedMS / 1000 * this.chargeRate;

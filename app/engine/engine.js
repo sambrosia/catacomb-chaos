@@ -18,7 +18,8 @@ function formatKey(k) {
 app.input = {
     isKeyDown: {},
     isMouseDown: {},
-    mousePos: new Vector(0, 0)
+    mousePos: new Vector(0, 0),
+    mouseVel: new Vector(0, 0)
 };
 
 // Track pressed keys
@@ -48,6 +49,7 @@ document.onmousemove = (event) => {
         Math.round((event.clientX - rect.left) / app.stage.scale.x),
         Math.round((event.clientY - rect.top) / app.stage.scale.y)
     );
+    app.input.mouseVel.set(event.movementX, event.movementY);
 };
 
 // Prevent context menu

@@ -2,7 +2,7 @@ import { Application } from "pixi.js";
 import Vector from "./vector.js";
 
 // Start PIXI
-export const app = new PIXI.Application(1280, 720, { transparent: true });
+export const app = new PIXI.Application(1280, 720);
 document.body.appendChild(app.view);
 
 function formatKey(k) {
@@ -19,7 +19,9 @@ app.input = {
     isKeyDown: {},
     isMouseDown: {},
     mousePos: new Vector(0, 0),
-    mouseDelta: new Vector(0, 0)
+    mouseDelta: new Vector(0, 0),
+    onMouseDown: function() {},
+    onMouseUp: function() {}
 };
 
 // Track pressed keys
@@ -38,10 +40,12 @@ document.onkeyup = (event) => {
 app.view.onmousedown = (event) => {
     event.preventDefault();
     app.input.isMouseDown[event.button] = true;
+    app.input.onMouseDown(event);
 };
 document.onmouseup = (event) => {
     event.preventDefault();
     app.input.isMouseDown[event.button] = false;
+    app.input.onMouseUp(event);
 };
 document.onmousemove = (event) => {
     let rect = app.view.getBoundingClientRect();

@@ -12,7 +12,6 @@ class FireParticle extends PIXI.Sprite {
     constructor(size, velocity) {
         super(tex);
         this.anchor.set(0.5);
-        this.blendMode = PIXI.BLEND_MODES.ADD;
         this.scale.set(size);
 
         this.rotationRate = (Math.random() - 0.5) * 0.3;
@@ -34,12 +33,12 @@ class FireParticle extends PIXI.Sprite {
 }
 
 export class Fireball extends Entity {
-    constructor() {
+    constructor(size) {
         super([tex]);
         this.anchor.set(0.5);
         this.visible = false;
 
-        this.resize(10);
+        this.resize(size);
 
         this.createParticle(this);
     }
@@ -50,9 +49,30 @@ export class Fireball extends Entity {
         this.turnSpeed = 0.4 * (16 / size);
     }
 
-    process(dt) {
-        this.chase(app.input.mousePos, 2);
-        this.move(dt);
+    process(dt, characters, player) {
+        // Loosely follow mouse position
+        if (app.input.isMouseDown[0]) {
+            this.chase(app.input.mousePos, 2);
+
+            // Avoid clumping
+            for (const other of this.parent.children) {
+                if (other == this) continue;
+                this.avoid(other, this.size);
+            }
+
+            this.steer();
+        }
+        this.move(dt, false);
+
+        // Check for collision
+        for (const character of characters) {
+            if (character != player && character.containsPoint(new Vector(this.x * app.stage.scale.x, this.y * app.stage.scale.y))) {
+                console.log("Exploded!");
+                character.destroy();
+                this.destroy();
+                break;
+            }
+        }
     }
 
     createParticle(self) {
@@ -71,10 +91,16 @@ export class Fireball extends Entity {
     }
 }
 
-export class FireContainer extends PIXI.Container {
-    process(dt) {
+// TODO: Move fireballs so they aren't siblings to fire particles
+export class FireContainer extends PIXI.particles.ParticleContainer {
+    constructor() {
+        super();
+        this.blendMode = PIXI.BLEND_MODES.ADD;
+    }
+
+    process(dt, characters, player) {
         for (const particle of this.children) {
-            particle.process(dt);
+            particle.process(dt, characters, player);
         }
     }
 }

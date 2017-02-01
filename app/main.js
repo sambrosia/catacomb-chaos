@@ -50,39 +50,40 @@ const characters = app.stage.addChild(new PIXI.Container());
 const playerTexture = PIXI.Texture.fromImage("sprites/mage.png");
 const playerFrames = new TileSheet(playerTexture, 4, 2, 24, 30);
 const player = characters.addChild(new Player(playerFrames.tiles));
+player.position.set(100);
 
 // Container for fire particles
 const fire = app.stage.addChild(new FireContainer());
-
-fire.addChild(new Fireball());
-
-// Array for iterating through active enemies
-const enemies = [];
+player.fContainer = fire;
 
 // Create some enemies
 function spawnEnemy() {
     let enemy = characters.addChild(new Enemy(playerFrames.tiles));
     enemy.position.set(Math.random() * 16 * 27, Math.random() * 16 * 15);
-    enemies.push(enemy);
 }
-
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 1; i++) {
     spawnEnemy();
 }
 
+// On mouse down
+app.input.onMouseDown = (event) => {
+    player.onMouseDown(event);
+};
+
+// On mouse up
+app.input.onMouseUp = (event) => {
+    player.onMouseUp(event);
+};
 
 // Update
 function update(dt) {
-    // Update player
-    player.process(dt);
-
-    // Update enemies
-    for (const enemy of enemies) {
-        enemy.process(player.position, enemies, dt);
+    // Update characters
+    for (const character of characters.children) {
+        character.process(dt, player, characters.children);
     }
 
     // Update particles
-    fire.process(dt);
+    fire.process(dt, characters.children, player);
 
     // Y-Sort characters
     characters.children.sort((a, b) => { return a.y - b.y; });

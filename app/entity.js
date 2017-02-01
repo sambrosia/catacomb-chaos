@@ -19,10 +19,12 @@ export default class Entity extends AnimatedSprite {
 
     process(dt) {}
 
-    move(velocityScale) {
+    move(velocityScale, steer) {
         // Move character
         // TODO: constrain to room
-        this.steer();
+        if (steer === undefined) steer = true;
+        if (steer) this.steer();
+
         let posVec = new Vector(this.x, this.y);
         this.position = posVec.add(this.velocity.multiply(velocityScale));
 
@@ -46,6 +48,7 @@ export default class Entity extends AnimatedSprite {
         // Integrate steering force with current velocity
         this.velocity = this.velocity.add(steering).truncate(this.moveSpeed);
 
+        this.graph.clear();
         this.graphVector(desired, 0x0000ff, 50);
         this.graphVector(steering, 0x00ff00, 50);
 
@@ -78,10 +81,8 @@ export default class Entity extends AnimatedSprite {
     graphVector(vector, color, scale) {
         scale = scale || 1;
         this.graph
-            .beginFill(color)
             .lineStyle(1, color)
             .moveTo(0, 0)
-            .lineTo(vector.x * scale, vector.y * scale)
-            .endFill();
+            .lineTo(vector.x * scale, vector.y * scale);
     }
 }

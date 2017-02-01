@@ -14,16 +14,13 @@ export default class Enemy extends Entity {
         this.addAnimation("walk", 4, 7);
     }
 
-    process(target, others, dt) {
-        // Clear debug graph
-        this.graph.clear();
-
+    process(dt, target, others) {
         // Chase target
-        this.chase(target, 32);
+        this.chase(target.position, 32);
 
         // Avoid clumping with other enemies
         for (const other of others) {
-            if (other == this) continue;
+            if (other == this || other == target) continue;
             this.avoid(other, 16);
         }
 

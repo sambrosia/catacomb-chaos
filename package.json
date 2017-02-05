@@ -10,6 +10,7 @@
   "author": "Samuel Woodruff",
   "devDependencies": {
     "pixi.js": "^4.3.4",
+    "sat": "^0.6.0",
     "webpack": "^2.2.0",
     "webpack-dev-server": "^1.16.2"
   }

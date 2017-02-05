@@ -11,7 +11,7 @@ export default class Player extends Entity {
         this.turnSpeed = 0.08;
 
         this.charging = null;
-        this.fContainer = null;
+        this.fireContainer = null;
 
         this.animationSpeed = 0.1;
         this.addAnimation("idle", 0, 3);
@@ -20,8 +20,8 @@ export default class Player extends Entity {
 
     onMouseDown(event) {
         // Create fireball
-        if (!this.charging && app.input.mousePos.subtract(this.position).length < 64) {
-            this.charging = this.fContainer.addChild(new Fireball(10));
+        if (event.button === 0 && !this.charging && app.input.mousePos.subtract(this.position).length < 64) {
+            this.charging = this.fireContainer.addChild(new Fireball(10));
             this.charging.position.set(this.x, this.y - 12);
         }
     }
@@ -45,7 +45,7 @@ export default class Player extends Entity {
 
         // Charge fireball
         if (this.charging && this.charging.size < 20) {
-            this.charging.resize(this.charging.size + app.ticker.elapsedMS / 200);
+            this.charging.resize(this.charging.size + app.ticker.elapsedMS / 100);
         }
     }
 }

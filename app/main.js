@@ -7,28 +7,33 @@ import Dungeon from "./dungeon.js";
 import Entity from "./entity.js";
 import Player from "./player.js";
 import { Fireball, FireContainer } from "./fireball.js";
+import { ExplosionContainer } from "./explosion.js";
 import Enemy from "./enemy.js";
 
 // NOTE: (ideas)
-// Big XP bar that fills up as you kill enemies
 // Player and enemies are 1 hit kill
+// Progress bar showing no of minions (or time) remaining before skeleton king comes
 
-// Independent upper body, legs, arms components of player sprite
-// Charge missile spell on LMB
-// Charge blink spell on RMB
-// Mega laser special attack?
-// Shield bubble?
-
-// Enemies spawn from magic circle in middle
-// Melee enemies
-// Bow enemies
+// Enemies spawn from magic circles or maybe trap doors
+// Melee enemies - telegraphed wind-up when close to player
+// Bow enemies - arrows can be burned w/o stopping fireball
+// Caster enemies - magic missile/fireball blow eachother up
 // Skirmisher enemies?
+// Defender enemy protects ranged enemies?
 
 // Minor environmental stuff (torches, barrels, etc.)
 // Trap tiles
-// variant floor tiles make musical tone when stepped on, based on their Y coord
-// playing mary had a little lamb will spawn sheep?
-// Sheep line up and follow player, but stop on spawners to block them
+// Power-up pickups? (shield, multi-ball, bouncing fireballs?)
+
+// Gameplay progression:
+// Intro: you stole skeleton king's magic crystal; he trapped you in his dungeon
+// - Player alone, shown walking mechanic
+// - A baddy is sent in, player is shown fireball mechanic
+// - Humorous skeleton king chattering in textbox occasionally
+// - Faster spawning and more diverse enemies as game goes on
+// - Mini-boss?
+// - Skeleton king shows up after all minions are dead
+// - The end
 
 // Set scale
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
@@ -52,18 +57,26 @@ const playerFrames = new TileSheet(playerTexture, 4, 2, 24, 30);
 const player = characters.addChild(new Player(playerFrames.tiles));
 player.position.set(100);
 
+// Container for explosion particles
+app.stage.explosionContainer = app.stage.addChild(new ExplosionContainer());
+
 // Container for fire particles
 const fire = app.stage.addChild(new FireContainer());
-player.fContainer = fire;
+player.fireContainer = fire;
 
-// Create some enemies
+// Debug graph
+app.graph = app.stage.addChild(new PIXI.Graphics());
+
+// Start enemy spawning
+let enemiesSpawned = 0;
 function spawnEnemy() {
+    enemiesSpawned++;
     let enemy = characters.addChild(new Enemy(playerFrames.tiles));
     enemy.position.set(Math.random() * 16 * 27, Math.random() * 16 * 15);
+
+    window.setTimeout(spawnEnemy, Math.max(1500 - enemiesSpawned * 10, 500));
 }
-for (let i = 0; i < 1; i++) {
-    spawnEnemy();
-}
+spawnEnemy();
 
 // On mouse down
 app.input.onMouseDown = (event) => {
@@ -84,6 +97,7 @@ function update(dt) {
 
     // Update particles
     fire.process(dt, characters.children, player);
+    app.stage.explosionContainer.process(dt);
 
     // Y-Sort characters
     characters.children.sort((a, b) => { return a.y - b.y; });

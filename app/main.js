@@ -35,6 +35,14 @@ import Enemy from "./enemy.js";
 // - Skeleton king shows up after all minions are dead
 // - The end
 
+// TODO: (most important)
+// Mobile support
+// Player death/loss
+// Better collision
+// Menu/pausing
+// Score
+// Sounds
+
 // Set scale
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 app.stage.scale.set(3);
@@ -90,6 +98,8 @@ app.input.onMouseUp = (event) => {
 
 // Update
 function update(dt) {
+    app.graph.clear();
+
     // Update characters
     for (const character of characters.children) {
         character.process(dt, player, characters.children);

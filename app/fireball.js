@@ -1,5 +1,6 @@
 import { app } from "./engine/engine.js";
 import Vector from "./engine/vector.js";
+import SAT from "sat";
 import Entity from "./entity.js";
 import Explosion from "./explosion.js";
 
@@ -67,7 +68,7 @@ export class Fireball extends Entity {
 
         // Check for collision
         for (const character of characters) {
-            if (character != player && character.containsPoint(new Vector(this.x * app.stage.scale.x, this.y * app.stage.scale.y))) {
+            if (character != player && SAT.pointInPolygon(new SAT.Vector(this.x, this.y), character.rect.toPolygon())) {
                 // Explosion
                 new Explosion(this.position, this.size, this.velocity, characters);
                 this.destroy();

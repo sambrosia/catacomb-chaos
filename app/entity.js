@@ -1,4 +1,5 @@
 import { app } from "./engine/engine.js";
+import SAT from "sat";
 import Vector from "./engine/vector.js";
 import AnimatedSprite from "./engine/animatedsprite.js";
 
@@ -7,6 +8,8 @@ export default class Entity extends AnimatedSprite {
     constructor(textures) {
         super(textures);
         this.anchor.set(0.5, 1);
+        this.w = 1;
+        this.h = 1;
 
         this.velocity = new Vector(0, 0);
         this.desiredVelocity = new Vector(0, 0);
@@ -15,6 +18,10 @@ export default class Entity extends AnimatedSprite {
 
         this.graph = this.addChild(new PIXI.Graphics());
         this.graph.visible = false;
+    }
+
+    get rect() {
+        return new SAT.Box(new SAT.Vector(this.x - this.w * this.anchor.x, this.y - this.h * this.anchor.y), this.w, this.h);
     }
 
     process(dt) {}

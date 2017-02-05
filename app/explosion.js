@@ -6,36 +6,29 @@ import Player from "./player.js";
 
 export default class Explosion {
     constructor(position, size, velocity, entities) {
-        // TODO: Create explosion effect
-        let ef = app.stage.explosionContainer.addChild(new ExplosionEntity(position, size, velocity));
+        // TODO: Screen shake
+
+        // Create explosion effect
+        let ent = app.stage.explosionContainer.addChild(new ExplosionEntity(position, size, velocity));
 
         // Get explosion circle for SAT
-        let pos = new SAT.Vector(position.x, position.y);
-        let circ = new SAT.Circle(pos, size * 2);
+        let circ = new SAT.Circle(new SAT.Vector(position.x, position.y), size * 2);
 
         // Draw debug circle
-        // app.graph.clear();
-        // app.graph.beginFill(0xff0000, 0.2);
-        // app.graph.drawCircle(circ.pos.x, circ.pos.y, circ.r);
-        // app.graph.endFill();
+        // app.graph.lineStyle()
+        //     .beginFill(0xff0000, 0.2)
+        //     .drawCircle(circ.pos.x, circ.pos.y, circ.r)
+        //     .endFill();
 
         // Check for entities in explosion
         for (const e of entities) {
-            // Get entity rect for SAT
-            let ePos = new SAT.Vector(e.x - e.width * e.anchor.x, e.y - e.height * e.anchor.y);
-            let rect = new SAT.Box(ePos, e.width, e.height);
-
-            // Draw debug rect
-            // app.graph.beginFill(0x00ff00, 0.2);
-            // app.graph.drawRect(rect.pos.x, rect.pos.y, rect.w, rect.h);
-            // app.graph.endFill();
-
-            // Do collision check
-            if (!(e instanceof Player) && SAT.testPolygonCircle(rect.toPolygon(), circ)) {
-                // TODO: Kill entity
-                e.destroy();
+            // TODO: Fix hacky player check
+            if (!(e instanceof Player) && SAT.testPolygonCircle(e.rect.toPolygon(), circ)) {
+                app.ticker.addOnce(e.destroy, e);
             }
         }
+
+        ent.destroy();
     }
 }
 
@@ -102,7 +95,7 @@ export class ExplosionEntity extends Entity {
         this.visible = false;
 
         for (let i = 0; i < size; i++) {
-            // // Explosion particles
+            // Explosion particles
             let exp = app.stage.explosionContainer.addChild(new ExplosionParticle(size, velocity));
 
             exp.position = position;

@@ -53,7 +53,7 @@ export class Fireball extends Entity {
 
     process(dt, characters, player) {
         // Loosely follow mouse position
-        if (app.input.isMouseDown[0]) {
+        if (app.input.isMouseDown.includes(true)) {
             this.chase(app.input.mousePos, 2);
 
             // Avoid clumping

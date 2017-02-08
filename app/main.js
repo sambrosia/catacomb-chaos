@@ -43,18 +43,12 @@ import Enemy from "./enemy.js";
 // Score
 // Sounds
 
-// Set scale
-PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
-app.stage.scale.set(3);
-
 // Create the dungeon
 const dungeonTexture = PIXI.Texture.fromImage("sprites/dungeon.png");
 const dungeonTiles = new TileSheet(dungeonTexture, 5, 6, 16);
-const dungeon = app.stage.addChild(new Dungeon(
-    Math.round(app.renderer.width / app.stage.scale.x / dungeonTiles.tileSize.x),
-    Math.round(app.renderer.height / app.stage.scale.y / dungeonTiles.tileSize.y),
-    dungeonTiles
-));
+const dungeon = app.stage.addChild(new Dungeon(8, 11, dungeonTiles));
+dungeon.position.x -= 4;
+dungeon.position.y -= 16;
 
 // Container for characters
 const characters = app.stage.addChild(new PIXI.Container());
@@ -63,7 +57,8 @@ const characters = app.stage.addChild(new PIXI.Container());
 const playerTexture = PIXI.Texture.fromImage("sprites/mage.png");
 const playerFrames = new TileSheet(playerTexture, 4, 2, 24, 30);
 const player = characters.addChild(new Player(playerFrames.tiles));
-player.position.set(100);
+player.x = app.renderer.width / app.stage.scale.x / 2;
+player.y = app.renderer.height / app.stage.scale.y - 24;
 
 // Container for explosion particles
 app.stage.explosionContainer = app.stage.addChild(new ExplosionContainer());
@@ -80,9 +75,9 @@ let enemiesSpawned = 0;
 function spawnEnemy() {
     enemiesSpawned++;
     let enemy = characters.addChild(new Enemy(playerFrames.tiles));
-    enemy.position.set(Math.random() * 16 * 27, Math.random() * 16 * 15);
+    enemy.position.set(Math.random() * (app.renderer.width / app.stage.scale.x), -8);
 
-    window.setTimeout(spawnEnemy, Math.max(1500 - enemiesSpawned * 10, 500));
+    window.setTimeout(spawnEnemy, Math.max(1500 - enemiesSpawned * 10, 400));
 }
 spawnEnemy();
 

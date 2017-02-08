@@ -12,7 +12,7 @@ export default class Explosion {
         let ent = app.stage.explosionContainer.addChild(new ExplosionEntity(position, size, velocity));
 
         // Get explosion circle for SAT
-        let circ = new SAT.Circle(new SAT.Vector(position.x, position.y), size * 2);
+        let circ = new SAT.Circle(new SAT.Vector(position.x, position.y), size * 1.5);
 
         // Draw debug circle
         // app.graph.lineStyle()
@@ -69,9 +69,9 @@ class ExplosionParticle extends PIXI.Sprite {
         this.scale.set(Math.random() * size);
 
         this.rotationRate = (Math.random() - 0.5) * 0.04;
-        this.growRate = 0.2;
+        this.growRate = 0.28;
         this.fadeRate = -0.04;
-        this.velocity = new Vector(Math.random() - 0.5, Math.random() - 0.5).multiply(0.14 * size);
+        this.velocity = new Vector(Math.random() - 0.5, Math.random() - 0.5).multiply(0.15 * size);
     }
 
     process(dt) {
@@ -94,7 +94,7 @@ export class ExplosionEntity extends Entity {
         this.anchor.set(0.5);
         this.visible = false;
 
-        for (let i = 0; i < size; i++) {
+        for (let i = 0; i < size * 1.4; i++) {
             // Explosion particles
             let exp = app.stage.explosionContainer.addChild(new ExplosionParticle(size, velocity));
 

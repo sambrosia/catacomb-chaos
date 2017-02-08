@@ -1,0 +1,17 @@
+html, body {
+    margin: 0px;
+    height: 100%;
+    overflow: hidden;
+
+    background: #222;
+}
+
+canvas {
+    display: block;
+    width: 50%;
+    margin: auto;
+
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+}

@@ -8,11 +8,13 @@
     "build": "webpack"
   },
   "author": "Sam Woodruff",
+  "private": true,
   "devDependencies": {
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0"
   },
   "dependencies": {
+    "fae": "^1.0.0",
     "pixi-sound": "^1.1.1",
     "pixi.js": "^4.3.4"
   }

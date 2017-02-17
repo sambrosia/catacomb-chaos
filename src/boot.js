@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import * as fae from "./engine";
+import * as fae from "fae";
 import { app } from "./app";
 
 import "./loading";

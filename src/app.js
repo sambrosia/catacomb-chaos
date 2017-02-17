@@ -1,4 +1,4 @@
-import * as fae from "./engine";
+import * as fae from "fae";
 
 // Create application
 export const app = new fae.Application(480, 640);

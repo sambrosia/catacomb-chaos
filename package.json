@@ -1,19 +1,19 @@
 {
-  "name": "1d5-js",
+  "name": "sorceress",
   "version": "1.0.0",
-  "description": "An html5 game",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --host 0.0.0.0",
     "build": "webpack"
   },
-  "author": "Samuel Woodruff",
+  "author": "Sam Woodruff",
   "devDependencies": {
-    "webpack": "^2.2.0",
-    "webpack-dev-server": "^1.16.2"
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.3.0"
   },
   "dependencies": {
-    "pixi.js": "^4.3.4",
-    "sat": "^0.6.0"
+    "pixi-sound": "^1.1.1",
+    "pixi.js": "^4.3.4"
   }
 }

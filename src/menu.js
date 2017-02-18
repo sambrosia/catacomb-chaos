@@ -1,6 +1,7 @@
 import * as fae from "fae";
 import { app } from "./app";
 
+import { makeDungeon } from "./dungeon";
 import "./main";
 
 let playButton, optionsButton;
@@ -18,6 +19,9 @@ app.scene("menu", {
         //     }
         // });
 
+        app.stage.dungeon.position = new fae.Vector(-4, -16);
+        makeDungeon(8, 12);
+
         playButton = app.e({
             components: ["sprite"],
             parent: app.stage,
@@ -25,7 +29,7 @@ app.scene("menu", {
             ready() {
                 this.sprite.texture = app.resources["play-button"].texture;
                 this.sprite.anchor.set(0.5);
-                this.position = new fae.Vector(32, 128);
+                this.position = new fae.Vector(40, 128);
 
                 this.interactive = true;
                 this.buttonMode = true;
@@ -49,7 +53,7 @@ app.scene("menu", {
             ready() {
                 this.sprite.texture = app.resources["fullscreen-button"].texture;
                 this.sprite.anchor.set(0.5);
-                this.position = new fae.Vector(88, 128);
+                this.position = new fae.Vector(80, 128);
 
                 this.interactive = true;
                 this.buttonMode = true;
@@ -57,11 +61,11 @@ app.scene("menu", {
                 this.hitArea = new PIXI.Circle(1, 1, 14);
 
                 this.on("click", () => {
-                    app.view.webkitRequestFullscreen();
+                    goFullscreen(app.view);
                 });
 
                 this.on("tap", () => {
-                    app.view.webkitRequestFullscreen();
+                    goFullscreen(app.view);
                 });
             }
         });
@@ -73,3 +77,10 @@ app.scene("menu", {
         optionsButton.queueDestroy();
     }
 });
+
+function goFullscreen(element) {
+    if (element.requestFullscreen) element.requestFullscreen();
+    else if (element.webkitRequestFullscreen) element.webkitRequestFullscreen();
+    else if (element.mozRequestFullscreen) element.mozRequestFullscreen();
+    else if (element.msRequestFullscreen) element.msRequestFullscreen();
+}

@@ -8,10 +8,10 @@ document.body.appendChild(app.view);
 window.addEventListener("resize", () => {
     if (app.view.parentElement.clientWidth > app.view.parentElement.clientHeight * 0.75) {
         app.view.style.height = app.view.parentElement.clientHeight + "px";
-        app.view.style.width = app.view.clientHeight * 0.75 + "px";
+        app.view.style.width = Math.round(app.view.clientHeight * 0.75) + "px";
     } else {
         app.view.style.width = app.view.parentElement.clientWidth + "px";
-        app.view.style.height = app.view.clientWidth * (1 / 0.75) + "px";
+        app.view.style.height = Math.round(app.view.clientWidth * (1 / 0.75)) + "px";
     }
 
     app.view.stretch = app.view.clientWidth / app.renderer.width;

@@ -8,19 +8,8 @@ let playButton, optionsButton;
 
 app.scene("menu", {
     enter() {
-        // const jewel = app.e({
-        //     components: ["sprite"],
-        //     parent: app.stage,
-        //
-        //     ready() {
-        //         this.sprite.texture = app.resources["red-jewel"].texture;
-        //         this.sprite.anchor.set(0.5);
-        //         this.position = new fae.Vector(60, 48);
-        //     }
-        // });
-
-        app.stage.dungeon.position = new fae.Vector(-4, -16);
-        makeDungeon(8, 12);
+        app.stage.dungeon.position = new fae.Vector(-4, 0);
+        makeDungeon(8, 11);
 
         playButton = app.e({
             components: ["sprite"],

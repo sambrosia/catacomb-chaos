@@ -3,14 +3,7 @@ import { app } from "./app";
 
 const tileTemplate = {
     components: ["sprite"],
-    parent: app.stage.dungeon,
-
-    ready() {
-        this.w = 16;
-        this.h = 16;
-
-        this.sprite.texture = app.resources.dungeon.textures.floor;
-    }
+    parent: app.stage.dungeon
 };
 
 const wallColliderTemplate = {
@@ -169,12 +162,11 @@ export function makeDungeon(w, h) {
     north.x = app.stage.dungeon.x + 16;
     north.y = app.stage.dungeon.y;
     north.w = 16 * 6;
-    north.h = 16;
+    north.h = 10;
 
-    // South
     const south = app.e(wallColliderTemplate);
     south.x = app.stage.dungeon.x + 16;
-    south.y = app.stage.dungeon.y + (16 * 11);
+    south.y = app.stage.dungeon.y + (16 * 10);
     south.w = 16 * 6;
     south.h = 16;
 }

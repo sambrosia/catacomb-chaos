@@ -149,13 +149,13 @@ export function makeDungeon(w, h) {
     const west = app.e(wallColliderTemplate);
     west.x = app.stage.dungeon.x;
     west.y = app.stage.dungeon.y + 16;
-    west.w = 16;
+    west.w = 12;
     west.h = 16 * 10;
 
     const east = app.e(wallColliderTemplate);
-    east.x = app.stage.dungeon.x + (16 * 7);
+    east.x = app.stage.dungeon.x + (16 * 7) + 4;
     east.y = app.stage.dungeon.y + 16;
-    east.w = 16;
+    east.w = 12;
     east.h = 16 * 10;
 
     const north = app.e(wallColliderTemplate);

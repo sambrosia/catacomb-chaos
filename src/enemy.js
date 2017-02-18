@@ -1,7 +1,7 @@
 import * as fae from "fae";
 import { app } from "./app";
 
-export const enemyTemplate = {
+const enemyTemplate = {
     components: ["animatedsprite", "motion", "steering", "collision"],
     parent: app.stage.characters,
 
@@ -29,7 +29,15 @@ export const enemyTemplate = {
             end: 7
         });
 
-        this.as.playAnimation("idle");
+        this.as.playAnimation("walk");
+
+        this.chaseVec = new fae.Vector(Math.random() * (100 - 20) + 20, 60);
+    },
+
+    update() {
+        if (this.y > 60 && this.chaseVec != app.player.position) {
+            this.chaseVec = app.player.position;
+        }
     },
 
     hitbyfireball(fireball) {
@@ -37,6 +45,82 @@ export const enemyTemplate = {
     },
 
     hitbyexplosion() {
+        const smoke = app.e(poofTemplate);
+        smoke.position = this.position;
+        smoke.y -= 4;
+
+        this.queueDestroy();
+    }
+};
+
+const particleTexture = new PIXI.Graphics()
+.beginFill(0x601ac9)
+.drawRect(0,0,1,1)
+.endFill()
+.generateCanvasTexture(PIXI.SCALE_MODES.LINEAR);
+
+const poofTemplate = {
+    components: ["emitter", "timeout"],
+    parent: app.stage.characters,
+
+    ready() {
+        this.emitOptions = {
+            texture: particleTexture,
+            lifetime: 400,
+            period: 10,
+            area: 20,
+            scale: 8,
+            scaleRandom: 6,
+            rotationRandom: 2,
+            endAlpha: 0.01,
+            velocityRandom: new fae.Vector(0.5, 0.5)
+        };
+
+        this.timeout(100, "kill");
+    },
+
+    kill() {
+        this.queueDestroy();
+    }
+};
+
+const sparkTemplate = {
+    components: ["emitter", "timeout"],
+
+    ready() {
+        this.emitOptions = {
+            texture: particleTexture,
+            lifetime: 300,
+            period: 50,
+            area: 4,
+            scale: 1,
+            scaleRandom: 0.5,
+            endAlpha: 0.01,
+            velocityRandom: new fae.Vector(1, 1)
+        };
+    }
+};
+
+export const enemySpawnTemplate = {
+    components: ["timeout"],
+    parent: app.stage.characters,
+
+    ready() {
+        this.sparks = app.e(sparkTemplate);
+        this.addChild(this.sparks);
+
+        this.timeout((Math.random() + 1) * 500, "kill");
+    },
+
+    kill() {
+        const smoke = app.e(poofTemplate);
+        smoke.position = this.position;
+
+        const enemy = app.e(enemyTemplate);
+        enemy.position = this.position;
+        enemy.y += 4;
+
+        this.sparks.queueDestroy();
         this.queueDestroy();
     }
 };

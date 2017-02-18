@@ -2,15 +2,14 @@ import * as fae from "fae";
 import { app } from "./app";
 
 export const explosionTemplate = {
-    components: ["emitter", "collision"],
+    components: ["emitter", "collision", "timeout"],
     parent: app.stage.characters,
 
     ready() {
         this.r = 10;
-        this.killTimer = 100;
 
         this.emitOptions = {
-            period: 20,
+            period: 30,
             lifetime: 500,
             area: 10,
             scale: 10,
@@ -33,25 +32,17 @@ export const explosionTemplate = {
                     area: 4,
                     scale: 0.8,
                     endScaleRandom: 0.5,
-                    velocityRandom: new fae.Vector(1.5, 1.5)
+                    velocityRandom: new fae.Vector(2, 2)
                 };
             }
         });
+
+        this.timeout(150, "kill");
     },
 
-    update() {
-        // TODO: Componentize this behaviour
-        // Maybe a method like so:
-        // this.timeout(100, "selfdestruct", args);
-
-        this.killTimer -= app.ticker.elapsedMS;
-
-        // TODO: See if calling queueDestroy() multiple times can cause bugs
-        if (this.killTimer <= 0) {
-            this.sparks.queueDestroy();
-            this.queueDestroy();
-        }
-
+    kill() {
+        this.sparks.queueDestroy();
+        this.queueDestroy();
     },
 
     collided(other) {

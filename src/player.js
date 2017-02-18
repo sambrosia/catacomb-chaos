@@ -23,13 +23,9 @@ export const playerTemplate = {
 
         app.stage.on("pointerdown", () => {
             const fireball = app.e(fireballTemplate);
-            fireball.position = this.position;
-        }, this);
-    },
+            fireball.position = new fae.Vector(this.x, this.y - 12);
 
-    update() {
-        if (this.app.input.pointerDown) {
             this.scale.x = this.app.input.pointerPos.x < this.x ? -1 : 1;
-        }
+        }, this);
     }
 };

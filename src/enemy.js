@@ -7,26 +7,20 @@ const enemyTemplate = {
 
     ready() {
         this.as.anchor.set(0.5, 1);
-        this.cAnchor.set(0.6, 1);
+        this.cAnchor.set(0.5, 1);
 
-        this.w = 12;
-        this.h = 24;
+        this.w = 10;
+        this.h = 16;
 
         this.moveSpeed = 0.6;
         this.turnSpeed = 0.02;
 
-        this.as.textures = this.app.resources.mage.array;
-
-        this.as.addAnimation("idle", {
-            speed: 4,
-            start: 0,
-            end: 3
-        });
+        this.as.textures = app.resources.skeleton.array;
 
         this.as.addAnimation("walk", {
             speed: 4,
-            start: 4,
-            end: 7
+            start: 0,
+            end: 3
         });
 
         this.as.playAnimation("walk");
@@ -37,6 +31,13 @@ const enemyTemplate = {
     update() {
         if (this.y > 60 && this.chaseVec != app.player.position) {
             this.chaseVec = app.player.position;
+        }
+
+        if (this.velocity.x < 0) {
+            this.scale.x = -1;
+        }
+        else if (this.velocity.x > 0) {
+            this.scale.x = 1;
         }
     },
 

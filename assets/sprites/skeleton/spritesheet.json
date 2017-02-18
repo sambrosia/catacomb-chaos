@@ -1,0 +1,41 @@
+{
+	"meta": {
+		"image": "spritesheet.png",
+		"size": {"w":48,"h":40},
+		"scale": "1"
+	},
+	"frames": {
+		"walk0000.png":
+		{
+			"frame": {"x":0,"y":0,"w":16,"h":20},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":16,"h":20},
+			"sourceSize": {"w":16,"h":20}
+		},
+		"walk0001.png":
+		{
+			"frame": {"x":16,"y":0,"w":16,"h":20},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":16,"h":20},
+			"sourceSize": {"w":16,"h":20}
+		},
+		"walk0002.png":
+		{
+			"frame": {"x":32,"y":0,"w":16,"h":20},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":16,"h":20},
+			"sourceSize": {"w":16,"h":20}
+		},
+		"walk0003.png":
+		{
+			"frame": {"x":0,"y":20,"w":16,"h":20},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":16,"h":20},
+			"sourceSize": {"w":16,"h":20}
+		}
+	}
+}

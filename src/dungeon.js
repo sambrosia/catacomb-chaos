@@ -148,25 +148,25 @@ export function makeDungeon(w, h) {
     // Create the wall colliders
     const west = app.e(wallColliderTemplate);
     west.x = app.stage.dungeon.x;
-    west.y = app.stage.dungeon.y + 16;
+    west.y = app.stage.dungeon.y + 10;
     west.w = 12;
-    west.h = 16 * 10;
+    west.h = 16 * 9 + 6;
 
     const east = app.e(wallColliderTemplate);
     east.x = app.stage.dungeon.x + (16 * 7) + 4;
-    east.y = app.stage.dungeon.y + 16;
+    east.y = app.stage.dungeon.y + 10;
     east.w = 12;
-    east.h = 16 * 10;
+    east.h = 16 * 9 + 6;
 
     const north = app.e(wallColliderTemplate);
-    north.x = app.stage.dungeon.x + 16;
+    north.x = app.stage.dungeon.x;
     north.y = app.stage.dungeon.y;
-    north.w = 16 * 6;
+    north.w = 16 * 8;
     north.h = 10;
 
     const south = app.e(wallColliderTemplate);
-    south.x = app.stage.dungeon.x + 16;
+    south.x = app.stage.dungeon.x;
     south.y = app.stage.dungeon.y + (16 * 10);
-    south.w = 16 * 6;
+    south.w = 16 * 8;
     south.h = 16;
 }

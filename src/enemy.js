@@ -18,7 +18,7 @@ const enemyTemplate = {
         this.as.textures = app.resources.skeleton.array;
 
         this.as.addAnimation("walk", {
-            speed: 4,
+            speed: 6,
             start: 0,
             end: 3
         });
@@ -67,12 +67,12 @@ const poofTemplate = {
     ready() {
         this.emitOptions = {
             texture: particleTexture,
-            lifetime: 400,
-            period: 10,
+            lifetime: 300,
+            period: 20,
             area: 20,
-            scale: 8,
-            scaleRandom: 6,
-            rotationRandom: 2,
+            scale: 6,
+            scaleRandom: 4,
+            rotationRandom: 1,
             endAlpha: 0.01,
             velocityRandom: new fae.Vector(0.5, 0.5)
         };

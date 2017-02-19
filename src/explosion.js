@@ -28,11 +28,11 @@ export const explosionTemplate = {
             ready() {
                 this.emitOptions = {
                     period: 1,
-                    lifetime: 600,
+                    lifetime: 300,
                     area: 4,
                     scale: 0.8,
                     endScaleRandom: 0.5,
-                    velocityRandom: new fae.Vector(2, 2)
+                    velocityRandom: new fae.Vector(3, 3)
                 };
             }
         });

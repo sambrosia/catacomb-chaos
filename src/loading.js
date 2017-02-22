@@ -18,6 +18,9 @@ app.scene("loading", {
         .add("options-button", "/sprites/title/options-button.png")
         .add("fullscreen-button", "/sprites/title/fullscreen-button.png")
 
+        .add("pause-button", "/sprites/gui/pause-button.png")
+        .add("unpause-button", "/sprites/gui/unpause-button.png")
+
         .add("dungeon", "/sprites/dungeon/spritesheet.json")
         .add("mage", "/sprites/mage/spritesheet.json")
         .add("skeleton", "/sprites/skeleton/spritesheet.json")

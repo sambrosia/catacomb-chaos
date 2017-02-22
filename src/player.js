@@ -21,11 +21,14 @@ export const playerTemplate = {
 
         this.as.playAnimation("idle");
 
+        // TODO: only fire if not clicking on gui
         app.stage.on("pointerdown", () => {
-            const fireball = app.e(fireballTemplate);
-            fireball.position = new fae.Vector(this.x, this.y - 12);
+            if (app.ticker.started) {
+                const fireball = app.e(fireballTemplate);
+                fireball.position = new fae.Vector(this.x, this.y - 12);
 
-            this.scale.x = this.app.input.pointerPos.x < this.x ? -1 : 1;
+                this.scale.x = this.app.input.pointerPos.x < this.x ? -1 : 1;
+            }
         }, this);
     }
 };

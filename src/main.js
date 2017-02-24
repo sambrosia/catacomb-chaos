@@ -9,6 +9,62 @@ app.scene("main", {
         const player = app.e(playerTemplate);
         app.player = player;
 
+        const scoreCounter = app.e({
+            components: ["text"],
+            parent: app.stage.dungeon,
+
+            ready() {
+                this.text.anchor.set(0.5, 0);
+                this.x = -this.parent.x + 60;
+                this.y = -3;
+
+                this.text.style = new PIXI.TextStyle({
+                    fontFamily: "Sharp-Retro",
+                    fontSize: 16,
+                    letterSpacing: -1,
+                    fill: 0xccd5ff,
+                    stroke: 0x505ea1,
+                    strokeThickness: 2,
+                });
+            },
+
+            update() {
+                this.text.text = player.score;
+            }
+        });
+
+        for (let i = 0; i < 3; i++) {
+            app.e({
+                components: ["sprite"],
+                parent: app.stage,
+
+                ready() {
+                    this.sprite.texture = app.resources["crystal-full"].texture;
+                    this.position = new fae.Vector(15 + (i * 12), 129);
+                },
+
+                update() {
+                    let tex = (player.mana < i + 1) ? "crystal-empty" : "crystal-full";
+                    this.sprite.texture = app.resources[tex].texture;
+                }
+            });
+
+            app.e({
+                components: ["sprite"],
+                parent: app.stage,
+
+                ready() {
+                    this.sprite.texture = app.resources["heart-full"].texture;
+                    this.position = new fae.Vector(15 + (i * 12), 141);
+                },
+
+                update() {
+                    let tex = (player.health < i + 1) ? "heart-empty" : "heart-full";
+                    this.sprite.texture = app.resources[tex].texture;
+                }
+            });
+        }
+
         const pauseButton = app.e({
             components: ["sprite"],
             parent: app.stage,
@@ -16,12 +72,12 @@ app.scene("main", {
 
             ready() {
                 this.sprite.texture = app.resources["pause-button"].texture;
-                this.sprite.anchor.set(0.5);
-                this.position = new fae.Vector(90, 140);
+                this.position = new fae.Vector(76, 130);
 
                 this.interactive = true;
                 this.buttonMode = true;
 
+                // TODO: Unify click and tap callbacks
                 this.on("click", () => {
                     if (app.ticker.started) {
                         this.sprite.texture = app.resources["unpause-button"].texture;
@@ -30,7 +86,7 @@ app.scene("main", {
                         app.ticker.start();
                         this.sprite.texture = app.resources["pause-button"].texture;
                     }
-                    app.ticker.update()
+                    app.ticker.update();
                 }, this);
 
                 this.on("tap", () => {
@@ -41,20 +97,21 @@ app.scene("main", {
                         app.ticker.start();
                         this.sprite.texture = app.resources["pause-button"].texture;
                     }
-                    app.ticker.update()
+                    app.ticker.update();
                 }, this);
             }
         });
 
-        app.e({
+        const enemySpawner = app.e({
             components: ["timeout"],
 
             ready() {
-                this.fire("spawnwave", 5);
+                this.fire("spawnwave", 1);
             },
 
             spawnwave(size) {
-                size = Math.min(size, 10);
+                // TODO: Increment score multiplier every 5 waves of not being injured
+                size = Math.min(size, 6);
 
                 for (let i = 0; i < size; i++) {
                     const enemy = app.e(enemySpawnTemplate);

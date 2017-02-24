@@ -10,6 +10,7 @@ app.scene("loading", {
         // Start loading resources
         const startTime = new Date().getTime();
 
+        // TODO: Combine gui/title elements into a spritesheet
         // TODO: load sounds
         app.loader.baseUrl = "/assets";
         app.loader
@@ -20,6 +21,11 @@ app.scene("loading", {
 
         .add("pause-button", "/sprites/gui/pause-button.png")
         .add("unpause-button", "/sprites/gui/unpause-button.png")
+
+        .add("heart-full", "/sprites/gui/full-heart.png")
+        .add("heart-empty", "/sprites/gui/empty-heart.png")
+        .add("crystal-full", "/sprites/gui/full-crystal.png")
+        .add("crystal-empty", "/sprites/gui/empty-crystal.png")
 
         .add("dungeon", "/sprites/dungeon/spritesheet.json")
         .add("mage", "/sprites/mage/spritesheet.json")

@@ -25,7 +25,10 @@ const enemyTemplate = {
 
         this.as.playAnimation("walk");
 
-        this.chaseVec = new fae.Vector(Math.random() * (100 - 20) + 20, 60);
+        this.chaseVec = new fae.Vector(Math.random() * (88 - 32) + 32, 60);
+
+        // TODO: Sometimes spawn carrying potions/powerups
+
     },
 
     update() {
@@ -41,6 +44,10 @@ const enemyTemplate = {
         }
     },
 
+    collided(other) {
+        other.fire("hitbyskeleton", this);
+    },
+
     hitbyfireball(fireball) {
         fireball.fire("landedhit");
     },
@@ -49,6 +56,8 @@ const enemyTemplate = {
         const smoke = app.e(poofTemplate);
         smoke.position = this.position;
         smoke.y -= 4;
+
+        app.player.score += 10;
 
         this.queueDestroy();
     }

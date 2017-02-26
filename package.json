@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "fae": "^1.0.0",
-    "pixi-sound": "^1.1.1",
-    "pixi.js": "^4.3.4"
+    "pixi.js": "^4.3.5"
   }
 }

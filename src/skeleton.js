@@ -59,7 +59,7 @@ const skeletonTemplate = {
         smoke.position = this.position;
         smoke.y -= 4;
 
-        app.player.score += 10;
+        app.score += 10;
 
         this.queueDestroy();
     }

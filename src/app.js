@@ -4,6 +4,9 @@ import * as fae from "fae";
 export const app = new fae.Application(480, 640);
 document.body.appendChild(app.view);
 
+// app.view.style.width = "480px";
+// app.view.style.height = "640px";
+
 // Set up view stretching
 window.addEventListener("resize", () => {
     if (app.view.parentElement.clientWidth > app.view.parentElement.clientHeight * 0.75) {
@@ -33,5 +36,5 @@ app.bind("update", () => {
     app.stage.characters.children.sort((a, b) => { return a.y - b.y; });
 });
 
-app.lastScore = 0;
+app.score = 0;
 app.highScore = 0;

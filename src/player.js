@@ -10,7 +10,6 @@ export const playerTemplate = {
     parent: app.stage.characters,
 
     ready() {
-        this.score = 0;
         this.health = 3;
         this.mana = 3;
         this.manaTimer = 800;
@@ -33,6 +32,8 @@ export const playerTemplate = {
 
         this.as.playAnimation("idle");
 
+        // TODO:
+        // FIXME: Fireball sometimes explodes at 0,0 when spawning with multitouch?
         this.shootFireball = () => {
             if (app.ticker.started) {
                 if (this.mana >= 1) {
@@ -70,6 +71,7 @@ export const playerTemplate = {
         app.stage.removeListener("pointerdown", this.shootFireball);
     },
 
+    // TODO: Injured effect/sound
     hitbyskeleton(skeleton) {
         this.health--;
         skeleton.queueDestroy();

@@ -11,6 +11,8 @@ app.scene("main", {
         player = app.e(playerTemplate);
         app.player = player;
 
+        app.score = 0;
+
         // TODO: Fix blurry text on windows
         scoreCounter = app.e({
             components: ["text"],
@@ -33,7 +35,7 @@ app.scene("main", {
             },
 
             update() {
-                this.text.text = player.score + "";
+                this.text.text = app.score + "";
             }
         });
 
@@ -131,8 +133,6 @@ app.scene("main", {
     },
 
     exit() {
-        app.lastScore = app.player.score;
-
         scoreCounter.queueDestroy();
         pauseButton.queueDestroy();
         skeletonSpawner.queueDestroy();

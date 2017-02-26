@@ -24,11 +24,12 @@ app.scene("gameover", {
                     strokeThickness: 4,
                 });
 
-                this.text.text = app.lastScore + "";
+                this.text.text = app.score + "";
             }
         });
 
-        if (app.lastScore > app.highScore) app.highScore = app.lastScore;
+        // TODO: Save highscore in browser
+        if (app.score > app.highScore) app.highScore = app.score;
 
         highScore = app.e({
             components: ["text"],

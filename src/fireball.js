@@ -3,6 +3,14 @@ import { app } from "./app";
 
 import { explosionTemplate } from "./explosion";
 
+const fireGraphics = new PIXI.Graphics()
+.beginFill(0xff4411)
+.drawRect(0,0,2,2)
+.endFill();
+
+export const fireTexture = app.renderer.generateTexture(fireGraphics);
+
+
 export const fireballTemplate = {
     components: ["emitter", "motion", "steering", "collision"],
     parent: app.stage.fireballs,
@@ -13,9 +21,10 @@ export const fireballTemplate = {
         this.cAnchor.set(0.5);
 
         this.emitOptions = {
+            texture: fireTexture,
             lifetime: 300,
             area: 4,
-            scale: 12,
+            scale: 6,
             endScale: 0.01,
             rotationRandom: 1.5,
             velocityRandom: new fae.Vector(1, 1)

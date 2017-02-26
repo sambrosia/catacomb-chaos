@@ -1,6 +1,8 @@
 import * as fae from "fae";
 import { app } from "./app";
 
+import { fireTexture } from "./fireball";
+
 export const explosionTemplate = {
     components: ["emitter", "collision", "timeout"],
     parent: app.stage.characters,
@@ -9,12 +11,13 @@ export const explosionTemplate = {
         this.r = 10;
 
         this.emitOptions = {
+            texture: fireTexture,
             period: 30,
             lifetime: 500,
             area: 10,
-            scale: 10,
-            endScale: 20,
-            endScaleRandom: 12,
+            scale: 5,
+            endScale: 10,
+            endScaleRandom: 6,
             rotationRandom: 1.5,
             endRotationRandom: 1.5,
             endAlpha: 0.01,
@@ -27,11 +30,12 @@ export const explosionTemplate = {
 
             ready() {
                 this.emitOptions = {
+                    texture: fireTexture,
                     period: 1,
                     lifetime: 300,
                     area: 4,
-                    scale: 0.8,
-                    endScaleRandom: 0.5,
+                    scale: 0.4,
+                    endScaleRandom: 0.3,
                     velocityRandom: new fae.Vector(3, 3)
                 };
             }
@@ -48,4 +52,6 @@ export const explosionTemplate = {
     collided(other) {
         other.fire("hitbyexplosion", this);
     }
+
+    // TODO: Award extra points for each enemy caught in single explosion
 };

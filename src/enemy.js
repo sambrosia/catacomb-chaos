@@ -63,11 +63,12 @@ const enemyTemplate = {
     }
 };
 
-const particleTexture = new PIXI.Graphics()
+const particleGraphics = new PIXI.Graphics()
 .beginFill(0x601ac9)
-.drawRect(0,0,1,1)
-.endFill()
-.generateCanvasTexture(PIXI.SCALE_MODES.LINEAR);
+.drawRect(0,0,2,2)
+.endFill();
+
+const particleTexture = app.renderer.generateTexture(particleGraphics);
 
 const poofTemplate = {
     components: ["emitter", "timeout"],
@@ -79,8 +80,8 @@ const poofTemplate = {
             lifetime: 300,
             period: 20,
             area: 20,
-            scale: 6,
-            scaleRandom: 4,
+            scale: 3,
+            scaleRandom: 2,
             rotationRandom: 1,
             endAlpha: 0.01,
             velocityRandom: new fae.Vector(0.5, 0.5)
@@ -95,7 +96,7 @@ const poofTemplate = {
 };
 
 const sparkTemplate = {
-    components: ["emitter", "timeout"],
+    components: ["emitter"],
 
     ready() {
         this.emitOptions = {
@@ -103,8 +104,8 @@ const sparkTemplate = {
             lifetime: 300,
             period: 50,
             area: 4,
-            scale: 1,
-            scaleRandom: 0.5,
+            scale: 0.5,
+            scaleRandom: 0.3,
             endAlpha: 0.01,
             velocityRandom: new fae.Vector(1, 1)
         };

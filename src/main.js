@@ -2,15 +2,16 @@ import * as fae from "fae";
 import { app } from "./app";
 
 import { playerTemplate } from "./player";
-import { enemySpawnTemplate } from "./enemy";
+import { skeletonSpawnTemplate } from "./skeleton";
 
-let player, scoreCounter, statusIndicators, pauseButton, enemySpawner;
+let player, scoreCounter, statusIndicators, pauseButton, skeletonSpawner;
 
 app.scene("main", {
     enter() {
         player = app.e(playerTemplate);
         app.player = player;
 
+        // TODO: Fix blurry text on windows
         scoreCounter = app.e({
             components: ["text"],
             parent: app.stage,
@@ -107,7 +108,7 @@ app.scene("main", {
             }
         });
 
-        enemySpawner = app.e({
+        skeletonSpawner = app.e({
             components: ["timeout"],
 
             ready() {
@@ -119,9 +120,9 @@ app.scene("main", {
                 size = Math.min(size, 6);
 
                 for (let i = 0; i < size; i++) {
-                    const enemy = app.e(enemySpawnTemplate);
-                    enemy.x = Math.random() * (100 - 20) + 20;
-                    enemy.y = Math.random() * (24 - 16) + 16;
+                    const skeleton = app.e(skeletonSpawnTemplate);
+                    skeleton.x = Math.random() * (100 - 20) + 20;
+                    skeleton.y = Math.random() * (24 - 16) + 16;
                 }
 
                 this.timeout(3000, "spawnwave", size + 1);
@@ -134,7 +135,7 @@ app.scene("main", {
 
         scoreCounter.queueDestroy();
         pauseButton.queueDestroy();
-        enemySpawner.queueDestroy();
+        skeletonSpawner.queueDestroy();
 
         for (const indicator of statusIndicators) {
             indicator.queueDestroy();

@@ -1,7 +1,7 @@
 import * as fae from "fae";
 import { app } from "./app";
 
-const enemyTemplate = {
+const skeletonTemplate = {
     components: ["animatedsprite", "motion", "steering", "collision"],
     parent: app.stage.characters,
 
@@ -112,7 +112,7 @@ const sparkTemplate = {
     }
 };
 
-export const enemySpawnTemplate = {
+export const skeletonSpawnTemplate = {
     components: ["timeout"],
     parent: app.stage.characters,
 
@@ -127,9 +127,9 @@ export const enemySpawnTemplate = {
         const smoke = app.e(poofTemplate);
         smoke.position = this.position;
 
-        const enemy = app.e(enemyTemplate);
-        enemy.position = this.position;
-        enemy.y += 4;
+        const skeleton = app.e(skeletonTemplate);
+        skeleton.position = this.position;
+        skeleton.y += 4;
 
         this.sparks.queueDestroy();
         this.queueDestroy();

@@ -61,7 +61,6 @@ app.scene("menu", {
     },
 
     exit() {
-        // TODO: Clean up for gameplay
         playButton.queueDestroy();
         optionsButton.queueDestroy();
     }

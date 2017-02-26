@@ -32,3 +32,6 @@ app.bind("update", () => {
     // Y-Sort characters
     app.stage.characters.children.sort((a, b) => { return a.y - b.y; });
 });
+
+app.lastScore = 0;
+app.highScore = 0;

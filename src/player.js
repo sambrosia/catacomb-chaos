@@ -3,6 +3,8 @@ import { app } from "./app";
 
 import { fireballTemplate } from "./fireball";
 
+import "./gameover";
+
 export const playerTemplate = {
     components: ["animatedsprite", "collision"],
     parent: app.stage.characters,
@@ -11,7 +13,7 @@ export const playerTemplate = {
         this.score = 0;
         this.health = 3;
         this.mana = 3;
-        this.manaTimer = 500;
+        this.manaTimer = 800;
 
         this.as.anchor.set(0.5, 1);
         this.cAnchor.set(0.5, 1);
@@ -31,12 +33,11 @@ export const playerTemplate = {
 
         this.as.playAnimation("idle");
 
-        // TODO: only fire if not clicking on gui
-        app.stage.on("pointerdown", () => {
+        this.shootFireball = () => {
             if (app.ticker.started) {
                 if (this.mana >= 1) {
                     this.mana--;
-                    this.manaTimer = 500;
+                    this.manaTimer = 800;
 
                     const fireball = app.e(fireballTemplate);
                     fireball.position = new fae.Vector(this.x, this.y - 12);
@@ -44,7 +45,10 @@ export const playerTemplate = {
                     this.scale.x = this.app.input.pointerPos.x < this.x ? -1 : 1;
                 }
             }
-        }, this);
+        };
+
+        // TODO: only fire if not clicking on gui
+        app.stage.on("pointerdown", this.shootFireball, this);
     },
 
     update() {
@@ -53,15 +57,17 @@ export const playerTemplate = {
 
             if (this.manaTimer <= 0) {
                 this.mana++;
-                this.manaTimer = 500;
+                this.manaTimer = 800;
             }
         }
 
         if (this.health <= 0) {
-            // TODO: this
-            console.log("Player died!");
-            app.ticker.stop();
+            app.scene("gameover");
         }
+    },
+
+    destroy() {
+        app.stage.removeListener("pointerdown", this.shootFireball);
     },
 
     hitbyskeleton(skeleton) {

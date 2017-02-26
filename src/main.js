@@ -4,24 +4,27 @@ import { app } from "./app";
 import { playerTemplate } from "./player";
 import { enemySpawnTemplate } from "./enemy";
 
+let player, scoreCounter, statusIndicators, pauseButton, enemySpawner;
+
 app.scene("main", {
     enter() {
-        const player = app.e(playerTemplate);
+        player = app.e(playerTemplate);
         app.player = player;
 
-        const scoreCounter = app.e({
+        scoreCounter = app.e({
             components: ["text"],
-            parent: app.stage.dungeon,
+            parent: app.stage,
 
             ready() {
-                this.text.anchor.set(0.5, 0);
-                this.x = -this.parent.x + 60;
-                this.y = -3;
+                this.text.anchor.x = 0.5;
+                this.text.x = 60;
 
                 this.text.style = new PIXI.TextStyle({
                     fontFamily: "Sharp-Retro",
                     fontSize: 16,
                     letterSpacing: -1,
+                    lineHeight: 1,
+                    textBaseline: "alphabetic",
                     fill: 0xccd5ff,
                     stroke: 0x505ea1,
                     strokeThickness: 2,
@@ -29,12 +32,14 @@ app.scene("main", {
             },
 
             update() {
-                this.text.text = player.score;
+                this.text.text = player.score + "";
             }
         });
 
+        statusIndicators = [];
+
         for (let i = 0; i < 3; i++) {
-            app.e({
+            statusIndicators.push(app.e({
                 components: ["sprite"],
                 parent: app.stage,
 
@@ -47,9 +52,9 @@ app.scene("main", {
                     let tex = (player.mana < i + 1) ? "crystal-empty" : "crystal-full";
                     this.sprite.texture = app.resources[tex].texture;
                 }
-            });
+            }));
 
-            app.e({
+            statusIndicators.push(app.e({
                 components: ["sprite"],
                 parent: app.stage,
 
@@ -62,10 +67,10 @@ app.scene("main", {
                     let tex = (player.health < i + 1) ? "heart-empty" : "heart-full";
                     this.sprite.texture = app.resources[tex].texture;
                 }
-            });
+            }));
         }
 
-        const pauseButton = app.e({
+        pauseButton = app.e({
             components: ["sprite"],
             parent: app.stage,
 
@@ -102,7 +107,7 @@ app.scene("main", {
             }
         });
 
-        const enemySpawner = app.e({
+        enemySpawner = app.e({
             components: ["timeout"],
 
             ready() {
@@ -125,6 +130,23 @@ app.scene("main", {
     },
 
     exit() {
+        app.lastScore = app.player.score;
 
+        scoreCounter.queueDestroy();
+        pauseButton.queueDestroy();
+        enemySpawner.queueDestroy();
+
+        for (const indicator of statusIndicators) {
+            indicator.queueDestroy();
+        }
+
+        for (const character of app.stage.characters.children) {
+            character.fire("kill");
+            character.queueDestroy();
+        }
+
+        for (const fireball of app.stage.fireballs.children) {
+            fireball.queueDestroy();
+        }
     }
 });

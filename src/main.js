@@ -3,8 +3,9 @@ import { app } from "./app";
 
 import { playerTemplate } from "./player";
 import { skeletonSpawnTemplate } from "./skeleton";
+import { archerSpawnTemplate } from "./archer";
 
-let player, scoreCounter, statusIndicators, pauseButton, skeletonSpawner;
+let player, scoreCounter, statusIndicators, pauseButton, enemySpawner;
 
 app.scene("main", {
     enter() {
@@ -110,16 +111,18 @@ app.scene("main", {
             }
         });
 
-        skeletonSpawner = app.e({
+        enemySpawner = app.e({
             components: ["timeout"],
 
             ready() {
+                this.currentWave = 1;
                 this.fire("spawnwave", 1);
             },
 
-            spawnwave(size) {
+            spawnwave() {
                 // TODO: Increment score multiplier every 5 waves of not being injured
-                size = Math.min(size, 6);
+
+                const size = Math.min(this.currentWave * 2 - 1, 6);
 
                 for (let i = 0; i < size; i++) {
                     const skeleton = app.e(skeletonSpawnTemplate);
@@ -127,7 +130,16 @@ app.scene("main", {
                     skeleton.y = Math.random() * (24 - 16) + 16;
                 }
 
-                this.timeout(3000, "spawnwave", size + 1);
+                // TODO: limit number of archers on screen
+                if (this.currentWave >= 7 && this.currentWave % 2 === 1) {
+                    const archer = app.e(archerSpawnTemplate);
+                    archer.x = Math.random() * (100 - 20) + 20;
+                    archer.y = Math.random() * (48 - 32) + 32;
+                }
+
+                this.currentWave++;
+
+                this.timeout(3000, "spawnwave");
             }
         });
     },
@@ -135,7 +147,7 @@ app.scene("main", {
     exit() {
         scoreCounter.queueDestroy();
         pauseButton.queueDestroy();
-        skeletonSpawner.queueDestroy();
+        enemySpawner.queueDestroy();
 
         for (const indicator of statusIndicators) {
             indicator.queueDestroy();

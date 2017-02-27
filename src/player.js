@@ -12,7 +12,8 @@ export const playerTemplate = {
     ready() {
         this.health = 3;
         this.mana = 3;
-        this.manaTimer = 800;
+        this.manaTimerMax = 700;
+        this.manaTimer = this.manaTimerMax;
 
         this.as.anchor.set(0.5, 1);
         this.cAnchor.set(0.5, 1);
@@ -38,7 +39,7 @@ export const playerTemplate = {
             if (app.ticker.started) {
                 if (this.mana >= 1) {
                     this.mana--;
-                    this.manaTimer = 800;
+                    this.manaTimer = this.manaTimerMax;
 
                     const fireball = app.e(fireballTemplate);
                     fireball.position = new fae.Vector(this.x, this.y - 12);
@@ -58,7 +59,7 @@ export const playerTemplate = {
 
             if (this.manaTimer <= 0) {
                 this.mana++;
-                this.manaTimer = 800;
+                this.manaTimer = this.manaTimerMax;
             }
         }
 
@@ -75,5 +76,11 @@ export const playerTemplate = {
     hitbyskeleton(skeleton) {
         this.health--;
         skeleton.queueDestroy();
+    },
+
+    hitbyarrow(arrow) {
+        // TODO: leave arrow sprite sticking out of player
+        this.health--;
+        arrow.queueDestroy();
     }
 };

@@ -10,14 +10,13 @@ const fireGraphics = new PIXI.Graphics()
 
 export const fireTexture = app.renderer.generateTexture(fireGraphics);
 
-
 export const fireballTemplate = {
     components: ["emitter", "motion", "steering", "collision"],
     parent: app.stage.fireballs,
 
     ready() {
-        this.w = 4;
-        this.h = 4;
+        this.w = 6;
+        this.h = 6;
         this.cAnchor.set(0.5);
 
         this.emitOptions = {

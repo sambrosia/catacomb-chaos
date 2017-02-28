@@ -68,10 +68,6 @@ export const playerTemplate = {
         }
     },
 
-    destroy() {
-        app.stage.removeListener("pointerdown", this.shootFireball);
-    },
-
     // TODO: Injured effect/sound
     hitbyskeleton(skeleton) {
         this.health--;
@@ -82,5 +78,13 @@ export const playerTemplate = {
         // TODO: leave arrow sprite sticking out of player
         this.health--;
         arrow.queueDestroy();
-    }
+    },
+
+    kill() {
+        this.queueDestroy();
+    },
+
+    destroy() {
+        app.stage.removeListener("pointerdown", this.shootFireball);
+    },
 };

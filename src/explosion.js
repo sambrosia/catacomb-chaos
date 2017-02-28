@@ -44,14 +44,13 @@ export const explosionTemplate = {
         this.timeout(150, "kill");
     },
 
+    collided(other) {
+        other.fire("hitbyexplosion", this);
+    },
+
     kill() {
         this.sparks.queueDestroy();
         this.queueDestroy();
-    },
-
-    collided(other) {
-        other.fire("hitbyexplosion", this);
     }
-
     // TODO: Award extra points for each enemy caught in single explosion
 };

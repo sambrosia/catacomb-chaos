@@ -52,10 +52,13 @@ export const fireballTemplate = {
     },
 
     landedhit() {
+        this.sleeping = true;
+        this.fire("kill");
+    },
+
+    kill() {
         const explosion = app.e(explosionTemplate);
         explosion.position = this.position;
-
-        this.sleeping = true;
         this.queueDestroy();
     }
 };

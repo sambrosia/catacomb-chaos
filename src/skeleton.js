@@ -55,11 +55,14 @@ const skeletonTemplate = {
     },
 
     hitbyexplosion() {
+        app.score += 10;
+        this.fire("kill");
+    },
+
+    kill() {
         const smoke = app.e(poofTemplate);
         smoke.position = this.position;
         smoke.y -= 4;
-
-        app.score += 10;
 
         this.queueDestroy();
     }
@@ -73,17 +76,21 @@ export const skeletonSpawnTemplate = {
         this.sparks = app.e(sparkTemplate);
         this.addChild(this.sparks);
 
-        this.timeout((Math.random() + 1) * 500, "kill");
+        this.timeout((Math.random() + 1) * 500, "spawn");
     },
 
-    kill() {
+    spawn() {
         const smoke = app.e(poofTemplate);
         smoke.position = this.position;
 
         const skeleton = app.e(skeletonTemplate);
         skeleton.position = this.position;
         skeleton.y += 4;
+        
+        this.fire("kill");
+    },
 
+    kill() {
         this.sparks.queueDestroy();
         this.queueDestroy();
     }

@@ -10,10 +10,8 @@ app.scene("gameover", {
             parent: app.stage,
 
             ready() {
-                this.sprite.texture = app.resources["logo-skull"].texture;
-                this.sprite.anchor.set(0.5);
-                this.x = 60;
-                this.y = 80;
+                this.sprite.texture = app.resources.gui.textures["logo-skull.png"];
+                this.y = 32;
 
                 this.alpha = 0;
                 this.fadingIn = true;
@@ -122,7 +120,7 @@ app.scene("gameover", {
             parent: app.stage,
 
             ready() {
-                this.sprite.texture = app.resources["play-button"].texture;
+                this.sprite.texture = app.resources.gui.textures["play-button.png"];
                 this.sprite.anchor.set(0.5);
                 this.position = new fae.Vector(60, 128);
 

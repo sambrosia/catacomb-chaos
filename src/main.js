@@ -49,13 +49,13 @@ app.scene("main", {
                 parent: app.stage,
 
                 ready() {
-                    this.sprite.texture = app.resources["crystal-full"].texture;
+                    this.sprite.texture = app.resources.gui.textures["full-crystal.png"];
                     this.position = new fae.Vector(15 + (i * 12), 129);
                 },
 
                 update() {
-                    let tex = (player.mana < i + 1) ? "crystal-empty" : "crystal-full";
-                    this.sprite.texture = app.resources[tex].texture;
+                    let tex = (player.mana < i + 1) ? "empty" : "full";
+                    this.sprite.texture = app.resources.gui.textures[tex + "-crystal.png"];
                 },
 
                 animateout() {
@@ -68,13 +68,13 @@ app.scene("main", {
                 parent: app.stage,
 
                 ready() {
-                    this.sprite.texture = app.resources["heart-full"].texture;
+                    this.sprite.texture = app.resources.gui.textures["full-heart.png"];
                     this.position = new fae.Vector(15 + (i * 12), 141);
                 },
 
                 update() {
-                    let tex = (player.health < i + 1) ? "heart-empty" : "heart-full";
-                    this.sprite.texture = app.resources[tex].texture;
+                    let tex = (player.health < i + 1) ? "empty" : "full";
+                    this.sprite.texture = app.resources.gui.textures[tex + "-heart.png"];
                 },
 
                 animateout() {
@@ -89,7 +89,7 @@ app.scene("main", {
 
 
             ready() {
-                this.sprite.texture = app.resources["pause-button"].texture;
+                this.sprite.texture = app.resources.gui.textures["pause-button.png"];
                 this.position = new fae.Vector(76, 130);
 
                 this.interactive = true;
@@ -98,22 +98,22 @@ app.scene("main", {
                 // TODO: Unify click and tap callbacks
                 this.on("click", () => {
                     if (app.ticker.started) {
-                        this.sprite.texture = app.resources["unpause-button"].texture;
+                        this.sprite.texture = app.resources.gui.textures["unpause-button.png"];
                         app.ticker.stop();
                     } else {
                         app.ticker.start();
-                        this.sprite.texture = app.resources["pause-button"].texture;
+                        this.sprite.texture = app.resources.gui.textures["pause-button.png"];
                     }
                     app.ticker.update();
                 }, this);
 
                 this.on("tap", () => {
                     if (app.ticker.started) {
-                        this.sprite.texture = app.resources["unpause-button"].texture;
+                        this.sprite.texture = app.resources.gui.textures["unpause-button.png"];
                         app.ticker.stop();
                     } else {
                         app.ticker.start();
-                        this.sprite.texture = app.resources["pause-button"].texture;
+                        this.sprite.texture = app.resources.gui.textures["pause-button.png"];
                     }
                     app.ticker.update();
                 }, this);
@@ -129,8 +129,6 @@ app.scene("main", {
             },
 
             spawnwave() {
-                // TODO: Increment score multiplier every 5 waves of not being injured
-
                 const size = Math.min(this.currentWave * 2 - 1, 6);
 
                 for (let i = 0; i < size; i++) {

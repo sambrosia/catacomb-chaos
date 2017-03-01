@@ -4,21 +4,33 @@ import { app } from "./app";
 import { makeDungeon } from "./dungeon";
 import "./main";
 
-let playButton, optionsButton;
+let logo, playButton, optionsButton;
 
 app.scene("menu", {
     enter() {
         app.stage.dungeon.position = new fae.Vector(-4, 0);
         makeDungeon(8, 11);
 
+        logo = [];
+        for (const tex of ["skull", "catacomb", "chaos"]) {
+            logo.push(app.e({
+                components: ["sprite"],
+                parent: app.stage,
+
+                ready() {
+                    this.sprite.texture = app.resources.gui.textures["logo-" + tex + ".png"];
+                }
+            }));
+        }
+
         playButton = app.e({
             components: ["sprite"],
             parent: app.stage,
 
             ready() {
-                this.sprite.texture = app.resources["play-button"].texture;
+                this.sprite.texture = app.resources.gui.textures["play-button.png"];
                 this.sprite.anchor.set(0.5);
-                this.position = new fae.Vector(40, 128);
+                this.position = new fae.Vector(40, 136);
 
                 this.interactive = true;
                 this.buttonMode = true;
@@ -40,9 +52,9 @@ app.scene("menu", {
             parent: app.stage,
 
             ready() {
-                this.sprite.texture = app.resources["fullscreen-button"].texture;
+                this.sprite.texture = app.resources.gui.textures["fullscreen-button.png"];
                 this.sprite.anchor.set(0.5);
-                this.position = new fae.Vector(80, 128);
+                this.position = new fae.Vector(80, 136);
 
                 this.interactive = true;
                 this.buttonMode = true;
@@ -61,6 +73,7 @@ app.scene("menu", {
     },
 
     exit() {
+        for (const l of logo) l.queueDestroy();
         playButton.queueDestroy();
         optionsButton.queueDestroy();
     }

@@ -18,16 +18,18 @@ app.scene("loading", {
         .add("mage", "/sprites/mage/spritesheet.json")
         .add("skeleton", "/sprites/skeleton/spritesheet.json")
         .add("archer", "/sprites/archer/spritesheet.json")
-        .use((resource, next) => {
-            if (resource.extension == "json") {
-                resource.array = [];
-                for (const t in resource.textures) {
-                    resource.array.push(resource.textures[t]);
-                }
+        .use((res, next) => {
+            if (res.extension == "json") {
+                const keys = [];
+                for (const key in res.textures) keys.push(key);
+                keys.sort();
+
+                res.array = [];
+                for (const key of keys) res.array.push(res.textures[key]);
             }
             next();
         })
-        .load((loader, res) => {
+        .load((loader, resources) => {
             const finishTime = new Date().getTime();
             console.log("Resources loaded in ", finishTime - startTime, "ms");
 

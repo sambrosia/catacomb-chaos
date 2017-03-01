@@ -124,7 +124,7 @@ app.scene("main", {
             components: ["timeout"],
 
             ready() {
-                this.currentWave = 7;
+                this.currentWave = 1;
                 this.fire("spawnwave", 1);
             },
 

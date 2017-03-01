@@ -124,7 +124,7 @@ app.scene("main", {
             components: ["timeout"],
 
             ready() {
-                this.currentWave = 1;
+                this.currentWave = 7;
                 this.fire("spawnwave", 1);
             },
 
@@ -137,11 +137,12 @@ app.scene("main", {
                     skeleton.y = Math.random() * (24 - 16) + 16;
                 }
 
-                // TODO: limit number of archers on screen
+                // TODO: limit number of archers
                 if (this.currentWave >= 7 && this.currentWave % 2 === 1) {
                     const archer = app.e(archerSpawnTemplate);
                     archer.x = Math.random() * (100 - 20) + 20;
                     archer.y = Math.random() * (48 - 32) + 32;
+                    archer.scale.x = (archer.x < player.x) ? 1 : -1;
                 }
 
                 this.currentWave++;
@@ -154,12 +155,10 @@ app.scene("main", {
             app.scene(scene);
             enemySpawner.queueDestroy();
 
-            for (const character of app.stage.characters.children) {
-                character.fire("kill");
-            }
-
-            for (const fireball of app.stage.fireballs.children) {
-                fireball.fire("kill");
+            for (const layer of ["characters", "arrows", "fireballs"]) {
+                for (const entity of app.stage[layer].children) {
+                    entity.fire("kill");
+                }
             }
 
             scoreCounter.velocity.y = -2;
@@ -179,9 +178,9 @@ app.scene("main", {
                 },
 
                 changescene() {
-                    this.queueDestroy();
                     scoreCounter.queueDestroy();
                     pauseButton.queueDestroy();
+                    this.queueDestroy();
 
                     for (const indicator of statusIndicators) {
                         indicator.queueDestroy();

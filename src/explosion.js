@@ -5,7 +5,7 @@ import { fireTexture } from "./fireball";
 
 export const explosionTemplate = {
     components: ["emitter", "collision", "timeout"],
-    parent: app.stage.characters,
+    parent: app.stage.effects,
 
     ready() {
         this.r = 10;

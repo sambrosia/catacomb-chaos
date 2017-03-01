@@ -27,9 +27,11 @@ PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 app.stage.scale.set(4);
 
 // Some PIXI layers
-app.stage.dungeon = app.stage.addChildAt(new PIXI.Container(), 0);
-app.stage.characters = app.stage.addChildAt(new PIXI.Container(), 1);
-app.stage.fireballs = app.stage.addChild(new PIXI.Container());
+app.stage.dungeon =     app.stage.addChildAt(new PIXI.Container(), 0);
+app.stage.characters =  app.stage.addChildAt(new PIXI.Container(), 1);
+app.stage.effects =     app.stage.addChildAt(new PIXI.Container(), 2);
+app.stage.arrows =      app.stage.addChildAt(new PIXI.Container(), 3);
+app.stage.fireballs =   app.stage.addChildAt(new PIXI.Container(), 4);
 
 app.bind("update", () => {
     // Y-Sort characters

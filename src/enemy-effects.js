@@ -10,7 +10,7 @@ const particleTexture = app.renderer.generateTexture(particleGraphics);
 
 export const poofTemplate = {
     components: ["emitter", "timeout"],
-    parent: app.stage.characters,
+    parent: app.stage.effects,
 
     ready() {
         this.emitOptions = {

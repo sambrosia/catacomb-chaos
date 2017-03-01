@@ -14,7 +14,12 @@ app.scene("loading", {
         // TODO: load sounds
         app.loader.baseUrl = "/assets";
         app.loader
-        .add("red-jewel", "/sprites/title/red-jewel.png")
+        .add("logo", "/sprites/title/logo.png")
+        .add("logo-skull", "/sprites/title/logo-skull.png")
+        .add("logo-catacomb", "/sprites/title/logo-catacomb.png")
+        .add("logo-chaos", "/sprites/title/logo-chaos.png")
+        .add("logo-chaos-mask", "/sprites/title/logo-chaos-mask.png")
+
         .add("play-button", "/sprites/title/play-button.png")
         .add("options-button", "/sprites/title/options-button.png")
         .add("fullscreen-button", "/sprites/title/fullscreen-button.png")
@@ -40,7 +45,7 @@ app.scene("loading", {
             }
             next();
         })
-        .load((loader, resources) => {
+        .load((loader, res) => {
             const finishTime = new Date().getTime();
             console.log("Resources loaded in ", finishTime - startTime, "ms");
 

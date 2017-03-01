@@ -16,7 +16,7 @@ app.scene("main", {
 
         // TODO: Fix blurry text on windows
         scoreCounter = app.e({
-            components: ["text"],
+            components: ["text", "motion"],
             parent: app.stage,
 
             ready() {
@@ -42,9 +42,10 @@ app.scene("main", {
 
         statusIndicators = [];
 
+        // TODO: Clean this mess up
         for (let i = 0; i < 3; i++) {
             statusIndicators.push(app.e({
-                components: ["sprite"],
+                components: ["sprite", "motion", "timeout"],
                 parent: app.stage,
 
                 ready() {
@@ -55,11 +56,15 @@ app.scene("main", {
                 update() {
                     let tex = (player.mana < i + 1) ? "crystal-empty" : "crystal-full";
                     this.sprite.texture = app.resources[tex].texture;
+                },
+
+                animateout() {
+                    this.velocity.y = 2;
                 }
             }));
 
             statusIndicators.push(app.e({
-                components: ["sprite"],
+                components: ["sprite", "motion", "timeout"],
                 parent: app.stage,
 
                 ready() {
@@ -70,12 +75,16 @@ app.scene("main", {
                 update() {
                     let tex = (player.health < i + 1) ? "heart-empty" : "heart-full";
                     this.sprite.texture = app.resources[tex].texture;
+                },
+
+                animateout() {
+                    this.velocity.y = 2;
                 }
             }));
         }
 
         pauseButton = app.e({
-            components: ["sprite"],
+            components: ["sprite", "motion"],
             parent: app.stage,
 
 
@@ -142,24 +151,47 @@ app.scene("main", {
                 this.timeout(3000, "spawnwave");
             }
         });
+
+        app.once("smoothexitmain", (scene) => {
+            app.scene(scene);
+            enemySpawner.queueDestroy();
+
+            for (const character of app.stage.characters.children) {
+                character.fire("kill");
+            }
+
+            for (const fireball of app.stage.fireballs.children) {
+                fireball.fire("kill");
+            }
+
+            scoreCounter.velocity.y = -2;
+            pauseButton.velocity.x = 2;
+
+            let t = 0;
+            for (const i of [5, 3, 1, 0, 2, 4]) {
+                statusIndicators[i].timeout(t * 50, "animateout");
+                t++;
+            }
+
+            app.e({
+                components: ["timeout"],
+
+                ready() {
+                    this.timeout(800, "changescene");
+                },
+
+                changescene() {
+                    this.queueDestroy();
+                    scoreCounter.queueDestroy();
+                    pauseButton.queueDestroy();
+
+                    for (const indicator of statusIndicators) {
+                        indicator.queueDestroy();
+                    }
+                }
+            });
+        });
     },
 
-    exit() {
-        scoreCounter.queueDestroy();
-        pauseButton.queueDestroy();
-        enemySpawner.queueDestroy();
-
-        for (const indicator of statusIndicators) {
-            indicator.queueDestroy();
-        }
-
-        for (const character of app.stage.characters.children) {
-            character.fire("kill");
-            character.queueDestroy();
-        }
-
-        for (const fireball of app.stage.fireballs.children) {
-            fireball.queueDestroy();
-        }
-    }
+    exit() {}
 });

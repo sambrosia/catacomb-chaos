@@ -64,20 +64,20 @@ export const playerTemplate = {
         }
 
         if (this.health <= 0) {
-            app.scene("gameover");
+            app.fire("smoothexitmain", "gameover");
         }
     },
 
     // TODO: Injured effect/sound
     hitbyskeleton(skeleton) {
         this.health--;
-        skeleton.queueDestroy();
+        skeleton.fire("kill");
     },
 
     hitbyarrow(arrow) {
         // TODO: leave arrow sprite sticking out of player
         this.health--;
-        arrow.queueDestroy();
+        arrow.fire("kill");
     },
 
     kill() {

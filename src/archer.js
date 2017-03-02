@@ -5,18 +5,15 @@ import { sparkTemplate, poofTemplate } from "./enemy-effects";
 
 const arrowTemplate = {
     components: ["sprite", "motion", "collision", "timeout"],
-    parent: app.stage.characters,
+    parent: app.stage.arrows,
 
     ready() {
-        this.drawCollider = true;
-
-        this.sprite.anchor.set(0.5);
+        this.sprite.anchor.set(0.5, 0.9);
         this.cAnchor.set(0.5);
-        this.w = 2;
-        this.h = 2;
+        this.w = 3;
+        this.h = 3;
 
-        // TODO: Draw arrow sprite
-        // this.sprite.texture = app.resources.arrow.texture;
+        this.sprite.texture = app.resources.archer.textures["arrow.png"];
 
         this.timeout(3000, "kill");
     },
@@ -46,39 +43,49 @@ const archerTemplate = {
     parent: app.stage.characters,
 
     ready() {
-        this.drawCollider = true;
-
         this.as.anchor.set(0.5, 1);
         this.cAnchor.set(0.5, 1);
 
         this.w = 10;
         this.h = 16;
 
-        // TODO: Draw archer sprite
-        // this.as.textures = app.resources.archer.array;
+        this.as.textures = app.resources.archer.array;
 
-        // this.as.addAnimation("idle", {
-        //     speed: 4,
-        //     start: 0,
-        //     end: 3
-        // });
-        //
-        // this.as.playAnimation("idle");
+        this.as.addAnimation("idle", {
+            speed: 4,
+            start: 1,
+            end: 4
+        });
 
-        this.timeout(1000, "shootarrow");
+        this.as.addAnimation("shoot", {
+            speed: 6,
+            start: 5,
+            end: 11,
+            events: {
+                9: "shootarrow"
+            }
+        });
+
+        this.as.loopAnimation("idle");
+
+        this.timeout(1000, "playshootanimation");
+    },
+
+    playshootanimation() {
+        this.as.playAnimation("shoot");
+        this.as.queueAnimation("idle", true);
+        this.timeout(4000, "playshootanimation");
     },
 
     shootarrow() {
         const arrow = app.e(arrowTemplate);
-        arrow.x = this.x;
-        arrow.y = this.y - 8;
+        arrow.x = this.x + 4 * this.scale.x;
+        arrow.y = this.y - 4;
 
         const dir = app.player.position.minus(arrow.position).normalize();
         arrow.velocity = dir.times(1.5);
 
-        // TODO: rotate arrow to direction of travel
-
-        this.timeout(4000, "shootarrow");
+        arrow.rotation = Math.atan2(dir.y, dir.x) - Math.PI * 0.5;
     },
 
     hitbyfireball(fireball) {
@@ -116,6 +123,7 @@ export const archerSpawnTemplate = {
 
         const archer = app.e(archerTemplate);
         archer.position = this.position;
+        archer.scale = this.scale;
         archer.y += 4;
 
         this.fire("kill");

@@ -39,4 +39,4 @@ app.bind("update", () => {
 });
 
 app.score = 0;
-app.highScore = 0;
+app.highScore = Number(window.localStorage.getItem("catacombChaosHighScore") || 0);

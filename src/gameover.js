@@ -74,7 +74,11 @@ app.scene("gameover", {
         });
 
         // TODO: Save highscore in browser
-        if (app.score > app.highScore) app.highScore = app.score;
+        if (app.score > app.highScore) {
+            app.highScore = app.score;
+
+            window.localStorage.setItem("catacombChaosHighScore", app.highScore);
+        }
 
         // TODO: Show old highscore if new score beats it
         highScore = app.e({
@@ -114,7 +118,6 @@ app.scene("gameover", {
             }
         });
 
-        // TODO: Animate into position to avoid accidentally clicking upon death
         playButton = app.e({
             components: ["sprite", "timeout"],
             parent: app.stage,

@@ -33,8 +33,6 @@ export const playerTemplate = {
 
         this.as.loopAnimation("idle");
 
-        // TODO:
-        // FIXME: Fireball sometimes explodes at 0,0 when spawning with multitouch?
         this.shootFireball = () => {
             if (app.ticker.started) {
                 if (this.mana >= 1) {
@@ -42,7 +40,7 @@ export const playerTemplate = {
                     this.manaTimer = this.manaTimerMax;
 
                     const fireball = app.e(fireballTemplate);
-                    fireball.position = new fae.Vector(this.x, this.y - 12);
+                    fireball.position = new fae.Vector(this.x + Math.random(), this.y - 12);
 
                     this.scale.x = this.app.input.pointerPos.x < this.x ? -1 : 1;
                 }

@@ -25,7 +25,7 @@ const skeletonTemplate = {
             end: 3
         });
 
-        this.as.playAnimation("walk");
+        this.as.loopAnimation("walk");
 
         this.chaseVec = new fae.Vector(Math.random() * (88 - 32) + 32, 60);
 
@@ -86,7 +86,7 @@ export const skeletonSpawnTemplate = {
         const skeleton = app.e(skeletonTemplate);
         skeleton.position = this.position;
         skeleton.y += 4;
-        
+
         this.fire("kill");
     },
 

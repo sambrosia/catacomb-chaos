@@ -31,7 +31,7 @@ export const playerTemplate = {
             end: 3
         });
 
-        this.as.playAnimation("idle");
+        this.as.loopAnimation("idle");
 
         // TODO:
         // FIXME: Fireball sometimes explodes at 0,0 when spawning with multitouch?

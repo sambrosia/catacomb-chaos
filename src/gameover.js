@@ -37,25 +37,22 @@ app.scene("gameover", {
         });
 
         score = app.e({
-            components: ["text", "timeout"],
+            components: ["timeout"],
             parent : app.stage,
 
             ready() {
-                this.text.anchor.set(0.5);
-                this.position = new fae.Vector(60, 48);
+                this.stroke = this.addChild(new PIXI.Graphics());
+                this.text = new PIXI.extras.BitmapText("", {font: "32px Sharp-Retro"});
+                this.addChild(this.text);
 
-                this.text.style = new PIXI.TextStyle({
-                    fontFamily: "Sharp-Retro",
-                    fontSize: 32,
-                    letterSpacing: -2,
-                    lineHeight: 1,
-                    textBaseline: "alphabetic",
-                    fill: 0xccd5ff,
-                    stroke: 0x505ea1,
-                    strokeThickness: 4,
-                });
+                this.text.tint = 0xccd5ff;
+                this.text.text = app.score;
+                this.stroke
+                .beginFill(0x505ea1)
+                .drawRect(-2, 12, this.text.textWidth + 4, this.text.textHeight - 28)
+                .endFill();
 
-                this.text.text = app.score + "";
+                this.position = new fae.Vector(60 - this.width/2, 24);
 
                 this.alpha = 0;
                 this.timeout(1000, "fadein");
@@ -73,34 +70,29 @@ app.scene("gameover", {
             }
         });
 
-        // TODO: Save highscore in browser
         if (app.score > app.highScore) {
             app.highScore = app.score;
-
             window.localStorage.setItem("catacombChaosHighScore", app.highScore);
         }
 
         // TODO: Show old highscore if new score beats it
         highScore = app.e({
-            components: ["text", "timeout"],
+            components: ["timeout"],
             parent : app.stage,
 
             ready() {
-                this.text.anchor.set(0.5);
-                this.position = new fae.Vector(60, 66);
+                this.stroke = this.addChild(new PIXI.Graphics());
+                this.text = new PIXI.extras.BitmapText("", {font: "16px Sharp-Retro"});
+                this.addChild(this.text);
 
-                this.text.style = new PIXI.TextStyle({
-                    fontFamily: "Sharp-Retro",
-                    fontSize: 16,
-                    letterSpacing: -1,
-                    lineHeight: 1,
-                    textBaseline: "alphabetic",
-                    fill: 0x9af9b7,
-                    stroke: 0x2dd96a,
-                    strokeThickness: 2,
-                });
-
+                this.text.tint = 0x9af9b7;
                 this.text.text = "best: " + app.highScore;
+                this.stroke
+                .beginFill(0x2dd96a)
+                .drawRect(-1, 6, this.text.textWidth + 2, this.text.textHeight - 14)
+                .endFill();
+
+                this.position = new fae.Vector(60 - this.width/2, 52);
 
                 this.alpha = 0;
                 this.timeout(1300, "fadein");

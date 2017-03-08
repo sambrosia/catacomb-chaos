@@ -11,13 +11,14 @@ app.scene("loading", {
         const startTime = new Date().getTime();
 
         // TODO: load sounds
-        app.loader.baseUrl = "/assets";
+        app.loader.baseUrl = "assets";
         app.loader
-        .add("gui", "/sprites/gui/spritesheet.json")
-        .add("dungeon", "/sprites/dungeon/spritesheet.json")
-        .add("mage", "/sprites/mage/spritesheet.json")
-        .add("skeleton", "/sprites/skeleton/spritesheet.json")
-        .add("archer", "/sprites/archer/spritesheet.json")
+        .add("sharpRetroFont", "fonts/Sharp-Retro.xml")
+        .add("gui", "sprites/gui/spritesheet.json")
+        .add("dungeon", "sprites/dungeon/spritesheet.json")
+        .add("mage", "sprites/mage/spritesheet.json")
+        .add("skeleton", "sprites/skeleton/spritesheet.json")
+        .add("archer", "sprites/archer/spritesheet.json")
         .use((res, next) => {
             if (res.extension == "json") {
                 const keys = [];

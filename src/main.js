@@ -9,6 +9,10 @@ let player, scoreCounter, statusIndicators, pauseButton, enemySpawner;
 
 app.scene("main", {
     enter() {
+        // TODO: Animate entrance
+
+        // TODO: Brief visual tutorial
+
         player = app.e(playerTemplate);
         app.player = player;
 
@@ -16,27 +20,27 @@ app.scene("main", {
 
         // TODO: Fix blurry text on windows
         scoreCounter = app.e({
-            components: ["text", "motion"],
-            parent: app.stage,
+            components: ["motion"],
+            parent: app.stage.dungeon,
 
             ready() {
-                this.text.anchor.x = 0.5;
-                this.text.x = 60;
+                this.stroke = this.addChild(new PIXI.Graphics());
+                this.text = new PIXI.extras.BitmapText("", {font: "16px Sharp-Retro"});
+                this.addChild(this.text);
 
-                this.text.style = new PIXI.TextStyle({
-                    fontFamily: "Sharp-Retro",
-                    fontSize: 16,
-                    letterSpacing: -1,
-                    lineHeight: 1,
-                    textBaseline: "alphabetic",
-                    fill: 0xccd5ff,
-                    stroke: 0x505ea1,
-                    strokeThickness: 2,
-                });
+                this.text.tint = 0xccd5ff;
+                this.y = -2;
             },
 
             update() {
-                this.text.text = app.score + "";
+                this.text.text = app.score;
+                this.stroke
+                .clear()
+                .beginFill(0x505ea1)
+                .drawRect(-1, 6, this.text.textWidth + 2, this.text.textHeight - 14)
+                .endFill();
+
+                this.x = (-this.parent.x + 60) - this.width/2;
             }
         });
 

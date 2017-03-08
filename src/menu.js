@@ -11,6 +11,7 @@ app.scene("menu", {
         app.stage.dungeon.position = new fae.Vector(-4, 0);
         makeDungeon(8, 11);
 
+        // TODO: Animate text?
         logo = [];
         for (const tex of ["skull", "catacomb", "chaos"]) {
             logo.push(app.e({
@@ -22,6 +23,12 @@ app.scene("menu", {
                 }
             }));
         }
+
+        let t = 0;
+        logo[0].bind("update", (dt) => {
+            logo[0].y = 3 * Math.sin(t);
+            t += dt / 60 * 2;
+        });
 
         playButton = app.e({
             components: ["sprite"],
@@ -72,6 +79,7 @@ app.scene("menu", {
         });
     },
 
+    // TODO: Animate transition
     exit() {
         for (const l of logo) l.queueDestroy();
         playButton.queueDestroy();

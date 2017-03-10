@@ -1,4 +1,5 @@
 import * as fae from "fae";
+import ga from "gameanalytics";
 import { app } from "./app";
 
 import { playerTemplate } from "./player";
@@ -9,6 +10,8 @@ let player, scoreCounter, statusIndicators, pauseButton, enemySpawner;
 
 app.scene("main", {
     enter() {
+        ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Start, "main");
+
         // TODO: Animate entrance
 
         // TODO: Brief visual tutorial
@@ -194,5 +197,11 @@ app.scene("main", {
         });
     },
 
-    exit() {}
+    exit() {
+        if (app.score > app.highScore) {
+            ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Complete, "main", null, null, app.score);
+        } else {
+            ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Fail, "main", null, null, app.score);
+        }
+    }
 });

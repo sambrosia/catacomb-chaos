@@ -12,6 +12,8 @@ app.scene("main", {
     enter() {
         ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Start, "main");
 
+        app.resources.soundBGLoop.sound.play();
+
         // TODO: Animate entrance
 
         // TODO: Brief visual tutorial
@@ -105,9 +107,13 @@ app.scene("main", {
                 // TODO: Unify click and tap callbacks
                 this.on("click", () => {
                     if (app.ticker.started) {
+                        app.resources.soundBGLoop.sound.pause();
+
                         this.sprite.texture = app.resources.gui.textures["unpause-button.png"];
                         app.ticker.stop();
                     } else {
+                        app.resources.soundBGLoop.sound.resume();
+
                         app.ticker.start();
                         this.sprite.texture = app.resources.gui.textures["pause-button.png"];
                     }
@@ -203,5 +209,7 @@ app.scene("main", {
         } else {
             ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Fail, "main", null, null, app.score);
         }
+
+        app.resources.soundBGLoop.sound.stop();
     }
 });

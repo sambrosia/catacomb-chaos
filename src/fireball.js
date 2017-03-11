@@ -31,6 +31,10 @@ export const fireballTemplate = {
 
         this.moveSpeed = 5;
         this.turnSpeed = 0.65;
+
+        app.resources.soundFireball.sound.play({
+            speed: 1 + (Math.random() - 0.5) * 0.5
+        });
     },
 
     update() {

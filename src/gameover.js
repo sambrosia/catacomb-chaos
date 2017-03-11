@@ -5,6 +5,8 @@ let skull, score, highScore, playButton;
 
 app.scene("gameover", {
     enter() {
+        app.resources.soundDeath.sound.play();
+
         skull = app.e({
             components: ["sprite", "timeout"],
             parent: app.stage,
@@ -17,6 +19,8 @@ app.scene("gameover", {
                 this.fadingIn = true;
 
                 this.timeout(1000, "fadeout");
+
+                this.timer = 0;
             },
 
             update(dt) {
@@ -28,6 +32,9 @@ app.scene("gameover", {
                 else {
                     this.alpha -= 0.03 * dt;
                 }
+
+                this.y = 32 + 3 * Math.sin(this.timer);
+                this.timer += dt / 60 * 2;
             },
 
             fadeout() {
@@ -36,6 +43,7 @@ app.scene("gameover", {
             }
         });
 
+        // TODO: Fix text not centered
         score = app.e({
             components: ["timeout"],
             parent : app.stage,

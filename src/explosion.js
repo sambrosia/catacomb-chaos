@@ -41,9 +41,15 @@ export const explosionTemplate = {
             }
         });
 
+        const n = Math.ceil(Math.random() * 4);
+        app.resources["soundExplosion" + n].sound.play({
+            speed: 1 - Math.random() * 0.5
+        });
+
         this.timeout(150, "kill");
     },
 
+    // TODO: Award extra points for each enemy caught in single explosion
     collided(other) {
         other.fire("hitbyexplosion", this);
     },
@@ -52,5 +58,4 @@ export const explosionTemplate = {
         this.sparks.queueDestroy();
         this.queueDestroy();
     }
-    // TODO: Award extra points for each enemy caught in single explosion
 };

@@ -2,9 +2,9 @@ import * as fae from "fae";
 import ga from "gameanalytics";
 
 // Configure analytics
-ga.logging.GALogger.debugEnabled = true;
-ga.GameAnalytics.setEnabledInfoLog(true);
-ga.GameAnalytics.setEnabledVerboseLog(true);
+ga.logging.GALogger.debugEnabled = false;
+ga.GameAnalytics.setEnabledInfoLog(false);
+ga.GameAnalytics.setEnabledVerboseLog(false);
 ga.GameAnalytics.setEnabledManualSessionHandling(true);
 
 ga.GameAnalytics.configureBuild("html5 0.1.0");
@@ -15,10 +15,10 @@ ga.GameAnalytics.startSession();
 window.addEventListener("beforeunload", ga.GameAnalytics.endSession);
 window.addEventListener("unload", ga.GameAnalytics.endSession);
 
-
 // Create application
 export const app = new fae.Application(480, 640, {
-    view: document.getElementById("catacomb-chaos-canvas")
+    view: document.getElementById("catacomb-chaos-canvas"),
+    resolution: 1
 });
 
 // Set up view stretching
@@ -42,6 +42,9 @@ resize();
 // Scale world
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 app.stage.scale.set(4);
+
+// Set global volume
+PIXI.sound.volumeAll = 0.2;
 
 // Some PIXI layers
 app.stage.dungeon =     app.stage.addChildAt(new PIXI.Container(), 0);

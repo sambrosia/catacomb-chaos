@@ -66,16 +66,23 @@ export const playerTemplate = {
         }
     },
 
-    // TODO: Injured effect/sound
     hitbyskeleton(skeleton) {
-        this.health--;
+        this.fire("injure");
         skeleton.fire("kill");
     },
 
     hitbyarrow(arrow) {
-        // TODO: leave arrow sprite sticking out of player
-        this.health--;
+        // TODO: leave arrow sticking out of player
+        this.fire("injure");
         arrow.fire("kill");
+    },
+
+    injure() {
+        this.health--;
+
+        app.resources.soundHurt.sound.play({
+            speed: 1 + (Math.random() - 0.5) * 0.5
+        });
     },
 
     kill() {

@@ -34,6 +34,7 @@ const arrowTemplate = {
     },
 
     kill() {
+        app.resources.soundArrowBurn.sound.play();
         this.queueDestroy();
     }
 };
@@ -68,6 +69,10 @@ const archerTemplate = {
 
         this.as.loopAnimation("idle");
 
+        app.resources.soundSpawn.sound.play({
+            speed: 1 + Math.random() * 0.5
+        });
+
         this.timeout(1000, "playshootanimation");
     },
 
@@ -86,6 +91,10 @@ const archerTemplate = {
         arrow.velocity = dir.times(1.5);
 
         arrow.rotation = Math.atan2(dir.y, dir.x) - Math.PI * 0.5;
+
+        app.resources.soundArrowShoot.sound.play({
+            speed: 1 + (Math.random() - 0.5) * 0.5
+        });
     },
 
     hitbyfireball(fireball) {

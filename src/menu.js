@@ -44,13 +44,13 @@ app.scene("menu", {
 
                 this.hitArea = new PIXI.RoundedRectangle(-13, -13, 26, 27, 6);
 
-                this.on("click", () => {
+                this.onClick = () => {
+                    app.resources.soundButton.sound.play();
                     app.scene("main");
-                });
+                };
 
-                this.on("tap", () => {
-                    app.scene("main");
-                });
+                this.on("click", this.onClick);
+                this.on("tap", this.onClick);
             }
         });
 
@@ -68,13 +68,13 @@ app.scene("menu", {
 
                 this.hitArea = new PIXI.Circle(1, 1, 14);
 
-                this.on("click", () => {
+                this.onClick = () => {
+                    app.resources.soundButton.sound.play();
                     goFullscreen(app.view);
-                });
+                };
 
-                this.on("tap", () => {
-                    goFullscreen(app.view);
-                });
+                this.on("click", this.onClick);
+                this.on("tap", this.onClick);
             }
         });
     },

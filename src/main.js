@@ -23,7 +23,6 @@ app.scene("main", {
 
         app.score = 0;
 
-        // TODO: Fix blurry text on windows
         scoreCounter = app.e({
             components: ["motion"],
             parent: app.stage.dungeon,
@@ -104,32 +103,25 @@ app.scene("main", {
                 this.interactive = true;
                 this.buttonMode = true;
 
-                // TODO: Unify click and tap callbacks
-                this.on("click", () => {
+                this.onClick = () => {
                     if (app.ticker.started) {
+                        app.resources.soundPause.sound.play();
                         app.resources.soundBGLoop.sound.pause();
 
                         this.sprite.texture = app.resources.gui.textures["unpause-button.png"];
                         app.ticker.stop();
                     } else {
+                        app.resources.soundUnpause.sound.play();
                         app.resources.soundBGLoop.sound.resume();
 
                         app.ticker.start();
                         this.sprite.texture = app.resources.gui.textures["pause-button.png"];
                     }
                     app.ticker.update();
-                }, this);
+                };
 
-                this.on("tap", () => {
-                    if (app.ticker.started) {
-                        this.sprite.texture = app.resources.gui.textures["unpause-button.png"];
-                        app.ticker.stop();
-                    } else {
-                        app.ticker.start();
-                        this.sprite.texture = app.resources.gui.textures["pause-button.png"];
-                    }
-                    app.ticker.update();
-                }, this);
+                this.on("click", this.onClick, this);
+                this.on("tap", this.onClick, this);
             }
         });
 

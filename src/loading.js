@@ -30,10 +30,13 @@ app.scene("loading", {
 
         .add("soundArrowBurn", "sounds/arrowburn.mp3")
         .add("soundArrowShoot", "sounds/arrowshoot.mp3")
-
         .add("soundSkeletonSpawn", "sounds/skeletonspawn.mp3")
 
         .add("soundBGLoop", "sounds/music.mp3")
+
+        .add("soundButton", "sounds/button.mp3")
+        .add("soundUnpause", "sounds/unpause.mp3")
+        .add("soundPause", "sounds/pause.mp3")
 
         .use((res, next) => {
             if (res.extension == "json") {

@@ -132,13 +132,13 @@ app.scene("gameover", {
 
                 this.hitArea = new PIXI.RoundedRectangle(-13, -13, 26, 27, 6);
 
-                this.on("click", () => {
+                this.onClick = () => {
+                    app.resources.soundButton.sound.play();
                     app.scene("main");
-                });
+                };
 
-                this.on("tap", () => {
-                    app.scene("main");
-                });
+                this.on("click", this.onClick);
+                this.on("tap", this.onClick);
 
                 this.alpha = 0;
                 this.interactive = false;

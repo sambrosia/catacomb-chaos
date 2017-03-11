@@ -29,7 +29,7 @@ const skeletonTemplate = {
 
         this.chaseVec = new fae.Vector(Math.random() * (88 - 32) + 32, 60);
 
-        app.resources.soundSpawn.sound.play({
+        app.resources.soundSkeletonSpawn.sound.play({
             speed: 1 + Math.random() * 0.5
         });
 

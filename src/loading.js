@@ -20,20 +20,20 @@ app.scene("loading", {
         .add("skeleton", "sprites/skeleton/spritesheet.json")
         .add("archer", "sprites/archer/spritesheet.json")
 
-        .add("soundHurt", "sounds/hurt.wav")
-        .add("soundDeath", "sounds/death.wav")
+        .add("soundHurt", "sounds/hurt.mp3")
+        .add("soundDeath", "sounds/death.mp3")
         .add("soundFireball", "sounds/foom.mp3")
-        .add("soundExplosion1", "sounds/explosion1.wav")
-        .add("soundExplosion2", "sounds/explosion2.wav")
-        .add("soundExplosion3", "sounds/explosion3.wav")
-        .add("soundExplosion4", "sounds/explosion4.wav")
+        .add("soundExplosion1", "sounds/explosion1.mp3")
+        .add("soundExplosion2", "sounds/explosion2.mp3")
+        .add("soundExplosion3", "sounds/explosion3.mp3")
+        .add("soundExplosion4", "sounds/explosion4.mp3")
 
-        .add("soundArrowBurn", "sounds/arrowburn.wav")
-        .add("soundArrowShoot", "sounds/arrowshoot.wav")
+        .add("soundArrowBurn", "sounds/arrowburn.mp3")
+        .add("soundArrowShoot", "sounds/arrowshoot.mp3")
 
-        .add("soundSpawn", "sounds/spawn1.mp3")
+        .add("soundSkeletonSpawn", "sounds/skeletonspawn.mp3")
 
-        .add("soundBGLoop", "sounds/victoriana.mp3")
+        .add("soundBGLoop", "sounds/music.mp3")
 
         .use((res, next) => {
             if (res.extension == "json") {
@@ -49,15 +49,13 @@ app.scene("loading", {
 
         .load((loader, resources) => {
             resources.soundBGLoop.sound.loop = true;
-            resources.soundBGLoop.sound.volume = 3;
 
             resources.soundHurt.sound.volume = 2;
             resources.soundDeath.sound.volume = 2;
             resources.soundDeath.sound.speed = 0.75;
 
             resources.soundArrowShoot.sound.volume = 1.5;
-            resources.soundSpawn.sound.volume = 0.5;
-
+            resources.soundSkeletonSpawn.sound.volume = 0.5;
 
             const finishTime = new Date().getTime();
             console.log("Resources loaded in ", finishTime - startTime, "ms");

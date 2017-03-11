@@ -69,7 +69,7 @@ const archerTemplate = {
 
         this.as.loopAnimation("idle");
 
-        app.resources.soundSpawn.sound.play({
+        app.resources.soundSkeletonSpawn.sound.play({
             speed: 1 + Math.random() * 0.5
         });
 

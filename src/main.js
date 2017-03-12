@@ -3,8 +3,7 @@ import ga from "gameanalytics";
 import { app } from "./app";
 
 import { playerTemplate } from "./player";
-import { skeletonSpawnTemplate } from "./skeleton";
-import { archerSpawnTemplate } from "./archer";
+import { waves } from "./waves";
 
 let player, scoreCounter, statusIndicators, pauseButton, enemySpawner;
 
@@ -12,6 +11,7 @@ app.scene("main", {
     enter() {
         ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Start, "main");
 
+        app.resources.soundBGLoop.sound.loop = true;
         app.resources.soundBGLoop.sound.play();
 
         // TODO: Animate entrance
@@ -48,9 +48,8 @@ app.scene("main", {
             }
         });
 
-        statusIndicators = [];
-
         // TODO: Clean this mess up
+        statusIndicators = [];
         for (let i = 0; i < 3; i++) {
             statusIndicators.push(app.e({
                 components: ["sprite", "motion", "timeout"],
@@ -129,30 +128,23 @@ app.scene("main", {
             components: ["timeout"],
 
             ready() {
-                this.currentWave = 1;
-                this.fire("spawnwave", 1);
-            },
+                this.currentWave = 0;
 
-            spawnwave() {
-                const size = Math.min(this.currentWave * 2 - 1, 6);
+                this.spawnNextWave = () => {
+                    this.currentWave++;
 
-                for (let i = 0; i < size; i++) {
-                    const skeleton = app.e(skeletonSpawnTemplate);
-                    skeleton.x = Math.random() * (100 - 20) + 20;
-                    skeleton.y = Math.random() * (24 - 16) + 16;
-                }
+                    if (waves[this.currentWave] && waves[this.currentWave].spawn) {
+                        this.lastExistingWave = this.currentWave;
+                        waves[this.currentWave].spawn(this.spawnNextWave, this.currentWave);
+                    }
+                    else {
+                        waves[this.lastExistingWave].spawn(this.spawnNextWave, this.currentWave);
+                    }
+                };
 
-                // TODO: limit number of archers
-                if (this.currentWave >= 7 && this.currentWave % 2 === 1) {
-                    const archer = app.e(archerSpawnTemplate);
-                    archer.x = Math.random() * (100 - 20) + 20;
-                    archer.y = Math.random() * (48 - 32) + 32;
-                    archer.scale.x = (archer.x < player.x) ? 1 : -1;
-                }
-
-                this.currentWave++;
-
-                this.timeout(3000, "spawnwave");
+                // Next wave is 1 in this case
+                // There is no wave 0
+                this.spawnNextWave();
             }
         });
 

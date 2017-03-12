@@ -34,7 +34,7 @@ export const poofTemplate = {
 };
 
 export const sparkTemplate = {
-    components: ["emitter"],
+    components: ["emitter", "timeout"],
 
     ready() {
         this.emitOptions = {
@@ -47,5 +47,9 @@ export const sparkTemplate = {
             endAlpha: 0.01,
             velocityRandom: new fae.Vector(1, 1)
         };
+    },
+
+    kill() {
+        this.queueDestroy();
     }
 };

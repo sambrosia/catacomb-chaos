@@ -39,13 +39,32 @@ const arrowTemplate = {
     }
 };
 
-const archerTemplate = {
+export const archerTemplate = {
     components: ["animatedsprite", "collision", "timeout"],
     parent: app.stage.characters,
 
     ready() {
+        this.sleeping = true;
+
+        const sparks = app.e(sparkTemplate);
+        this.addChild(sparks);
+
+        const t = (Math.random() + 1) * 500;
+        sparks.timeout(t, "kill");
+        this.timeout(t, "spawn");
+    },
+
+    spawn() {
+        const smoke = app.e(poofTemplate);
+        smoke.position = this.position;
+
+        this.sleeping = false;
+
+        this.scale.x = (this.x < app.player.x) ? 1 : -1;
         this.as.anchor.set(0.5, 1);
         this.cAnchor.set(0.5, 1);
+
+        this.y += 4;
 
         this.w = 10;
         this.h = 16;
@@ -111,35 +130,6 @@ const archerTemplate = {
         smoke.position = this.position;
         smoke.y -= 4;
 
-        this.queueDestroy();
-    }
-};
-
-export const archerSpawnTemplate = {
-    components: ["timeout"],
-    parent: app.stage.characters,
-
-    ready() {
-        this.sparks = app.e(sparkTemplate);
-        this.addChild(this.sparks);
-
-        this.timeout((Math.random() + 1) * 500, "spawn");
-    },
-
-    spawn() {
-        const smoke = app.e(poofTemplate);
-        smoke.position = this.position;
-
-        const archer = app.e(archerTemplate);
-        archer.position = this.position;
-        archer.scale = this.scale;
-        archer.y += 4;
-
-        this.fire("kill");
-    },
-
-    kill() {
-        this.sparks.queueDestroy();
         this.queueDestroy();
     }
 };

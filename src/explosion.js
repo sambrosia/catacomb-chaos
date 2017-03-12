@@ -43,7 +43,7 @@ export const explosionTemplate = {
 
         const n = Math.ceil(Math.random() * 4);
         app.resources["soundExplosion" + n].sound.play({
-            speed: 1 - Math.random() * 0.5
+            speed: 0.75 - Math.random() * 0.35
         });
 
         this.timeout(150, "kill");

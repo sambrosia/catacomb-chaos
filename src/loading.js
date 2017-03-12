@@ -51,11 +51,18 @@ app.scene("loading", {
         })
 
         .load((loader, resources) => {
+            PIXI.sound.volumeAll = 0.2;
+
             resources.soundBGLoop.sound.loop = true;
 
             resources.soundHurt.sound.volume = 2;
             resources.soundDeath.sound.volume = 2;
             resources.soundDeath.sound.speed = 0.75;
+
+            resources.soundExplosion1.sound.volume = 1.5;
+            resources.soundExplosion2.sound.volume = 1.5;
+            resources.soundExplosion3.sound.volume = 1.5;
+            resources.soundExplosion4.sound.volume = 1.5;
 
             resources.soundArrowShoot.sound.volume = 1.5;
             resources.soundSkeletonSpawn.sound.volume = 0.5;

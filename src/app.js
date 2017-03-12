@@ -43,9 +43,6 @@ resize();
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 app.stage.scale.set(4);
 
-// Set global volume
-PIXI.sound.volumeAll = 0.2;
-
 // Some PIXI layers
 app.stage.dungeon =     app.stage.addChildAt(new PIXI.Container(), 0);
 app.stage.characters =  app.stage.addChildAt(new PIXI.Container(), 1);

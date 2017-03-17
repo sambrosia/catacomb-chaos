@@ -45,6 +45,8 @@ app.scene("menu", {
                 this.hitArea = new PIXI.RoundedRectangle(-13, -13, 26, 27, 6);
 
                 this.onClick = () => {
+                    // TODO: detect whether user tapped or clicked so we can
+                    // show appropriate graphic on first tutorial wave
                     app.resources.soundButton.sound.play();
                     app.scene("main");
                 };

@@ -3,5 +3,13 @@ module.exports = {
     entry: "./src/boot.js",
     output: {
         filename: "catacomb-chaos.js"
+    },
+    resolve: {
+        alias: {
+            fae: "fae/src/index.js"
+        }
+    },
+    node: {
+        fs: "empty"
     }
 };

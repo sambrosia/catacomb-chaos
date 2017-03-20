@@ -12,12 +12,14 @@ export const fireTexture = app.renderer.generateTexture(fireGraphics);
 
 export const fireballTemplate = {
     components: ["emitter", "motion", "steering", "collision"],
+    groups: ["fireball"],
     parent: app.stage.fireballs,
 
     ready() {
         this.w = 6;
         this.h = 6;
-        this.cAnchor.set(0.5);
+        this.collisionAnchor.set(0.5);
+        this.collisionGroups.add("wall").add("enemy").add("arrow");
 
         this.emitOptions = {
             texture: fireTexture,
@@ -29,20 +31,40 @@ export const fireballTemplate = {
             velocityRandom: new fae.Vector(1, 1)
         };
 
+        this.steer = false;
         this.moveSpeed = 5;
         this.turnSpeed = 0.65;
 
         app.resources.soundFireball.sound.play({
             speed: 1 + (Math.random() - 0.5) * 0.5
         });
+
+        this.onPointerDown = (event) => {
+            if (!this.steer) {
+                this.steer = true;
+                this.pointerId = event.data.identifier;
+                this.chaseVec = new fae.Vector(event.data.getLocalPosition(app.stage));
+            }
+        };
+
+        this.onPointerUp = (event) => {
+            if (this.pointerId == event.data.identifier) this.steer = false;
+        };
+
+        this.onPointerMove = (event) => {
+            if (this.steer && this.pointerId == event.data.identifier) {
+                this.chaseVec = new fae.Vector(event.data.getLocalPosition(app.stage));
+            }
+        };
+
+        app.input.on("pointerdown", this.onPointerDown);
+        app.input.on("pointerup", this.onPointerUp);
+        app.input.on("pointermove", this.onPointerMove);
     },
 
     update() {
         this.emitOptions.velocity = this.velocity.times(0.6);
         this.emitOptions.period = 30 / (this.velocity.length / 4 + 1);
-
-        this.steer = this.app.input.pointerDown ? true : false;
-        if (this.steer) this.chaseVec = this.app.input.pointerPos;
 
         this.avoidVecs = [];
         for (let i = 0; i < app.stage.fireballs.children.length; i++) {
@@ -52,17 +74,23 @@ export const fireballTemplate = {
     },
 
     collided(other) {
-        other.fire("hitbyfireball", this);
+        other.emit("hitbyfireball", this);
     },
 
     landedhit() {
         this.sleeping = true;
-        this.fire("kill");
+        this.emit("kill");
     },
 
     kill() {
         const explosion = app.e(explosionTemplate);
         explosion.position = this.position;
         this.queueDestroy();
+    },
+
+    destroy() {
+        app.input.removeListener("pointerdown", this.onPointerDown);
+        app.input.removeListener("pointerup", this.onPointerUp);
+        app.input.removeListener("pointermove", this.onPointerMove);
     }
 };

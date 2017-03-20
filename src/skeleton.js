@@ -4,7 +4,8 @@ import { app } from "./app";
 import { sparkTemplate, poofTemplate } from "./enemy-effects";
 
 export const skeletonTemplate = {
-    components: ["animatedsprite", "motion", "steering", "collision", "timeout"],
+    components: ["animatedsprite", "motion", "steering", "collision"],
+    groups: ["enemy"],
     parent: app.stage.characters,
 
     ready() {
@@ -26,8 +27,9 @@ export const skeletonTemplate = {
         this.sleeping = false;
         this.steer = true;
 
-        this.as.anchor.set(0.5, 1);
-        this.cAnchor.set(0.5, 1);
+        this.sprite.anchor.set(0.5, 1);
+        this.collisionAnchor.set(0.5, 1);
+        this.collisionGroups.add("player");
 
         this.y += 4;
 
@@ -38,14 +40,14 @@ export const skeletonTemplate = {
         this.turnSpeed = 0.02;
         this.chaseVec = new fae.Vector(Math.random() * (88 - 32) + 32, 60);
 
-        this.as.textures = app.resources.skeleton.array;
+        this.sprite.textures = app.resources.skeleton.array;
 
-        this.as.addAnimation("walk", {
+        this.sprite.addAnimation("walk", {
             speed: 6,
             start: 0,
             end: 3
         });
-        this.as.loopAnimation("walk");
+        this.sprite.loopAnimation("walk");
 
         app.resources.soundSkeletonSpawn.sound.play({
             speed: 1 + Math.random() * 0.5
@@ -57,25 +59,21 @@ export const skeletonTemplate = {
             this.chaseVec = app.player.position;
         }
 
-        if (this.velocity.x < 0) {
-            this.scale.x = -1;
-        }
-        else if (this.velocity.x > 0) {
-            this.scale.x = 1;
-        }
+        if (this.velocity.x < 0) { this.scale.x = -1; }
+        else if (this.velocity.x > 0) { this.scale.x = 1; }
     },
 
     collided(other) {
-        other.fire("hitbyskeleton", this);
+        other.emit("hitbyskeleton", this);
     },
 
     hitbyfireball(fireball) {
-        fireball.fire("landedhit");
+        fireball.emit("landedhit");
     },
 
     hitbyexplosion() {
         app.score += 10;
-        this.fire("kill");
+        this.emit("kill");
     },
 
     kill() {

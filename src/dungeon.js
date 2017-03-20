@@ -3,16 +3,18 @@ import { app } from "./app";
 
 const tileTemplate = {
     components: ["sprite"],
-    parent: app.stage.dungeon
+    parent: app.stage.dungeon,
+    ready() { this.persistent = true; }
 };
 
 const wallColliderTemplate = {
     components: ["collision"],
+    groups: ["wall"],
     parent: app.stage,
 
-    hitbyfireball(fireball) {
-        fireball.fire("landedhit");
-    }
+    ready() { this.persistent = true; },
+
+    hitbyfireball(fireball) { fireball.emit("landedhit"); }
 };
 
 export function makeDungeon(w, h) {

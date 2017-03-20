@@ -5,8 +5,6 @@ import "./menu";
 
 app.scene("loading", {
     enter() {
-        // TODO: Show nice loading screen
-
         // Start loading resources
         const startTime = new Date().getTime();
 
@@ -72,10 +70,5 @@ app.scene("loading", {
 
             app.scene("menu");
         });
-    },
-
-    exit() {
-        // TODO: Hide/destroy nice loading screen
-
     }
 });

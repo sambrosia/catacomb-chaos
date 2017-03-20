@@ -4,12 +4,14 @@ import { app } from "./app";
 import { sparkTemplate, poofTemplate } from "./enemy-effects";
 
 const arrowTemplate = {
-    components: ["sprite", "motion", "collision", "timeout"],
+    components: ["sprite", "motion", "collision"],
+    groups: ["arrow"],
     parent: app.stage.arrows,
 
     ready() {
         this.sprite.anchor.set(0.5, 0.9);
-        this.cAnchor.set(0.5);
+        this.collisionAnchor.set(0.5);
+        this.collisionGroups.add("player");
         this.w = 3;
         this.h = 3;
 
@@ -19,18 +21,18 @@ const arrowTemplate = {
     },
 
     collided(other) {
-        other.fire("hitbyarrow", this);
+        other.emit("hitbyarrow", this);
     },
 
     hitbyfireball() {
         // TODO: Effect for this
         app.score += 5;
-        this.fire("kill");
+        this.emit("kill");
     },
 
     hitbyexplosion() {
         app.score += 1;
-        this.fire("kill");
+        this.emit("kill");
     },
 
     kill() {
@@ -40,7 +42,8 @@ const arrowTemplate = {
 };
 
 export const archerTemplate = {
-    components: ["animatedsprite", "collision", "timeout"],
+    components: ["animatedsprite", "collision"],
+    groups: ["enemy"],
     parent: app.stage.characters,
 
     ready() {
@@ -61,23 +64,23 @@ export const archerTemplate = {
         this.sleeping = false;
 
         this.scale.x = (this.x < app.player.x) ? 1 : -1;
-        this.as.anchor.set(0.5, 1);
-        this.cAnchor.set(0.5, 1);
+        this.sprite.anchor.set(0.5, 1);
+        this.collisionAnchor.set(0.5, 1);
 
         this.y += 4;
 
         this.w = 10;
         this.h = 16;
 
-        this.as.textures = app.resources.archer.array;
+        this.sprite.textures = app.resources.archer.array;
 
-        this.as.addAnimation("idle", {
+        this.sprite.addAnimation("idle", {
             speed: 4,
             start: 1,
             end: 4
         });
 
-        this.as.addAnimation("shoot", {
+        this.sprite.addAnimation("shoot", {
             speed: 6,
             start: 5,
             end: 11,
@@ -86,7 +89,7 @@ export const archerTemplate = {
             }
         });
 
-        this.as.loopAnimation("idle");
+        this.sprite.loopAnimation("idle");
 
         app.resources.soundSkeletonSpawn.sound.play({
             speed: 1 + Math.random() * 0.5
@@ -96,8 +99,8 @@ export const archerTemplate = {
     },
 
     playshootanimation() {
-        this.as.playAnimation("shoot");
-        this.as.queueAnimation("idle", true);
+        this.sprite.playAnimation("shoot");
+        this.sprite.queueAnimation("idle", true);
         this.timeout(4000, "playshootanimation");
     },
 
@@ -117,12 +120,12 @@ export const archerTemplate = {
     },
 
     hitbyfireball(fireball) {
-        fireball.fire("landedhit");
+        fireball.emit("landedhit");
     },
 
     hitbyexplosion() {
         app.score += 10;
-        this.fire("kill");
+        this.emit("kill");
     },
 
     kill() {

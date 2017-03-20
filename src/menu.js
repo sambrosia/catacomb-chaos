@@ -25,7 +25,7 @@ app.scene("menu", {
         }
 
         let t = 0;
-        logo[0].bind("update", (dt) => {
+        logo[0].on("update", (dt) => {
             logo[0].y = 3 * Math.sin(t);
             t += dt / 60 * 2;
         });
@@ -72,6 +72,7 @@ app.scene("menu", {
 
                 this.onClick = () => {
                     app.resources.soundButton.sound.play();
+                    // TODO: Make this a toggle
                     goFullscreen(app.view);
                 };
 
@@ -82,10 +83,11 @@ app.scene("menu", {
     },
 
     // TODO: Animate transition
-    exit() {
+    exit(next) {
         for (const l of logo) l.queueDestroy();
         playButton.queueDestroy();
         optionsButton.queueDestroy();
+        next();
     }
 });
 

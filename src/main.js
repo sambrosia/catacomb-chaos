@@ -11,7 +11,6 @@ app.scene("main", {
     enter() {
         ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Start, "main");
 
-        app.resources.soundBGLoop.sound.loop = true;
         app.resources.soundBGLoop.sound.play();
 
         // TODO: Animate entrance
@@ -52,7 +51,7 @@ app.scene("main", {
         statusIndicators = [];
         for (let i = 0; i < 3; i++) {
             statusIndicators.push(app.e({
-                components: ["sprite", "motion", "timeout"],
+                components: ["sprite", "motion"],
                 parent: app.stage,
 
                 ready() {
@@ -71,7 +70,7 @@ app.scene("main", {
             }));
 
             statusIndicators.push(app.e({
-                components: ["sprite", "motion", "timeout"],
+                components: ["sprite", "motion"],
                 parent: app.stage,
 
                 ready() {
@@ -125,8 +124,6 @@ app.scene("main", {
         });
 
         enemySpawner = app.e({
-            components: ["timeout"],
-
             ready() {
                 this.currentWave = 0;
 
@@ -147,53 +144,39 @@ app.scene("main", {
                 this.spawnNextWave();
             }
         });
-
-        app.once("smoothexitmain", (scene) => {
-            app.scene(scene);
-            enemySpawner.queueDestroy();
-
-            for (const layer of ["characters", "arrows", "fireballs"]) {
-                for (const entity of app.stage[layer].children) {
-                    entity.fire("kill");
-                }
-            }
-
-            scoreCounter.velocity.y = -2;
-            pauseButton.velocity.x = 2;
-
-            let t = 0;
-            for (const i of [5, 3, 1, 0, 2, 4]) {
-                statusIndicators[i].timeout(t * 50, "animateout");
-                t++;
-            }
-
-            app.e({
-                components: ["timeout"],
-
-                ready() {
-                    this.timeout(800, "changescene");
-                },
-
-                changescene() {
-                    scoreCounter.queueDestroy();
-                    pauseButton.queueDestroy();
-                    this.queueDestroy();
-
-                    for (const indicator of statusIndicators) {
-                        indicator.queueDestroy();
-                    }
-                }
-            });
-        });
     },
 
-    exit() {
+    exit(next) {
+        const addProgressEvent = ga.GameAnalytics.addProgressionEvent;
+        const status = ga.EGAProgressionStatus;
         if (app.score > app.highScore) {
-            ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Complete, "main", null, null, app.score);
+            addProgressEvent(status.Complete, "main", null, null, app.score);
         } else {
-            ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Fail, "main", null, null, app.score);
+            addProgressEvent(status.Fail, "main", null, null, app.score);
         }
 
         app.resources.soundBGLoop.sound.stop();
+        enemySpawner.queueDestroy();
+
+        for (const layer of ["characters", "arrows", "fireballs"]) {
+            for (const entity of app.stage[layer].children) {
+                entity.emit("kill");
+            }
+        }
+
+        let t = 0;
+        for (const i of [5, 3, 1, 0, 2, 4]) {
+            statusIndicators[i].timeout(t * 50, "animateout");
+            t++;
+        }
+
+        scoreCounter.velocity.y = -2;
+        pauseButton.velocity.x = 2;
+
+        app.e({
+            ready() {
+                this.timeout(800, next);
+            }
+        });
     }
 });

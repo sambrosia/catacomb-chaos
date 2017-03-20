@@ -7,6 +7,7 @@ import "./gameover";
 
 export const playerTemplate = {
     components: ["animatedsprite", "collision"],
+    groups: ["player"],
     parent: app.stage.characters,
 
     ready() {
@@ -15,40 +16,41 @@ export const playerTemplate = {
         this.manaTimerMax = 700;
         this.manaTimer = this.manaTimerMax;
 
-        this.as.anchor.set(0.5, 1);
-        this.cAnchor.set(0.5, 1);
+        this.sprite.anchor.set(0.5, 1);
+        this.collisionAnchor.set(0.5, 1);
 
         this.w = 8;
         this.h = 4;
 
         this.position = new fae.Vector(60, 152);
 
-        this.as.textures = this.app.resources.mage.array;
+        this.sprite.textures = this.app.resources.mage.array;
 
-        this.as.addAnimation("idle", {
+        this.sprite.addAnimation("idle", {
             speed: 4,
             start: 0,
             end: 3
         });
 
-        this.as.loopAnimation("idle");
+        this.sprite.loopAnimation("idle");
 
-        this.shootFireball = () => {
+        this.shootFireball = (event) => {
             if (app.ticker.started) {
-                if (this.mana >= 1) {
-                    this.mana--;
-                    this.manaTimer = this.manaTimerMax;
+                // if (this.mana >= 1) {
+                //     this.mana--;
+                //     this.manaTimer = this.manaTimerMax;
 
                     const fireball = app.e(fireballTemplate);
                     fireball.position = new fae.Vector(this.x + Math.random(), this.y - 12);
+                    fireball.onPointerDown(event);
 
-                    this.scale.x = this.app.input.pointerPos.x < this.x ? -1 : 1;
-                }
+                    this.scale.x = event.data.getLocalPosition(app.stage).x < this.x ? -1 : 1;
+                // }
             }
         };
 
         // TODO: only fire if not clicking on gui
-        app.stage.on("pointerdown", this.shootFireball, this);
+        app.input.on("pointerdown", this.shootFireball, this);
     },
 
     update() {
@@ -62,19 +64,19 @@ export const playerTemplate = {
         }
 
         if (this.health <= 0) {
-            app.fire("smoothexitmain", "gameover");
+            app.scene("gameover");
         }
     },
 
     hitbyskeleton(skeleton) {
-        this.fire("injure");
-        skeleton.fire("kill");
+        this.emit("injure");
+        skeleton.emit("kill");
     },
 
     hitbyarrow(arrow) {
         // TODO: leave arrow sticking out of player
-        this.fire("injure");
-        arrow.fire("kill");
+        this.emit("injure");
+        arrow.emit("kill");
     },
 
     injure() {
@@ -90,6 +92,6 @@ export const playerTemplate = {
     },
 
     destroy() {
-        app.stage.removeListener("pointerdown", this.shootFireball);
+        app.input.removeListener("pointerdown", this.shootFireball);
     },
 };

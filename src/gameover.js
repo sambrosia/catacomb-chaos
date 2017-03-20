@@ -8,7 +8,7 @@ app.scene("gameover", {
         app.resources.soundDeath.sound.play();
 
         skull = app.e({
-            components: ["sprite", "timeout"],
+            components: ["sprite"],
             parent: app.stage,
 
             ready() {
@@ -45,7 +45,6 @@ app.scene("gameover", {
 
         // TODO: Fix text not centered
         score = app.e({
-            components: ["timeout"],
             parent : app.stage,
 
             ready() {
@@ -85,7 +84,6 @@ app.scene("gameover", {
 
         // TODO: Show old highscore if new score beats it
         highScore = app.e({
-            components: ["timeout"],
             parent : app.stage,
 
             ready() {
@@ -119,7 +117,7 @@ app.scene("gameover", {
         });
 
         playButton = app.e({
-            components: ["sprite", "timeout"],
+            components: ["sprite"],
             parent: app.stage,
 
             ready() {
@@ -157,12 +155,5 @@ app.scene("gameover", {
                 this.interactive = true;
             }
         });
-    },
-
-    exit() {
-        skull.queueDestroy();
-        score.queueDestroy();
-        highScore.queueDestroy();
-        playButton.queueDestroy();
     }
 });

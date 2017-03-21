@@ -5,7 +5,7 @@ import { app } from "./app";
 import { playerTemplate } from "./player";
 import { waves } from "./waves";
 
-let player, scoreCounter, statusIndicators, pauseButton, enemySpawner;
+let player, scoreCounter, statusIndicators, pauseButton;
 
 app.scene("main", {
     enter() {
@@ -15,12 +15,36 @@ app.scene("main", {
 
         // TODO: Animate entrance
 
-        // TODO: Brief visual tutorial
+        app.score = 0;
 
         player = app.e(playerTemplate);
         app.player = player;
 
-        app.score = 0;
+        const enemySpawner = app.e({
+            ready() {
+                this.currentWave = 0;
+
+                this.spawnNextWave = () => {
+                    if (app.exitingScene) return;
+
+                    this.currentWave++;
+                    app.event.emit("spawningwave", this.currentWave);
+
+                    if (waves[this.currentWave] && waves[this.currentWave].spawn) {
+                        this.lastExistingWave = this.currentWave;
+                        waves[this.currentWave].spawn(this.spawnNextWave, this.currentWave);
+                    }
+                    else {
+                        waves[this.lastExistingWave].spawn(this.spawnNextWave, this.currentWave);
+                    }
+
+                };
+
+                // Next wave is 1 in this case
+                // There is no wave 0
+                this.spawnNextWave();
+            }
+        });
 
         scoreCounter = app.e({
             components: ["motion"],
@@ -118,30 +142,7 @@ app.scene("main", {
                     app.ticker.update();
                 };
 
-                this.on("click", this.onClick, this);
-                this.on("tap", this.onClick, this);
-            }
-        });
-
-        enemySpawner = app.e({
-            ready() {
-                this.currentWave = 0;
-
-                this.spawnNextWave = () => {
-                    this.currentWave++;
-
-                    if (waves[this.currentWave] && waves[this.currentWave].spawn) {
-                        this.lastExistingWave = this.currentWave;
-                        waves[this.currentWave].spawn(this.spawnNextWave, this.currentWave);
-                    }
-                    else {
-                        waves[this.lastExistingWave].spawn(this.spawnNextWave, this.currentWave);
-                    }
-                };
-
-                // Next wave is 1 in this case
-                // There is no wave 0
-                this.spawnNextWave();
+                this.on("pointertap", this.onClick, this);
             }
         });
     },
@@ -156,7 +157,6 @@ app.scene("main", {
         }
 
         app.resources.soundBGLoop.sound.stop();
-        enemySpawner.queueDestroy();
 
         for (const layer of ["characters", "arrows", "fireballs"]) {
             for (const entity of app.stage[layer].children) {

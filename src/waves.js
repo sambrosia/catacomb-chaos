@@ -46,7 +46,14 @@ export const waves = {
             archer.x = 90;
             archer.y = 40;
 
-            // TODO: When all dead, do next wave
+            const nextIfCleared = () => {
+                if (app.groups.enemy.size === 0) {
+                    app.event.removeListener("entitydestroyed", nextIfCleared);
+                    next();
+                }
+            };
+
+            app.event.on("entitydestroyed", nextIfCleared);
         }
     },
 
@@ -55,7 +62,7 @@ export const waves = {
         spawn(next, currentWave) {
             let n = 4;
             if (currentWave >= 10) n = 5;
-            if (currentWave >= 15) n = 6;
+            else if (currentWave >= 15) n = 6;
             for (let i = 0; i < n; i++) {
                 const skeleton = app.e(skeletonTemplate);
                 skeleton.x = Math.random() * (100 - 20) + 20;
@@ -66,7 +73,14 @@ export const waves = {
             archer.x = Math.random() * (100 - 20) + 20;
             archer.y = Math.random() * (48 - 32) + 32;
 
-            // TODO: Spawn next wave every 3 seconds
+            app.e({
+                ready() {
+                    this.timeout(3000, next);
+                    app.event.once("spawningwave", () => {
+                        this.destroy();
+                    });
+                }
+            });
         }
     }
 };

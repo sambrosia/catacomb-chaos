@@ -36,16 +36,16 @@ export const playerTemplate = {
 
         this.shootFireball = (event) => {
             if (app.ticker.started) {
-                // if (this.mana >= 1) {
-                //     this.mana--;
-                //     this.manaTimer = this.manaTimerMax;
+                if (this.mana >= 1) {
+                    this.mana--;
+                    this.manaTimer = this.manaTimerMax;
 
                     const fireball = app.e(fireballTemplate);
                     fireball.position = new fae.Vector(this.x + Math.random(), this.y - 12);
                     fireball.onPointerDown(event);
 
                     this.scale.x = event.data.getLocalPosition(app.stage).x < this.x ? -1 : 1;
-                // }
+                }
             }
         };
 

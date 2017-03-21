@@ -125,13 +125,14 @@ app.scene("main", {
                 this.interactive = true;
                 this.buttonMode = true;
 
-                this.onClick = () => {
+                this.on("pointertap", () => {
                     if (app.ticker.started) {
                         app.resources.soundPause.sound.play();
                         app.resources.soundBGLoop.sound.pause();
 
                         this.sprite.texture = app.resources.gui.textures["unpause-button.png"];
                         app.ticker.stop();
+                        app.ticker.update();
                     } else {
                         app.resources.soundUnpause.sound.play();
                         app.resources.soundBGLoop.sound.resume();
@@ -139,10 +140,7 @@ app.scene("main", {
                         app.ticker.start();
                         this.sprite.texture = app.resources.gui.textures["pause-button.png"];
                     }
-                    app.ticker.update();
-                };
-
-                this.on("pointertap", this.onClick, this);
+                });
             }
         });
     },

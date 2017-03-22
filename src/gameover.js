@@ -7,7 +7,7 @@ app.scene("gameover", {
     enter() {
         // TODO: Fix text not centered
         score = app.e({
-            parent : app.stage,
+            parent : app.stage.gui,
 
             ready() {
                 this.stroke = this.addChild(new PIXI.Graphics());
@@ -37,7 +37,7 @@ app.scene("gameover", {
 
         // TODO: Show old highscore if new score beats it
         highScore = app.e({
-            parent : app.stage,
+            parent : app.stage.gui,
 
             ready() {
                 this.stroke = this.addChild(new PIXI.Graphics());
@@ -71,7 +71,7 @@ app.scene("gameover", {
 
         playButton = app.e({
             components: ["sprite"],
-            parent: app.stage,
+            parent: app.stage.gui,
 
             ready() {
                 this.sprite.texture = app.resources.gui.textures["play-button.png"];

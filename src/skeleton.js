@@ -6,7 +6,7 @@ import { sparkTemplate, poofTemplate } from "./enemy-effects";
 export const skeletonTemplate = {
     components: ["animatedsprite", "motion", "steering", "collision"],
     groups: ["enemy"],
-    parent: app.stage.characters,
+    parent: app.stage.world,
 
     ready() {
         this.sleeping = true;

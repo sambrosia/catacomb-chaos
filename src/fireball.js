@@ -13,7 +13,7 @@ export const fireTexture = app.renderer.generateTexture(fireGraphics);
 export const fireballTemplate = {
     components: ["emitter", "motion", "steering", "collision"],
     groups: ["fireball"],
-    parent: app.stage.fireballs,
+    parent: app.stage.world,
 
     ready() {
         this.w = 6;
@@ -67,9 +67,9 @@ export const fireballTemplate = {
         this.emitOptions.period = 30 / (this.velocity.length / 4 + 1);
 
         this.avoidVecs = [];
-        for (let i = 0; i < app.stage.fireballs.children.length; i++) {
-            if (app.stage.fireballs.children[i] == this) continue;
-            this.avoidVecs.push(app.stage.fireballs.children[i].position);
+        for (const fireball of app.groups.fireball) {
+            if (fireball == this) continue;
+            this.avoidVecs.push(fireball.position);
         }
     },
 

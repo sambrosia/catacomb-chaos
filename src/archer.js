@@ -6,7 +6,8 @@ import { sparkTemplate, poofTemplate } from "./enemy-effects";
 const arrowTemplate = {
     components: ["sprite", "motion", "collision"],
     groups: ["arrow"],
-    parent: app.stage.arrows,
+    // TODO: Render above enemies, below player
+    parent: app.stage.effects,
 
     ready() {
         this.sprite.anchor.set(0.5, 0.9);
@@ -44,7 +45,7 @@ const arrowTemplate = {
 export const archerTemplate = {
     components: ["animatedsprite", "collision"],
     groups: ["enemy"],
-    parent: app.stage.characters,
+    parent: app.stage.world,
 
     ready() {
         this.sleeping = true;

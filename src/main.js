@@ -48,7 +48,7 @@ app.scene("main", {
 
         scoreCounter = app.e({
             components: ["motion"],
-            parent: app.stage.dungeon,
+            parent: app.stage.gui,
 
             ready() {
                 this.stroke = this.addChild(new PIXI.Graphics());
@@ -76,7 +76,7 @@ app.scene("main", {
         for (let i = 0; i < 3; i++) {
             statusIndicators.push(app.e({
                 components: ["sprite", "motion"],
-                parent: app.stage,
+                parent: app.stage.gui,
 
                 ready() {
                     this.sprite.texture = app.resources.gui.textures["full-crystal.png"];
@@ -95,7 +95,7 @@ app.scene("main", {
 
             statusIndicators.push(app.e({
                 components: ["sprite", "motion"],
-                parent: app.stage,
+                parent: app.stage.gui,
 
                 ready() {
                     this.sprite.texture = app.resources.gui.textures["full-heart.png"];
@@ -115,7 +115,7 @@ app.scene("main", {
 
         pauseButton = app.e({
             components: ["sprite", "motion"],
-            parent: app.stage,
+            parent: app.stage.gui,
 
 
             ready() {
@@ -162,10 +162,8 @@ app.scene("main", {
         app.resources.soundBGLoop.sound.stop();
         app.resources.soundDeath.sound.play();
 
-        for (const layer of ["characters", "arrows", "fireballs"]) {
-            for (const entity of app.stage[layer].children) {
-                entity.emit("kill");
-            }
+        for (const entity of app.stage.world.children) {
+            entity.emit("kill");
         }
 
         let t = 0;
@@ -179,7 +177,7 @@ app.scene("main", {
 
         const skull = app.e({
             components: ["sprite"],
-            parent: app.stage,
+            parent: app.stage.gui,
 
             ready() {
                 this.sprite.texture = app.resources.gui.textures["logo-skull.png"];

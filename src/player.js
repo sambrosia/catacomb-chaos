@@ -8,7 +8,7 @@ import "./gameover";
 export const playerTemplate = {
     components: ["animatedsprite", "collision"],
     groups: ["player"],
-    parent: app.stage.characters,
+    parent: app.stage.world,
 
     ready() {
         this.health = 3;

@@ -16,7 +16,7 @@ app.scene("menu", {
         for (const tex of ["skull", "catacomb", "chaos"]) {
             logo.push(app.e({
                 components: ["sprite"],
-                parent: app.stage,
+                parent: app.stage.gui,
 
                 ready() {
                     this.sprite.texture = app.resources.gui.textures["logo-" + tex + ".png"];
@@ -32,7 +32,7 @@ app.scene("menu", {
 
         playButton = app.e({
             components: ["sprite"],
-            parent: app.stage,
+            parent: app.stage.gui,
 
             ready() {
                 this.sprite.texture = app.resources.gui.textures["play-button.png"];
@@ -55,7 +55,7 @@ app.scene("menu", {
 
         optionsButton = app.e({
             components: ["sprite"],
-            parent: app.stage,
+            parent: app.stage.gui,
 
             ready() {
                 this.sprite.texture = app.resources.gui.textures["fullscreen-button.png"];

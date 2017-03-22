@@ -154,7 +154,13 @@ app.scene("main", {
             addProgressEvent(status.Fail, "main", null, null, app.score);
         }
 
+        if (app.score > app.highScore) {
+            app.highScore = app.score;
+            window.localStorage.setItem("catacombChaosHighScore", app.highScore);
+        }
+
         app.resources.soundBGLoop.sound.stop();
+        app.resources.soundDeath.sound.play();
 
         for (const layer of ["characters", "arrows", "fireballs"]) {
             for (const entity of app.stage[layer].children) {
@@ -171,9 +177,39 @@ app.scene("main", {
         scoreCounter.velocity.y = -2;
         pauseButton.velocity.x = 2;
 
-        app.e({
+        const skull = app.e({
+            components: ["sprite"],
+            parent: app.stage,
+
             ready() {
-                this.timeout(800, next);
+                this.sprite.texture = app.resources.gui.textures["logo-skull.png"];
+                this.y = 32;
+
+                this.alpha = 0;
+                this.fadingIn = true;
+
+                this.timeout(1000, "fadeout");
+
+                this.timer = 0;
+            },
+
+            update(dt) {
+                if (this.fadingIn) {
+                    this.alpha += 0.08 * dt;
+                }
+                else {
+                    this.alpha -= 0.03 * dt;
+
+                    if (this.alpha <= 0) next();
+                }
+
+                this.y = 32 + 3 * Math.sin(this.timer);
+                this.timer += dt / 60 * 2;
+            },
+
+            fadeout() {
+                this.alpha = 1;
+                this.fadingIn = false;
             }
         });
     }

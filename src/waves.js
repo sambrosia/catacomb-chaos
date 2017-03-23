@@ -8,7 +8,7 @@ export const waves = {
     // Intro/tutorial waves
     1: {
         spawn(next) {
-            // Teaches how to shoot and guide fireballs
+            // TODO: Teach how to shoot and guide fireballs
             next();
         }
     },
@@ -19,7 +19,7 @@ export const waves = {
             const skeleton = app.e(skeletonTemplate);
             skeleton.x = 60;
             skeleton.y = 24;
-            skeleton.bind("kill", next);
+            skeleton.on("kill", next);
         }
     },
 
@@ -29,7 +29,7 @@ export const waves = {
             const archer = app.e(archerTemplate);
             archer.x = 30;
             archer.y = 40;
-            archer.bind("kill", next);
+            archer.on("kill", next);
         }
     },
 
@@ -40,21 +40,20 @@ export const waves = {
                 const skeleton = app.e(skeletonTemplate);
                 skeleton.x = Math.random() * (100 - 20) + 20;
                 skeleton.y = Math.random() * (24 - 16) + 16;
-                skeleton.bind("destroy", () => {
-                    console.log(app.stage.characters.children.length);
-                    if (app.stage.characters.children.length <= 2) next();
-                });
             }
 
             const archer = app.e(archerTemplate);
             archer.x = 90;
             archer.y = 40;
-            archer.bind("destroy", () => {
-                console.log(app.stage.characters.children.length);
-                if (app.stage.characters.children.length <= 2) next();
-            });
 
-            // TODO: When all dead, do next wave
+            const nextIfCleared = () => {
+                if (app.groups.enemy.size === 0) {
+                    app.event.removeListener("entitydestroyed", nextIfCleared);
+                    next();
+                }
+            };
+
+            app.event.on("entitydestroyed", nextIfCleared);
         }
     },
 
@@ -63,7 +62,7 @@ export const waves = {
         spawn(next, currentWave) {
             let n = 4;
             if (currentWave >= 10) n = 5;
-            if (currentWave >= 15) n = 6;
+            else if (currentWave >= 15) n = 6;
             for (let i = 0; i < n; i++) {
                 const skeleton = app.e(skeletonTemplate);
                 skeleton.x = Math.random() * (100 - 20) + 20;
@@ -75,17 +74,12 @@ export const waves = {
             archer.y = Math.random() * (48 - 32) + 32;
 
             app.e({
-                components: ["timeout"],
-                parent: app.stage.characters,
-
-                ready() { this.timeout(3000, "next"); },
-
-                next() {
-                    this.fire("kill");
-                    next();
-                },
-
-                kill() { this.queueDestroy(); }
+                ready() {
+                    this.timeout(3000, next);
+                    app.event.once("spawningwave", () => {
+                        this.destroy();
+                    });
+                }
             });
         }
     }

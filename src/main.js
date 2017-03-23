@@ -5,27 +5,50 @@ import { app } from "./app";
 import { playerTemplate } from "./player";
 import { waves } from "./waves";
 
-let player, scoreCounter, statusIndicators, pauseButton, enemySpawner;
+let player, scoreCounter, statusIndicators, pauseButton;
 
 app.scene("main", {
     enter() {
         ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Start, "main");
 
-        app.resources.soundBGLoop.sound.loop = true;
         app.resources.soundBGLoop.sound.play();
 
         // TODO: Animate entrance
 
-        // TODO: Brief visual tutorial
+        app.score = 0;
 
         player = app.e(playerTemplate);
         app.player = player;
 
-        app.score = 0;
+        const enemySpawner = app.e({
+            ready() {
+                this.currentWave = 0;
+
+                this.spawnNextWave = () => {
+                    if (app.exitingScene) return;
+
+                    this.currentWave++;
+                    app.event.emit("spawningwave", this.currentWave);
+
+                    if (waves[this.currentWave] && waves[this.currentWave].spawn) {
+                        this.lastExistingWave = this.currentWave;
+                        waves[this.currentWave].spawn(this.spawnNextWave, this.currentWave);
+                    }
+                    else {
+                        waves[this.lastExistingWave].spawn(this.spawnNextWave, this.currentWave);
+                    }
+
+                };
+
+                // Next wave is 1 in this case
+                // There is no wave 0
+                this.spawnNextWave();
+            }
+        });
 
         scoreCounter = app.e({
             components: ["motion"],
-            parent: app.stage.dungeon,
+            parent: app.stage.gui,
 
             ready() {
                 this.stroke = this.addChild(new PIXI.Graphics());
@@ -52,8 +75,8 @@ app.scene("main", {
         statusIndicators = [];
         for (let i = 0; i < 3; i++) {
             statusIndicators.push(app.e({
-                components: ["sprite", "motion", "timeout"],
-                parent: app.stage,
+                components: ["sprite", "motion"],
+                parent: app.stage.gui,
 
                 ready() {
                     this.sprite.texture = app.resources.gui.textures["full-crystal.png"];
@@ -71,8 +94,8 @@ app.scene("main", {
             }));
 
             statusIndicators.push(app.e({
-                components: ["sprite", "motion", "timeout"],
-                parent: app.stage,
+                components: ["sprite", "motion"],
+                parent: app.stage.gui,
 
                 ready() {
                     this.sprite.texture = app.resources.gui.textures["full-heart.png"];
@@ -92,7 +115,7 @@ app.scene("main", {
 
         pauseButton = app.e({
             components: ["sprite", "motion"],
-            parent: app.stage,
+            parent: app.stage.gui,
 
 
             ready() {
@@ -102,13 +125,14 @@ app.scene("main", {
                 this.interactive = true;
                 this.buttonMode = true;
 
-                this.onClick = () => {
+                this.on("pointertap", () => {
                     if (app.ticker.started) {
                         app.resources.soundPause.sound.play();
                         app.resources.soundBGLoop.sound.pause();
 
                         this.sprite.texture = app.resources.gui.textures["unpause-button.png"];
                         app.ticker.stop();
+                        app.ticker.update();
                     } else {
                         app.resources.soundUnpause.sound.play();
                         app.resources.soundBGLoop.sound.resume();
@@ -116,84 +140,75 @@ app.scene("main", {
                         app.ticker.start();
                         this.sprite.texture = app.resources.gui.textures["pause-button.png"];
                     }
-                    app.ticker.update();
-                };
-
-                this.on("click", this.onClick, this);
-                this.on("tap", this.onClick, this);
+                });
             }
-        });
-
-        enemySpawner = app.e({
-            components: ["timeout"],
-
-            ready() {
-                this.currentWave = 0;
-
-                this.spawnNextWave = () => {
-                    this.currentWave++;
-
-                    if (waves[this.currentWave] && waves[this.currentWave].spawn) {
-                        this.lastExistingWave = this.currentWave;
-                        waves[this.currentWave].spawn(this.spawnNextWave, this.currentWave);
-                    }
-                    else {
-                        waves[this.lastExistingWave].spawn(this.spawnNextWave, this.currentWave);
-                    }
-                };
-
-                // Next wave is 1 in this case
-                // There is no wave 0
-                this.spawnNextWave();
-            }
-        });
-
-        app.once("smoothexitmain", (scene) => {
-            app.scene(scene);
-            enemySpawner.queueDestroy();
-
-            for (const layer of ["characters", "arrows", "fireballs"]) {
-                for (const entity of app.stage[layer].children) {
-                    entity.fire("kill");
-                }
-            }
-
-            scoreCounter.velocity.y = -2;
-            pauseButton.velocity.x = 2;
-
-            let t = 0;
-            for (const i of [5, 3, 1, 0, 2, 4]) {
-                statusIndicators[i].timeout(t * 50, "animateout");
-                t++;
-            }
-
-            app.e({
-                components: ["timeout"],
-
-                ready() {
-                    this.timeout(800, "changescene");
-                },
-
-                changescene() {
-                    scoreCounter.queueDestroy();
-                    pauseButton.queueDestroy();
-                    this.queueDestroy();
-
-                    for (const indicator of statusIndicators) {
-                        indicator.queueDestroy();
-                    }
-                }
-            });
         });
     },
 
-    exit() {
+    exit(next) {
+        const addProgressEvent = ga.GameAnalytics.addProgressionEvent;
+        const status = ga.EGAProgressionStatus;
         if (app.score > app.highScore) {
-            ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Complete, "main", null, null, app.score);
+            addProgressEvent(status.Complete, "main", null, null, app.score);
         } else {
-            ga.GameAnalytics.addProgressionEvent(ga.EGAProgressionStatus.Fail, "main", null, null, app.score);
+            addProgressEvent(status.Fail, "main", null, null, app.score);
+        }
+
+        if (app.score > app.highScore) {
+            app.highScore = app.score;
+            window.localStorage.setItem("catacombChaosHighScore", app.highScore);
         }
 
         app.resources.soundBGLoop.sound.stop();
+        app.resources.soundDeath.sound.play();
+
+        for (const entity of app.stage.world.children) {
+            entity.emit("kill");
+        }
+
+        let t = 0;
+        for (const i of [5, 3, 1, 0, 2, 4]) {
+            statusIndicators[i].timeout(t * 50, "animateout");
+            t++;
+        }
+
+        scoreCounter.velocity.y = -2;
+        pauseButton.velocity.x = 2;
+
+        const skull = app.e({
+            components: ["sprite"],
+            parent: app.stage.gui,
+
+            ready() {
+                this.sprite.texture = app.resources.gui.textures["logo-skull.png"];
+                this.y = 32;
+
+                this.alpha = 0;
+                this.fadingIn = true;
+
+                this.timeout(1000, "fadeout");
+
+                this.timer = 0;
+            },
+
+            update(dt) {
+                if (this.fadingIn) {
+                    this.alpha += 0.08 * dt;
+                }
+                else {
+                    this.alpha -= 0.03 * dt;
+
+                    if (this.alpha <= 0) next();
+                }
+
+                this.y = 32 + 3 * Math.sin(this.timer);
+                this.timer += dt / 60 * 2;
+            },
+
+            fadeout() {
+                this.alpha = 1;
+                this.fadingIn = false;
+            }
+        });
     }
 });

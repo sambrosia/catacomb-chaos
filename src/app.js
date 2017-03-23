@@ -43,16 +43,20 @@ resize();
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 app.stage.scale.set(4);
 
-// Some PIXI layers
-app.stage.dungeon =     app.stage.addChildAt(new PIXI.Container(), 0);
-app.stage.characters =  app.stage.addChildAt(new PIXI.Container(), 1);
-app.stage.effects =     app.stage.addChildAt(new PIXI.Container(), 2);
-app.stage.arrows =      app.stage.addChildAt(new PIXI.Container(), 3);
-app.stage.fireballs =   app.stage.addChildAt(new PIXI.Container(), 4);
 
-app.bind("update", () => {
-    // Y-Sort characters
-    app.stage.characters.children.sort((a, b) => { return a.y - b.y; });
+// Some PIXI layers
+app.stage.dungeon = app.stage.addChildAt(new PIXI.Container(), 0);
+app.stage.world = app.stage.addChildAt(new PIXI.Container(), 1);
+app.stage.effects = app.stage.addChildAt(new PIXI.Container(), 2);
+app.stage.gui = app.stage.addChildAt(new PIXI.Container(), 3);
+
+app.stage.dungeon.interactiveChildren = false;
+app.stage.world.interactiveChildren = false;
+app.stage.effects.interactiveChildren = false;
+
+// Y-Sort characters
+app.event.on("update", () => {
+    app.stage.world.children.sort((a, b) => { return a.y - b.y; });
 });
 
 app.score = 0;

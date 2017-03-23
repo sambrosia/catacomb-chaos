@@ -9,7 +9,7 @@ const particleGraphics = new PIXI.Graphics()
 const particleTexture = app.renderer.generateTexture(particleGraphics);
 
 export const poofTemplate = {
-    components: ["emitter", "timeout"],
+    components: ["emitter"],
     parent: app.stage.effects,
 
     ready() {
@@ -34,7 +34,7 @@ export const poofTemplate = {
 };
 
 export const sparkTemplate = {
-    components: ["emitter", "timeout"],
+    components: ["emitter"],
 
     ready() {
         this.emitOptions = {

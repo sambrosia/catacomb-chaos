@@ -16,7 +16,7 @@ app.scene("menu", {
         for (const tex of ["skull", "catacomb", "chaos"]) {
             logo.push(app.e({
                 components: ["sprite"],
-                parent: app.stage,
+                parent: app.stage.gui,
 
                 ready() {
                     this.sprite.texture = app.resources.gui.textures["logo-" + tex + ".png"];
@@ -25,14 +25,14 @@ app.scene("menu", {
         }
 
         let t = 0;
-        logo[0].bind("update", (dt) => {
+        logo[0].on("update", (dt) => {
             logo[0].y = 3 * Math.sin(t);
             t += dt / 60 * 2;
         });
 
         playButton = app.e({
             components: ["sprite"],
-            parent: app.stage,
+            parent: app.stage.gui,
 
             ready() {
                 this.sprite.texture = app.resources.gui.textures["play-button.png"];
@@ -44,21 +44,18 @@ app.scene("menu", {
 
                 this.hitArea = new PIXI.RoundedRectangle(-13, -13, 26, 27, 6);
 
-                this.onClick = () => {
+                this.on("pointertap", () => {
                     // TODO: detect whether user tapped or clicked so we can
                     // show appropriate graphic on first tutorial wave
                     app.resources.soundButton.sound.play();
                     app.scene("main");
-                };
-
-                this.on("click", this.onClick);
-                this.on("tap", this.onClick);
+                });
             }
         });
 
         optionsButton = app.e({
             components: ["sprite"],
-            parent: app.stage,
+            parent: app.stage.gui,
 
             ready() {
                 this.sprite.texture = app.resources.gui.textures["fullscreen-button.png"];
@@ -70,22 +67,13 @@ app.scene("menu", {
 
                 this.hitArea = new PIXI.Circle(1, 1, 14);
 
-                this.onClick = () => {
+                this.on("pointertap", () => {
                     app.resources.soundButton.sound.play();
+                    // TODO: Make this a toggle
                     goFullscreen(app.view);
-                };
-
-                this.on("click", this.onClick);
-                this.on("tap", this.onClick);
+                });
             }
         });
-    },
-
-    // TODO: Animate transition
-    exit() {
-        for (const l of logo) l.queueDestroy();
-        playButton.queueDestroy();
-        optionsButton.queueDestroy();
     }
 });
 

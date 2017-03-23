@@ -4,11 +4,12 @@ import { app } from "./app";
 import { fireTexture } from "./fireball";
 
 export const explosionTemplate = {
-    components: ["emitter", "collision", "timeout"],
+    components: ["emitter", "collision"],
     parent: app.stage.effects,
 
     ready() {
         this.r = 10;
+        this.collisionGroups.add("enemy").add("arrow");
 
         this.emitOptions = {
             texture: fireTexture,
@@ -51,7 +52,7 @@ export const explosionTemplate = {
 
     // TODO: Award extra points for each enemy caught in single explosion
     collided(other) {
-        other.fire("hitbyexplosion", this);
+        other.emit("hitbyexplosion", this);
     },
 
     kill() {

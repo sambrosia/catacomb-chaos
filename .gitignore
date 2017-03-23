@@ -1,4 +1,4 @@
-/node_modules
-unpacked/
+node_modules
+unpacked
 *.kra~
 *.png~

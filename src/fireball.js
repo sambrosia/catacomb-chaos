@@ -83,8 +83,11 @@ export const fireballTemplate = {
     },
 
     kill() {
-        const explosion = app.e(explosionTemplate);
-        explosion.position = this.position;
+        if (!this.exploded) {
+            const explosion = app.e(explosionTemplate);
+            explosion.position = this.position;
+            this.exploded = true;
+        }
         this.queueDestroy();
     },
 

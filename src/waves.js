@@ -71,9 +71,11 @@ export const waves = {
                 skeleton.y = Math.random() * (24 - 16) + 16;
             }
 
-            const archer = app.e(archerTemplate);
-            archer.x = Math.random() * (100 - 20) + 20;
-            archer.y = Math.random() * (48 - 32) + 32;
+            if (app.groups.archer.size < 3) {
+                const archer = app.e(archerTemplate);
+                archer.x = Math.random() * (100 - 20) + 20;
+                archer.y = Math.random() * (48 - 32) + 32;
+            }
 
             app.e({
                 ready() {

@@ -44,7 +44,7 @@ const arrowTemplate = {
 
 export const archerTemplate = {
     components: ["animatedsprite", "collision"],
-    groups: ["enemy"],
+    groups: ["enemy", "archer"],
     parent: app.stage.world,
 
     ready() {

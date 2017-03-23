@@ -2,6 +2,7 @@ import * as fae from "fae";
 import { app } from "./app";
 
 import { skeletonTemplate } from "./skeleton";
+import { ghostSkeletonTemplate } from "./ghost-skeleton";
 import { archerTemplate } from "./archer";
 
 export const waves = {
@@ -62,9 +63,10 @@ export const waves = {
         spawn(next, currentWave) {
             let n = 4;
             if (currentWave >= 10) n = 5;
-            else if (currentWave >= 15) n = 6;
+            if (currentWave >= 15) n = 6;
             for (let i = 0; i < n; i++) {
-                const skeleton = app.e(skeletonTemplate);
+                const template = i < 4 ? skeletonTemplate : ghostSkeletonTemplate;
+                const skeleton = app.e(template);
                 skeleton.x = Math.random() * (100 - 20) + 20;
                 skeleton.y = Math.random() * (24 - 16) + 16;
             }

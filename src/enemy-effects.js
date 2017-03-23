@@ -5,7 +5,6 @@ const particleGraphics = new PIXI.Graphics()
 .beginFill(0x601ac9)
 .drawRect(0,0,2,2)
 .endFill();
-
 const particleTexture = app.renderer.generateTexture(particleGraphics);
 
 export const poofTemplate = {
@@ -51,5 +50,23 @@ export const sparkTemplate = {
 
     kill() {
         this.queueDestroy();
+    }
+};
+
+export const ghostlyTemplate = {
+    components: ["emitter"],
+
+    ready() {
+        this.emitOptions = {
+            texture: particleTexture,
+            lifetime: 400,
+            period: 100,
+            area: 2,
+            scale: 4,
+            scaleRandom: 1,
+            endScale: 0.01,
+            rotationRandom: 2,
+            velocityRandom: new fae.Vector(0.2)
+        };
     }
 };

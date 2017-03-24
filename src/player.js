@@ -35,22 +35,22 @@ export const playerTemplate = {
         this.sprite.loopAnimation("idle");
 
         this.shootFireball = (event) => {
-            if (app.ticker.started) {
-                if (this.mana >= 1) {
-                    this.mana--;
-                    this.manaTimer = this.manaTimerMax;
+            // Don't shoot if clicking a button or paused
+            if (event.target || !app.ticker.started) return;
 
-                    const fireball = app.e(fireballTemplate);
-                    fireball.position = new fae.Vector(this.x + Math.random(), this.y - 12);
-                    fireball.onPointerDown(event);
+            if (this.mana >= 1) {
+                this.mana--;
+                this.manaTimer = this.manaTimerMax;
 
-                    this.scale.x = event.data.getLocalPosition(app.stage).x < this.x ? -1 : 1;
-                }
+                const fireball = app.e(fireballTemplate);
+                fireball.position = new fae.Vector(this.x + Math.random(), this.y - 12);
+                fireball.onPointerDown(event);
+
+                this.scale.x = event.data.getLocalPosition(app.stage).x < this.x ? -1 : 1;
             }
         };
 
-        // TODO: only fire if not clicking on gui
-        app.input.on("pointerdown", this.shootFireball, this);
+        app.input.on("pointerdown", this.shootFireball);
     },
 
     update() {

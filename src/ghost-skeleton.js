@@ -88,7 +88,7 @@ export const ghostSkeletonTemplate = {
             this.ghost.queueDestroy();
         }
         else if (this.hp <= 0) {
-            app.score += 10;
+            app.score += 20;
             this.emit("kill");
         }
     },

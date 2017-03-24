@@ -1,9 +1,11 @@
 import * as fae from "fae";
 import ga from "gameanalytics";
 
+import Purse from "./purse";
+
 // Configure analytics
-ga.logging.GALogger.debugEnabled = true;
-ga.GameAnalytics.setEnabledInfoLog(true);
+ga.logging.GALogger.debugEnabled = false;
+ga.GameAnalytics.setEnabledInfoLog(false);
 ga.GameAnalytics.setEnabledVerboseLog(false);
 // ga.GameAnalytics.setEnabledManualSessionHandling(true);
 
@@ -22,6 +24,7 @@ export const app = new fae.Application(480, 640, {
 });
 
 // Set up view stretching
+// TODO: Expand to fill vertical space
 function resize() {
     const parentWidth = app.view.parentElement.clientWidth;
     const parentHeight = app.view.parentElement.clientHeight;
@@ -43,7 +46,6 @@ resize();
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 app.stage.scale.set(4);
 
-
 // Some PIXI layers
 app.stage.dungeon = app.stage.addChildAt(new PIXI.Container(), 0);
 app.stage.world = app.stage.addChildAt(new PIXI.Container(), 1);
@@ -61,3 +63,4 @@ app.event.on("update", () => {
 
 app.score = 0;
 app.highScore = Number(window.localStorage.getItem("catacombChaosHighScore") || 0);
+app.purse = new Purse(app);

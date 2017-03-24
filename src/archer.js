@@ -48,7 +48,7 @@ export const archerTemplate = {
     parent: app.stage.world,
 
     ready() {
-        this.sleeping = true;
+        this.awake = false;
 
         const sparks = app.e(sparkTemplate);
         this.addChild(sparks);
@@ -62,7 +62,7 @@ export const archerTemplate = {
         const smoke = app.e(poofTemplate);
         smoke.position = this.position;
 
-        this.sleeping = false;
+        this.awake = true;
 
         this.scale.x = (this.x < app.player.x) ? 1 : -1;
         this.sprite.anchor.set(0.5, 1);

@@ -78,7 +78,7 @@ export const fireballTemplate = {
     },
 
     landedhit() {
-        this.sleeping = true;
+        this.awake = false;
         this.emit("kill");
     },
 

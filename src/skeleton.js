@@ -9,7 +9,7 @@ export const skeletonTemplate = {
     parent: app.stage.world,
 
     ready() {
-        this.sleeping = true;
+        this.awake = false;
         this.steer = false;
 
         const sparks = app.e(sparkTemplate);
@@ -24,7 +24,7 @@ export const skeletonTemplate = {
         const smoke = app.e(poofTemplate);
         smoke.position = this.position;
 
-        this.sleeping = false;
+        this.awake = true;
         this.steer = true;
 
         this.sprite.anchor.set(0.5, 1);

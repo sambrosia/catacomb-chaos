@@ -63,7 +63,7 @@ export const waves = {
         spawn(next, currentWave) {
             let n = 4;
             if (currentWave >= 10) n = 5;
-            if (currentWave >= 15) n = 6;
+            if (currentWave >= 20) n = 6;
             for (let i = 0; i < n; i++) {
                 const template = i < 4 ? skeletonTemplate : ghostSkeletonTemplate;
                 const skeleton = app.e(template);

@@ -62,10 +62,14 @@ export const waves = {
     5: {
         spawn(next, currentWave) {
             let n = 4;
-            if (currentWave >= 10) n = 5;
-            if (currentWave >= 20) n = 6;
+
+            let ghostThreshold = n;
+            if (currentWave >= 10) ghostThreshold = 3;
+            if (currentWave >= 20) ghostThreshold = 2;
+            if (currentWave >= 40) ghostThreshold = 0;
+
             for (let i = 0; i < n; i++) {
-                const template = i < 4 ? skeletonTemplate : ghostSkeletonTemplate;
+                const template = i < ghostThreshold ? skeletonTemplate : ghostSkeletonTemplate;
                 const skeleton = app.e(template);
                 skeleton.x = Math.random() * (100 - 20) + 20;
                 skeleton.y = Math.random() * (24 - 16) + 16;

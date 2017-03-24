@@ -31,7 +31,7 @@ app.scene("menu", {
         });
 
         playButton = app.e({
-            components: ["sprite"],
+            components: ["sprite", "motion"],
             parent: app.stage.gui,
 
             ready() {
@@ -54,7 +54,7 @@ app.scene("menu", {
         });
 
         optionsButton = app.e({
-            components: ["sprite"],
+            components: ["sprite", "motion"],
             parent: app.stage.gui,
 
             ready() {
@@ -74,6 +74,31 @@ app.scene("menu", {
                 });
             }
         });
+
+        // TODO: Button for Info/credit screen
+
+    },
+
+    exit(next) {
+        playButton.interactive = false;
+        playButton.on("update", (dt) => {
+            playButton.velocity.y += 0.3 * dt;
+        });
+
+        optionsButton.timeout(100, () => {
+            optionsButton.interactive = false;
+            optionsButton.on("update", (dt) => {
+                optionsButton.velocity.y += 0.3 * dt;
+            });
+        });
+
+        for (let i = 0; i < logo.length; i++) {
+            logo[i].on("update", (dt) => {
+                logo[i].alpha -= 0.03 * (1 + i) * dt;
+            });
+        }
+
+        playButton.timeout(600, next);
     }
 });
 

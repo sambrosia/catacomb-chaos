@@ -1,12 +1,13 @@
 import * as fae from "fae";
 import { app } from "./app";
 
-let skull, score, highScore, playButton;
+let score, highScore, playButton;
 
 app.scene("gameover", {
     enter() {
         // TODO: Fix text not centered
         score = app.e({
+            components: ["motion"],
             parent : app.stage.gui,
 
             ready() {
@@ -37,6 +38,7 @@ app.scene("gameover", {
 
         // TODO: Show old highscore if new score beats it
         highScore = app.e({
+            components: ["motion"],
             parent : app.stage.gui,
 
             ready() {
@@ -70,7 +72,7 @@ app.scene("gameover", {
         });
 
         playButton = app.e({
-            components: ["sprite"],
+            components: ["sprite", "motion"],
             parent: app.stage.gui,
 
             ready() {
@@ -105,5 +107,22 @@ app.scene("gameover", {
                 this.interactive = true;
             }
         });
+    },
+
+    exit(next) {
+        playButton.interactive = false;
+        playButton.on("update", (dt) => {
+            playButton.velocity.y += 0.5 * dt;
+        });
+
+        score.on("update", (dt) => {
+            score.velocity.x -= 0.3 * dt;
+        });
+
+        highScore.on("update", (dt) => {
+            highScore.velocity.x += 0.6 * dt;
+        });
+
+        playButton.timeout(400, next);
     }
 });

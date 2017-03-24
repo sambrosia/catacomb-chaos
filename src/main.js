@@ -13,12 +13,9 @@ app.scene("main", {
 
         app.resources.soundBGLoop.sound.play();
 
-        // TODO: Animate entrance
-
-        app.score = 0;
-
         player = app.e(playerTemplate);
         app.player = player;
+        app.score = 0;
 
         const enemySpawner = app.e({
             ready() {
@@ -42,7 +39,7 @@ app.scene("main", {
 
                 // Next wave is 1 in this case
                 // There is no wave 0
-                this.spawnNextWave();
+                this.timeout(500, this.spawnNextWave);
             }
         });
 
@@ -57,9 +54,13 @@ app.scene("main", {
 
                 this.text.tint = 0xccd5ff;
                 this.y = -2;
+                this.alpha = 0;
             },
 
-            update() {
+            update(dt) {
+                if (this.alpha < 1) this.alpha += 0.05 * dt;
+                else this.alpha = 1;
+
                 this.text.text = app.score;
                 this.stroke
                 .clear()
@@ -71,48 +72,6 @@ app.scene("main", {
             }
         });
 
-        // TODO: Clean this mess up
-        statusIndicators = [];
-        for (let i = 0; i < 3; i++) {
-            statusIndicators.push(app.e({
-                components: ["sprite", "motion"],
-                parent: app.stage.gui,
-
-                ready() {
-                    this.sprite.texture = app.resources.gui.textures["full-crystal.png"];
-                    this.position = new fae.Vector(15 + (i * 12), 129);
-                },
-
-                update() {
-                    let tex = (player.mana < i + 1) ? "empty" : "full";
-                    this.sprite.texture = app.resources.gui.textures[tex + "-crystal.png"];
-                },
-
-                animateout() {
-                    this.velocity.y = 2;
-                }
-            }));
-
-            statusIndicators.push(app.e({
-                components: ["sprite", "motion"],
-                parent: app.stage.gui,
-
-                ready() {
-                    this.sprite.texture = app.resources.gui.textures["full-heart.png"];
-                    this.position = new fae.Vector(15 + (i * 12), 141);
-                },
-
-                update() {
-                    let tex = (player.health < i + 1) ? "empty" : "full";
-                    this.sprite.texture = app.resources.gui.textures[tex + "-heart.png"];
-                },
-
-                animateout() {
-                    this.velocity.y = 2;
-                }
-            }));
-        }
-
         pauseButton = app.e({
             components: ["sprite", "motion"],
             parent: app.stage.gui,
@@ -121,6 +80,7 @@ app.scene("main", {
             ready() {
                 this.sprite.texture = app.resources.gui.textures["pause-button.png"];
                 this.position = new fae.Vector(76, 130);
+                this.alpha = 0;
 
                 this.interactive = true;
                 this.buttonMode = true;
@@ -141,8 +101,63 @@ app.scene("main", {
                         this.sprite.texture = app.resources.gui.textures["pause-button.png"];
                     }
                 });
+            },
+
+            update(dt) {
+                if (this.alpha < 1) this.alpha += 0.1 * dt;
+                else this.alpha = 1;
             }
         });
+
+        // TODO: Clean this mess up
+        statusIndicators = [];
+        for (let i = 0; i < 3; i++) {
+            statusIndicators.push(app.e({
+                components: ["sprite", "motion"],
+                parent: app.stage.gui,
+
+                ready() {
+                    this.sprite.texture = app.resources.gui.textures["full-crystal.png"];
+                    this.position = new fae.Vector(15 + (i * 12), 129);
+                    this.alpha = 0;
+                },
+
+                update(dt) {
+                    if (this.alpha < 1) this.alpha += 0.05 * dt;
+                    else this.alpha = 1;
+
+                    let tex = (player.mana < i + 1) ? "empty" : "full";
+                    this.sprite.texture = app.resources.gui.textures[tex + "-crystal.png"];
+                },
+
+                animateout() {
+                    this.velocity.y = 2;
+                }
+            }));
+
+            statusIndicators.push(app.e({
+                components: ["sprite", "motion"],
+                parent: app.stage.gui,
+
+                ready() {
+                    this.sprite.texture = app.resources.gui.textures["full-heart.png"];
+                    this.position = new fae.Vector(15 + (i * 12), 141);
+                    this.alpha = 0;
+                },
+
+                update(dt) {
+                    if (this.alpha < 1) this.alpha += 0.1 * dt;
+                    else this.alpha = 1;
+
+                    let tex = (player.health < i + 1) ? "empty" : "full";
+                    this.sprite.texture = app.resources.gui.textures[tex + "-heart.png"];
+                },
+
+                animateout() {
+                    this.velocity.y = 2;
+                }
+            }));
+        }
     },
 
     exit(next) {

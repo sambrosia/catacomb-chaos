@@ -5,7 +5,6 @@ let score, highScore, playButton;
 
 app.scene("gameover", {
     enter() {
-        // TODO: Fix text not centered
         score = app.e({
             components: ["motion"],
             parent : app.stage.gui,
@@ -22,10 +21,10 @@ app.scene("gameover", {
                 .drawRect(-2, 12, this.text.textWidth + 4, this.text.textHeight - 28)
                 .endFill();
 
-                this.position = new fae.Vector(60 - this.width/2, 24);
+                this.position = new fae.Vector(60 - this.text.textWidth/2, 24);
 
                 this.alpha = 0;
-                this.fade = true
+                this.fade = true;
             },
 
             update(dt) {
@@ -53,7 +52,7 @@ app.scene("gameover", {
                 .drawRect(-1, 6, this.text.textWidth + 2, this.text.textHeight - 14)
                 .endFill();
 
-                this.position = new fae.Vector(60 - this.width/2, 52);
+                this.position = new fae.Vector(60 - this.text.textWidth/2, 52);
 
                 this.alpha = 0;
                 this.timeout(300, "fadein");

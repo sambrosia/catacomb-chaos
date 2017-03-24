@@ -26,7 +26,6 @@ const arrowTemplate = {
     },
 
     hitbyfireball() {
-        // TODO: Effect for this
         app.score += 5;
         this.emit("kill");
     },

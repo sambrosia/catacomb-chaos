@@ -50,7 +50,6 @@ export const explosionTemplate = {
         this.timeout(150, "kill");
     },
 
-    // TODO: Award extra points for each enemy caught in single explosion
     collided(other) {
         other.emit("hitbyexplosion", this);
     },

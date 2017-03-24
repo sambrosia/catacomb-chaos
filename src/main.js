@@ -68,7 +68,7 @@ app.scene("main", {
                 .drawRect(-1, 6, this.text.textWidth + 2, this.text.textHeight - 14)
                 .endFill();
 
-                this.x = (-this.parent.x + 60) - this.width/2;
+                this.x = 60 - this.text.textWidth/2;
             }
         });
 

@@ -51,6 +51,13 @@ export const playerTemplate = {
         };
 
         app.input.on("pointerdown", this.shootFireball);
+        
+        // TODO: Don't forget to remove this debug thing
+        app.input.on("keydown", (key) => {
+            if (key == "k") {
+                this.health = 0;
+            }
+        });
     },
 
     update() {

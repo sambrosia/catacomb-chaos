@@ -169,10 +169,6 @@ app.scene("main", {
 
                     let tex = (player.mana < i + 1) ? "empty" : "full";
                     this.sprite.texture = guiTex[tex + "-crystal.png"];
-                },
-
-                animateout() {
-                    this.velocity.y = 2;
                 }
             }));
 
@@ -192,10 +188,6 @@ app.scene("main", {
 
                     let tex = (player.health < i + 1) ? "empty" : "full";
                     this.sprite.texture = guiTex[tex + "-heart.png"];
-                },
-
-                animateout() {
-                    this.velocity.y = 2;
                 }
             }));
         }
@@ -224,14 +216,24 @@ app.scene("main", {
             entity.emit("kill");
         }
 
+        const animateOut = (entity) => {
+            entity.on("update", (dt) => {
+                entity.velocity.y += 0.2 * dt;
+            });
+        };
+
         let t = 0;
         for (const i of [5, 3, 1, 0, 2, 4]) {
-            statusIndicators[i].timeout(t * 50, "animateout");
+            statusIndicators[i].timeout(t * 50, animateOut, statusIndicators[i]);
             t++;
         }
 
-        scoreCounter.velocity.y = -2;
-        pauseButton.velocity.x = 2;
+        scoreCounter.on("update", (dt) => {
+            scoreCounter.velocity.y -= 0.2 * dt;
+        });
+        goldCounter.on("update", (dt) => {
+            goldCounter.velocity.y += 0.2 * dt;
+        });
 
         const skull = app.e({
             components: ["sprite"],

@@ -69,8 +69,7 @@ app.scene("menu", {
 
                 this.on("pointertap", () => {
                     app.resources.soundButton.sound.play();
-                    // TODO: Make this a toggle
-                    goFullscreen(app.view);
+                    toggleFullscreen(app.view);
                 });
             }
         });
@@ -102,8 +101,13 @@ app.scene("menu", {
     }
 });
 
-function goFullscreen(element) {
-    if (element.requestFullscreen) element.requestFullscreen();
+function toggleFullscreen(element) {
+    if (document.fullscreenElement == element) document.exitFullscreen();
+    else if (document.webkitFullscreenElement == element) document.webkitExitFullscreen();
+    else if (document.mozRequestFullscreen == element) document.mozExitFullscreen();
+    else if (document.msRequestFullscreen == element) document.msExitFullscreen();
+
+    else if (element.requestFullscreen) element.requestFullscreen();
     else if (element.webkitRequestFullscreen) element.webkitRequestFullscreen();
     else if (element.mozRequestFullscreen) element.mozRequestFullscreen();
     else if (element.msRequestFullscreen) element.msRequestFullscreen();

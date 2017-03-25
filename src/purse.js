@@ -8,8 +8,14 @@ export default class Purse {
 
         // TODO: Don't forget to remove this debug thing
         app.input.on("keydown", (key) => {
-            if (key == " ") {
+            if (key == "0") {
                 this.gold = 0;
+            }
+            else if (key == "1") {
+                this.addGold(1);
+            }
+            else if (key == "2") {
+                this.addGold(10);
             }
         });
     }

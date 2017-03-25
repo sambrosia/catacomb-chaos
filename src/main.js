@@ -84,7 +84,7 @@ app.scene("main", {
                 this.stroke = this.addChild(new PIXI.Graphics());
                 this.text = new PIXI.extras.BitmapText("", {font: "16px Sharp-Retro"});
                 this.addChild(this.text);
-                this.text.tint = 0xfbae2b;
+                this.text.tint = 0xFFCE7A;
 
                 this.stroke.y = -10;
                 this.text.y = this.stroke.y;
@@ -105,9 +105,26 @@ app.scene("main", {
                 this.text.text = app.purse.gold;
                 this.stroke
                 .clear()
-                .beginFill(0xef9323)
+                .beginFill(0xfbae2b)
                 .drawRect(-1, 6, this.text.textWidth + 2, this.text.textHeight - 14)
                 .endFill();
+
+                if (app.purse.gold < 10) {
+                    this.icon.sprite.texture = guiTex["purse-empty.png"];
+                    this.x = 76;
+                }
+                else if (app.purse.gold < 30) {
+                    this.icon.sprite.texture = guiTex["purse-middling.png"];
+                    this.x = 78;
+                }
+                else if (app.purse.gold < 50) {
+                    this.icon.sprite.texture = guiTex["purse-full.png"];
+                    this.x = 80;
+                }
+                else {
+                    this.icon.sprite.texture = guiTex["purse-overflowing.png"];
+                    this.x = 84;
+                }
             }
         });
 

@@ -84,7 +84,7 @@ app.scene("main", {
                 this.stroke = this.addChild(new PIXI.Graphics());
                 this.text = new PIXI.extras.BitmapText("", {font: "16px Sharp-Retro"});
                 this.addChild(this.text);
-                this.text.tint = 0xFFCE7A;
+                this.text.tint = 0xffce7a;
 
                 this.stroke.y = -10;
                 this.text.y = this.stroke.y;

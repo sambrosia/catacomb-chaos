@@ -17,6 +17,9 @@ export default class Purse {
             else if (key == "2") {
                 this.addGold(10);
             }
+            else if (key == "3") {
+                this.addGold(100);
+            }
         });
     }
 

@@ -5,7 +5,9 @@ import { app } from "./app";
 import { playerTemplate } from "./player";
 import { waves } from "./waves";
 
-let player, scoreCounter, statusIndicators, pauseButton;
+let guiTex;
+
+let player, scoreCounter, goldCounter, pauseButton, statusIndicators;
 
 app.scene("main", {
     enter() {
@@ -16,6 +18,8 @@ app.scene("main", {
         player = app.e(playerTemplate);
         app.player = player;
         app.score = 0;
+
+        guiTex = app.resources.gui.textures;
 
         const enemySpawner = app.e({
             ready() {
@@ -72,13 +76,50 @@ app.scene("main", {
             }
         });
 
+        goldCounter = app.e({
+            components: ["motion"],
+            parent: app.stage.gui,
+
+            ready() {
+                this.stroke = this.addChild(new PIXI.Graphics());
+                this.text = new PIXI.extras.BitmapText("", {font: "16px Sharp-Retro"});
+                this.addChild(this.text);
+                this.text.tint = 0xfbae2b;
+
+                this.stroke.y = -10;
+                this.text.y = this.stroke.y;
+
+                this.icon = app.e({
+                    components: ["sprite"],
+                    ready() {
+                        this.sprite.texture = guiTex["purse-overflowing.png"];
+                        this.sprite.anchor.set(1, 0.5);
+                    }
+                });
+                this.addChild(this.icon);
+
+                this.position = new fae.Vector(80, 142);
+            },
+
+            update(dt) {
+                this.text.text = app.purse.gold;
+                this.stroke
+                .clear()
+                .beginFill(0xef9323)
+                .drawRect(-1, 6, this.text.textWidth + 2, this.text.textHeight - 14)
+                .endFill();
+            }
+        });
+
+        // TODO: Rework pause button to be nicer and out of the way
         pauseButton = app.e({
             components: ["sprite", "motion"],
             parent: app.stage.gui,
 
-
             ready() {
-                this.sprite.texture = app.resources.gui.textures["pause-button.png"];
+                this.visible = false;
+
+                this.sprite.texture = guiTex["pause-button.png"];
                 this.position = new fae.Vector(76, 130);
                 this.alpha = 0;
 
@@ -90,7 +131,7 @@ app.scene("main", {
                         app.resources.soundPause.sound.play();
                         app.resources.soundBGLoop.sound.pause();
 
-                        this.sprite.texture = app.resources.gui.textures["unpause-button.png"];
+                        this.sprite.texture = guiTex["unpause-button.png"];
                         app.ticker.stop();
                         app.ticker.update();
                     } else {
@@ -98,7 +139,7 @@ app.scene("main", {
                         app.resources.soundBGLoop.sound.resume();
 
                         app.ticker.start();
-                        this.sprite.texture = app.resources.gui.textures["pause-button.png"];
+                        this.sprite.texture = guiTex["pause-button.png"];
                     }
                 });
             },
@@ -117,7 +158,7 @@ app.scene("main", {
                 parent: app.stage.gui,
 
                 ready() {
-                    this.sprite.texture = app.resources.gui.textures["full-crystal.png"];
+                    this.sprite.texture = guiTex["full-crystal.png"];
                     this.position = new fae.Vector(15 + (i * 12), 129);
                     this.alpha = 0;
                 },
@@ -127,7 +168,7 @@ app.scene("main", {
                     else this.alpha = 1;
 
                     let tex = (player.mana < i + 1) ? "empty" : "full";
-                    this.sprite.texture = app.resources.gui.textures[tex + "-crystal.png"];
+                    this.sprite.texture = guiTex[tex + "-crystal.png"];
                 },
 
                 animateout() {
@@ -140,7 +181,7 @@ app.scene("main", {
                 parent: app.stage.gui,
 
                 ready() {
-                    this.sprite.texture = app.resources.gui.textures["full-heart.png"];
+                    this.sprite.texture = guiTex["full-heart.png"];
                     this.position = new fae.Vector(15 + (i * 12), 141);
                     this.alpha = 0;
                 },
@@ -150,7 +191,7 @@ app.scene("main", {
                     else this.alpha = 1;
 
                     let tex = (player.health < i + 1) ? "empty" : "full";
-                    this.sprite.texture = app.resources.gui.textures[tex + "-heart.png"];
+                    this.sprite.texture = guiTex[tex + "-heart.png"];
                 },
 
                 animateout() {
@@ -197,7 +238,7 @@ app.scene("main", {
             parent: app.stage.gui,
 
             ready() {
-                this.sprite.texture = app.resources.gui.textures["logo-skull.png"];
+                this.sprite.texture = guiTex["logo-skull.png"];
                 this.y = 32;
 
                 this.alpha = 0;

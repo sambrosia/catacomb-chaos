@@ -124,6 +124,13 @@ export const archerTemplate = {
     },
 
     hitbyexplosion() {
+        let bounty = 0;
+        if (Math.random() < 0.1) bounty = 2;
+        if (Math.random() < 0.01) bounty = 10;
+
+        // TODO: Animate coin(s) coming out of skeleton
+
+        app.purse.addGold(bounty);
         app.score += 10;
         this.emit("kill");
     },

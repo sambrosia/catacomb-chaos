@@ -25,6 +25,7 @@ app.scene("loading", {
         .add("soundExplosion2", "sounds/explosion2.mp3")
         .add("soundExplosion3", "sounds/explosion3.mp3")
         .add("soundExplosion4", "sounds/explosion4.mp3")
+        .add("soundCoin", "sounds/coin.mp3")
 
         .add("soundArrowBurn", "sounds/arrowburn.mp3")
         .add("soundArrowShoot", "sounds/arrowshoot.mp3")

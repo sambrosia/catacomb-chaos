@@ -10,7 +10,8 @@ app.scene("loading", {
 
         app.loader.baseUrl = "assets";
         app.loader
-        .add("sharpRetroFont", "fonts/Sharp-Retro.xml")
+        .add("fontSharpRetro", "fonts/Sharp-Retro.xml")
+        .add("fontMinimal3x5", "fonts/Minimal3x5.fnt")
         .add("gui", "sprites/gui/spritesheet.json")
 
         .add("dungeon", "sprites/dungeon/spritesheet.json")

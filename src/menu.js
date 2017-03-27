@@ -3,6 +3,7 @@ import { app } from "./app";
 
 import { makeDungeon } from "./dungeon";
 import "./main";
+import "./settings";
 
 let logo, playButton, optionsButton;
 
@@ -58,6 +59,7 @@ app.scene("menu", {
             parent: app.stage.gui,
 
             ready() {
+                // TODO: Change to settings texture
                 this.sprite.texture = app.resources.gui.textures["fullscreen-button.png"];
                 this.sprite.anchor.set(0.5);
                 this.position = new fae.Vector(80, 136);
@@ -69,7 +71,7 @@ app.scene("menu", {
 
                 this.on("pointertap", () => {
                     app.resources.soundButton.sound.play();
-                    toggleFullscreen(app.view);
+                    app.scene("settings");
                 });
             }
         });

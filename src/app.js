@@ -1,6 +1,7 @@
 import * as fae from "fae";
 import ga from "gameanalytics";
 
+import { smallText, mediumText } from "./text";
 import Purse from "./purse";
 
 // Configure analytics
@@ -22,6 +23,10 @@ export const app = new fae.Application(480, 640, {
     view: document.getElementById("catacomb-chaos-canvas"),
     resolution: 1
 });
+
+// Load custom components
+app.c("smallText", smallText);
+app.c("mediumText", mediumText);
 
 // Set up view stretching
 // TODO: Expand to fill vertical space

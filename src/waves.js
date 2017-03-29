@@ -34,39 +34,14 @@ export const waves = {
         }
     },
 
-    4: {
-        spawn(next) {
-            // Spawn them together
-            for (let i = 0; i < 3; i++) {
-                const skeleton = app.e(skeletonTemplate);
-                skeleton.x = Math.random() * (100 - 20) + 20;
-                skeleton.y = Math.random() * (24 - 16) + 16;
-            }
-
-            const archer = app.e(archerTemplate);
-            archer.x = 90;
-            archer.y = 40;
-
-            const nextIfCleared = () => {
-                if (app.groups.enemy.size === 0) {
-                    app.event.removeListener("entitydestroyed", nextIfCleared);
-                    next();
-                }
-            };
-
-            app.event.on("entitydestroyed", nextIfCleared);
-        }
-    },
-
     // Normal waves
-    5: {
+    4: {
         spawn(next, currentWave) {
             let n = 4;
-
             let ghostThreshold = n;
-            if (currentWave >= 10) ghostThreshold = 3;
-            if (currentWave >= 20) ghostThreshold = 2;
-            if (currentWave >= 40) ghostThreshold = 0;
+
+            if (currentWave >= 6) ghostThreshold--;
+            if (currentWave >= 9) ghostThreshold--;
 
             for (let i = 0; i < n; i++) {
                 const template = i < ghostThreshold ? skeletonTemplate : ghostSkeletonTemplate;

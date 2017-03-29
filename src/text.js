@@ -50,3 +50,36 @@ export const mediumText = {
         }
     }
 };
+
+export const largeText = {
+    attach() {
+        this.stroke = this.addChild(new PIXI.Graphics());
+        this.text = new PIXI.extras.BitmapText("", {font: "32px Sharp-Retro"});
+        this.addChild(this.text);
+
+        this.text.tint = 0xccd5ff;
+        this.stroke.color = 0x505ea1;
+    },
+
+    detach() {
+        this.stroke.destroy();
+        this.text.destroy();
+        delete this.stroke;
+        delete this.text;
+    },
+
+    properties: {
+        setText(text) {
+            this.text.text = text;
+            this.drawStroke();
+        },
+
+        drawStroke() {
+            this.stroke
+            .clear()
+            .beginFill(this.stroke.color)
+            .drawRect(-2, 12, this.text.textWidth + 4, this.text.textHeight - 28)
+            .endFill();
+        }
+    }
+};

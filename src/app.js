@@ -1,7 +1,7 @@
 import * as fae from "fae";
 import ga from "gameanalytics";
 
-import { smallText, mediumText } from "./text";
+import { smallText, mediumText, largeText } from "./text";
 import Purse from "./purse";
 
 // Configure analytics
@@ -27,6 +27,7 @@ export const app = new fae.Application(480, 640, {
 // Load custom components
 app.c("smallText", smallText);
 app.c("mediumText", mediumText);
+app.c("largeText", largeText);
 
 // Set up view stretching
 // TODO: Expand to fill vertical space

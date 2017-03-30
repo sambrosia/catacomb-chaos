@@ -38,16 +38,24 @@ export const playerTemplate = {
             // Don't shoot if clicking a button or paused
             if (event.target || !app.ticker.started) return;
 
-            if (this.mana >= 1) {
-                this.mana--;
-                this.manaTimer = this.manaTimerMax;
-
-                const fireball = app.e(fireballTemplate);
-                fireball.position = new fae.Vector(this.x + Math.random(), this.y - 12);
-                fireball.onPointerDown(event);
-
-                this.scale.x = event.data.getLocalPosition(app.stage).x < this.x ? -1 : 1;
+            if (this.mana <= 0) {
+                if (app.purse.potions.mana > 0) {
+                    app.resources.soundPotion.sound.play();
+                    app.purse.potions.mana--;
+                    this.mana = 4;
+                    app.event.emit("potionchanged", app.purse.potions.mana, "mana");
+                }
+                else return;
             }
+
+            this.mana--;
+            this.manaTimer = this.manaTimerMax;
+
+            const fireball = app.e(fireballTemplate);
+            fireball.position = new fae.Vector(this.x + Math.random(), this.y - 12);
+            fireball.onPointerDown(event);
+
+            this.scale.x = event.data.getLocalPosition(app.stage).x < this.x ? -1 : 1;
         };
 
         app.input.on("pointerdown", this.shootFireball);
@@ -92,6 +100,15 @@ export const playerTemplate = {
         app.resources.soundHurt.sound.play({
             speed: 1 + (Math.random() - 0.5) * 0.5
         });
+
+        if (this.health <= 0) {
+            if (app.purse.potions.health > 0) {
+                app.resources.soundPotion.sound.play();
+                app.purse.potions.health--;
+                this.health = 3;
+                app.event.emit("potionchanged", app.purse.potions.health, "health");
+            }
+        }
     },
 
     kill() {

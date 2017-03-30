@@ -26,7 +26,9 @@ app.scene("loading", {
         .add("soundExplosion2", "sounds/explosion2.mp3")
         .add("soundExplosion3", "sounds/explosion3.mp3")
         .add("soundExplosion4", "sounds/explosion4.mp3")
+        .add("soundPotion", "sounds/potion.mp3")
         .add("soundCoin", "sounds/coin.mp3")
+        .add("soundSpendCoin", "sounds/spendcoin.mp3")
 
         .add("soundArrowBurn", "sounds/arrowburn.mp3")
         .add("soundArrowShoot", "sounds/arrowshoot.mp3")
@@ -35,6 +37,7 @@ app.scene("loading", {
         .add("soundBGLoop", "sounds/music.mp3")
 
         .add("soundButton", "sounds/button.mp3")
+        .add("soundNegative", "sounds/negative.mp3")
         .add("soundUnpause", "sounds/unpause.mp3")
         .add("soundPause", "sounds/pause.mp3")
 

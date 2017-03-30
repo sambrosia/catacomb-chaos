@@ -1,25 +1,16 @@
 import * as fae from "fae";
 import { app } from "./app";
 
-let score, highScore, gold, playButton;
+let score, highScore, gold, playButton, healthPotionButton, manaPotionButton;
 
 app.scene("gameover", {
     enter() {
         score = app.e({
-            components: ["motion"],
+            components: ["motion", "largeText"],
             parent : app.stage.gui,
 
             ready() {
-                this.stroke = this.addChild(new PIXI.Graphics());
-                this.text = new PIXI.extras.BitmapText("", {font: "32px Sharp-Retro"});
-                this.addChild(this.text);
-
-                this.text.tint = 0xccd5ff;
-                this.text.text = app.score;
-                this.stroke
-                .beginFill(0x505ea1)
-                .drawRect(-2, 12, this.text.textWidth + 4, this.text.textHeight - 28)
-                .endFill();
+                this.setText(app.score);
 
                 this.position = new fae.Vector(60 - this.text.textWidth/2, 8);
 
@@ -37,20 +28,13 @@ app.scene("gameover", {
 
         // TODO: Show previous highscore if new score beats it
         highScore = app.e({
-            components: ["motion"],
+            components: ["motion", "mediumText"],
             parent : app.stage.gui,
 
             ready() {
-                this.stroke = this.addChild(new PIXI.Graphics());
-                this.text = new PIXI.extras.BitmapText("", {font: "16px Sharp-Retro"});
-                this.addChild(this.text);
-
                 this.text.tint = 0x9af9b7;
-                this.text.text = "high: " + app.highScore;
-                this.stroke
-                .beginFill(0x2dd96a)
-                .drawRect(-1, 6, this.text.textWidth + 2, this.text.textHeight - 14)
-                .endFill();
+                this.stroke.color = 0x2dd96a;
+                this.setText("high: " + app.highScore);
 
                 this.position = new fae.Vector(60 - this.text.textWidth/2, 36);
 
@@ -67,23 +51,17 @@ app.scene("gameover", {
         });
 
         gold = app.e({
-            components: ["motion"],
+            components: ["motion", "mediumText"],
             parent : app.stage.gui,
 
             ready() {
-                this.stroke = this.addChild(new PIXI.Graphics());
-                this.text = new PIXI.extras.BitmapText("", {font: "16px Sharp-Retro"});
-                this.addChild(this.text);
-
                 this.text.tint = 0xffce7a;
-                this.text.text = app.purse.gold;
-                this.stroke
-                .beginFill(0xfbae2b)
-                .drawRect(-1, 6, this.text.textWidth + 2, this.text.textHeight - 14)
-                .endFill();
+                this.stroke.color = 0xfbae2b;
+                this.text.y = -10;
+                this.stroke.y = -10;
 
+                // TODO: Componentize purse icon
                 const guiTex = app.resources.gui.textures;
-
                 this.icon = app.e({
                     components: ["sprite"],
                     ready() {
@@ -106,9 +84,12 @@ app.scene("gameover", {
                     this.icon.sprite.texture = guiTex["purse-overflowing.png"];
                 }
 
-                this.text.y = -10;
-                this.stroke.y = -10;
-                this.position = new fae.Vector(60 - this.width/2 + this.icon.width, 58);
+                this.updateText = (amt) => {
+                    this.setText(amt);
+                    this.position = new fae.Vector(60 - this.width/2 + this.icon.width, 58);
+                };
+                this.updateText(app.purse.gold);
+                app.event.on("goldchanged", this.updateText, this);
 
                 this.alpha = 0;
                 this.timeout(400, () => { this.fade = true; });
@@ -119,6 +100,10 @@ app.scene("gameover", {
                     this.alpha += 0.03 * dt;
                     if (this.alpha >= 1) this.fade = false;
                 }
+            },
+
+            destroy() {
+                app.event.removeListener("goldchanged", this.updateText);
             }
         });
 
@@ -140,6 +125,42 @@ app.scene("gameover", {
                     app.resources.soundButton.sound.play();
                     app.scene("main");
                 });
+
+                this.alpha = 0;
+                this.interactive = false;
+                this.timeout(600, () => {
+                    this.fade = true;
+                    this.interactive = true;
+                });
+            },
+
+            update(dt) {
+                if (this.fade) {
+                    this.alpha += 0.03 * dt;
+                    if (this.alpha >= 1) this.fade = false;
+                }
+            }
+        });
+
+        healthPotionButton = app.e({
+            components: ["sprite", "motion"],
+            parent: app.stage.gui,
+
+            ready() {
+                this.sprite.texture = app.resources.gui.textures["potion-health.png"];
+                this.sprite.anchor.set(0.5);
+                this.position = new fae.Vector(30, 90);
+
+                this.interactive = true;
+                this.buttonMode = true;
+
+                this.on("pointertap", () => {
+                    app.purse.buyPotion("health");
+                    // TODO: Update gold counter
+                });
+
+                // TODO: Price tag
+                // TODO: # owned
 
                 this.alpha = 0;
                 this.interactive = false;

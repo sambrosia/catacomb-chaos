@@ -8,7 +8,7 @@ export const explosionTemplate = {
     parent: app.stage.effects,
 
     ready() {
-        this.r = 12;
+        this.r = 0;
         this.collisionGroups.add("enemy").add("arrow");
 
         this.emitOptions = {
@@ -47,7 +47,11 @@ export const explosionTemplate = {
             speed: 0.75 - Math.random() * 0.35
         });
 
-        this.timeout(150, "kill");
+        this.timeout(200, "kill");
+    },
+
+    update(dt) {
+        this.r += (12 - this.r) * 0.2;
     },
 
     collided(other) {

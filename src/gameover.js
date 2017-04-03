@@ -149,7 +149,7 @@ app.scene("gameover", {
             ready() {
                 this.sprite.texture = app.resources.gui.textures["potion-health.png"];
                 this.sprite.anchor.set(0.5);
-                this.position = new fae.Vector(30, 90);
+                this.position = new fae.Vector(40, 90);
 
                 this.interactive = true;
                 this.buttonMode = true;
@@ -159,8 +159,86 @@ app.scene("gameover", {
                     // TODO: Update gold counter
                 });
 
-                // TODO: Price tag
-                // TODO: # owned
+                this.addChild(app.e({
+                    components: ["smallText"],
+                    ready() {
+                        this.text.tint = 0xffce7a;
+                        this.setText("50 gp");
+
+                        this.x = -this.text.textWidth / 2;
+                        this.y = -12;
+                    }
+                }));
+
+                this.addChild(app.e({
+                    components: ["mediumText"],
+                    ready() {
+                        this.text.tint = 0xff9daa;
+                        this.stroke.color = 0xf64f5e;
+                        this.y = 1;
+                    },
+                    update() {
+                        this.setText(app.purse.potions.health);
+                        this.x = -this.text.textWidth / 2;
+                    }
+                }));
+
+                this.alpha = 0;
+                this.interactive = false;
+                this.timeout(600, () => {
+                    this.fade = true;
+                    this.interactive = true;
+                });
+            },
+
+            update(dt) {
+                if (this.fade) {
+                    this.alpha += 0.03 * dt;
+                    if (this.alpha >= 1) this.fade = false;
+                }
+            }
+        });
+
+        manaPotionButton = app.e({
+            components: ["sprite", "motion"],
+            parent: app.stage.gui,
+
+            ready() {
+                this.sprite.texture = app.resources.gui.textures["potion-mana.png"];
+                this.sprite.anchor.set(0.5);
+                this.position = new fae.Vector(80, 90);
+
+                this.interactive = true;
+                this.buttonMode = true;
+
+                this.on("pointertap", () => {
+                    app.purse.buyPotion("mana");
+                    // TODO: Update gold counter
+                });
+
+                this.addChild(app.e({
+                    components: ["smallText"],
+                    ready() {
+                        this.text.tint = 0xffce7a;
+                        this.setText("30 gp");
+
+                        this.x = -this.text.textWidth / 2;
+                        this.y = -12;
+                    }
+                }));
+
+                this.addChild(app.e({
+                    components: ["mediumText"],
+                    ready() {
+                        this.text.tint = 0xafe1ff;
+                        this.stroke.color = 0x4a9ef1;
+                        this.y = 1;
+                    },
+                    update() {
+                        this.setText(app.purse.potions.mana);
+                        this.x = -this.text.textWidth / 2;
+                    }
+                }));
 
                 this.alpha = 0;
                 this.interactive = false;
@@ -195,6 +273,14 @@ app.scene("gameover", {
 
         gold.on("update", (dt) => {
             gold.velocity.x -= 0.3 * dt;
+        });
+
+        healthPotionButton.on("update", (dt) => {
+            healthPotionButton.velocity.x -= 0.3 * dt;
+        });
+
+        manaPotionButton.on("update", (dt) => {
+            manaPotionButton.velocity.x += 0.3 * dt;
         });
 
         playButton.timeout(400, next);

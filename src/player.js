@@ -13,7 +13,7 @@ export const playerTemplate = {
     ready() {
         this.health = 3;
         this.mana = 3;
-        this.manaTimerMax = 700;
+        this.manaTimerMax = 650;
         this.manaTimer = this.manaTimerMax;
 
         this.sprite.anchor.set(0.5, 1);

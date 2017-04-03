@@ -8,7 +8,7 @@ export const explosionTemplate = {
     parent: app.stage.effects,
 
     ready() {
-        this.r = 10;
+        this.r = 12;
         this.collisionGroups.add("enemy").add("arrow");
 
         this.emitOptions = {
@@ -17,12 +17,12 @@ export const explosionTemplate = {
             lifetime: 500,
             area: 10,
             scale: 5,
-            endScale: 10,
+            endScale: 12,
             endScaleRandom: 6,
             rotationRandom: 1.5,
             endRotationRandom: 1.5,
             endAlpha: 0.01,
-            velocityRandom: new fae.Vector(0.5, 0.5)
+            velocityRandom: new fae.Vector(0.6, 0.6)
         };
 
         this.sparks = app.e({

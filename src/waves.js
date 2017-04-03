@@ -41,7 +41,7 @@ export const waves = {
             let ghostThreshold = n;
 
             if (currentWave >= 6) ghostThreshold--;
-            if (currentWave >= 9) ghostThreshold--;
+            // if (currentWave >= 9) ghostThreshold--;
 
             for (let i = 0; i < n; i++) {
                 const template = i < ghostThreshold ? skeletonTemplate : ghostSkeletonTemplate;
@@ -58,7 +58,7 @@ export const waves = {
 
             app.e({
                 ready() {
-                    this.timeout(2600, next);
+                    this.timeout(2400, next);
                     app.event.once("spawningwave", () => {
                         this.destroy();
                     });

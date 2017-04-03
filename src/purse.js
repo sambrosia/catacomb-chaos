@@ -60,7 +60,7 @@ export default class Purse {
                 break;
 
             case "mana":
-                price = 30;
+                price = 10;
                 break;
 
             default:

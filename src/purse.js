@@ -80,3 +80,35 @@ export default class Purse {
         app.event.emit("potionchanged", this.potions[type], type);
     }
 }
+
+export const purseIconTemplate = {
+    components: ["sprite"],
+    ready() {
+        const guiTex = app.resources.gui.textures;
+        this.sprite.texture = guiTex["purse-empty.png"];
+        this.sprite.anchor.set(1, 0.5);
+
+        this.updateTexture = (gold) => {
+            if (gold < 10) {
+                this.sprite.texture = guiTex["purse-empty.png"];
+            }
+            else if (gold < 30) {
+                this.sprite.texture = guiTex["purse-middling.png"];
+            }
+            else if (gold < 50) {
+                this.sprite.texture = guiTex["purse-full.png"];
+            }
+            else {
+                this.sprite.texture = guiTex["purse-overflowing.png"];
+            }
+        };
+
+        this.updateTexture(app.purse.gold);
+
+        app.event.on("goldchanged", this.updateTexture);
+    },
+
+    destroy() {
+        app.event.removeListener("goldchanged", this.updateTexture);
+    }
+};

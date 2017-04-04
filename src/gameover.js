@@ -1,6 +1,8 @@
 import * as fae from "fae";
 import { app } from "./app";
 
+import { purseIconTemplate } from "./purse";
+
 let score, highScore, gold, playButton, healthPotionButton, manaPotionButton;
 
 app.scene("gameover", {
@@ -60,29 +62,8 @@ app.scene("gameover", {
                 this.text.y = -10;
                 this.stroke.y = -10;
 
-                // TODO: Componentize purse icon
-                const guiTex = app.resources.gui.textures;
-                this.icon = app.e({
-                    components: ["sprite"],
-                    ready() {
-                        this.sprite.texture = guiTex["purse-overflowing.png"];
-                        this.sprite.anchor.set(1, 0.5);
-                    }
-                });
+                this.icon = app.e(purseIconTemplate);
                 this.addChild(this.icon);
-
-                if (app.purse.gold < 10) {
-                    this.icon.sprite.texture = guiTex["purse-empty.png"];
-                }
-                else if (app.purse.gold < 30) {
-                    this.icon.sprite.texture = guiTex["purse-middling.png"];
-                }
-                else if (app.purse.gold < 50) {
-                    this.icon.sprite.texture = guiTex["purse-full.png"];
-                }
-                else {
-                    this.icon.sprite.texture = guiTex["purse-overflowing.png"];
-                }
 
                 this.updateText = (amt) => {
                     this.setText(amt);

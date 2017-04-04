@@ -53,10 +53,12 @@ PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 app.stage.scale.set(4);
 
 // Some PIXI layers
+app.stage.removeChild(app.stage.particles);
 app.stage.dungeon = app.stage.addChildAt(new PIXI.Container(), 0);
 app.stage.world = app.stage.addChildAt(new PIXI.Container(), 1);
 app.stage.effects = app.stage.addChildAt(new PIXI.Container(), 2);
-app.stage.gui = app.stage.addChildAt(new PIXI.Container(), 3);
+app.stage.addChildAt(app.stage.particles, 3);
+app.stage.gui = app.stage.addChildAt(new PIXI.Container(), 4);
 
 app.stage.dungeon.interactiveChildren = false;
 app.stage.world.interactiveChildren = false;

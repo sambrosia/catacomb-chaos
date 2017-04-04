@@ -2,12 +2,13 @@ import * as fae from "fae";
 import ga from "gameanalytics";
 import { app } from "./app";
 
+import { purseIconTemplate } from "./purse";
 import { playerTemplate } from "./player";
 import { waves } from "./waves";
 
 let guiTex;
 
-let player, scoreCounter, goldCounter, pauseButton, statusIndicators;
+let player, scoreCounter, goldCounter, healthPotionCounter, manaPotionCounter, pauseButton, statusIndicators;
 
 app.scene("main", {
     enter() {
@@ -18,8 +19,6 @@ app.scene("main", {
         player = app.e(playerTemplate);
         app.player = player;
         app.score = 0;
-
-        guiTex = app.resources.gui.textures;
 
         const enemySpawner = app.e({
             ready() {
@@ -38,7 +37,6 @@ app.scene("main", {
                     else {
                         waves[this.lastExistingWave].spawn(this.spawnNextWave, this.currentWave);
                     }
-
                 };
 
                 // Next wave is 1 in this case
@@ -47,84 +45,108 @@ app.scene("main", {
             }
         });
 
+        app.stage.gui.alpha = 0;
+        const fadeIn = (dt) => {
+            if (app.stage.gui.alpha < 1) app.stage.gui.alpha += 0.05 * dt;
+            else {
+                app.stage.gui.alpha = 1;
+                app.event.removeListener("update", fadeIn);
+            }
+        };
+        app.event.on("update", fadeIn);
+
+        guiTex = app.resources.gui.textures;
+
         scoreCounter = app.e({
-            components: ["motion"],
+            components: ["motion", "mediumText"],
             parent: app.stage.gui,
 
             ready() {
-                this.stroke = this.addChild(new PIXI.Graphics());
-                this.text = new PIXI.extras.BitmapText("", {font: "16px Sharp-Retro"});
-                this.addChild(this.text);
-
                 this.text.tint = 0xccd5ff;
+                this.stroke.color = 0x505ea1;
+
                 this.y = -2;
-                this.alpha = 0;
             },
 
             update(dt) {
-                if (this.alpha < 1) this.alpha += 0.05 * dt;
-                else this.alpha = 1;
-
-                this.text.text = app.score;
-                this.stroke
-                .clear()
-                .beginFill(0x505ea1)
-                .drawRect(-1, 6, this.text.textWidth + 2, this.text.textHeight - 14)
-                .endFill();
-
+                this.setText(app.score);
                 this.x = 60 - this.text.textWidth/2;
             }
         });
 
         goldCounter = app.e({
-            components: ["motion"],
+            components: ["motion", "mediumText"],
             parent: app.stage.gui,
 
             ready() {
-                this.stroke = this.addChild(new PIXI.Graphics());
-                this.text = new PIXI.extras.BitmapText("", {font: "16px Sharp-Retro"});
-                this.addChild(this.text);
+                this.icon = app.e(purseIconTemplate);
+                this.addChild(this.icon);
+
                 this.text.tint = 0xffce7a;
+                this.stroke.color = 0xfbae2b;
 
+                this.y = 146;
+                this.text.y = -10;
                 this.stroke.y = -10;
-                this.text.y = this.stroke.y;
+            },
 
+            update(dt) {
+                this.setText(app.purse.gold);
+                this.x = 88 - this.width/2 + this.icon.width;
+            }
+        });
+
+        // TODO: Fade in these counters (or just fade in entire gui layer?)
+
+        healthPotionCounter = app.e({
+            components: ["motion", "mediumText"],
+            parent: app.stage.gui,
+
+            ready() {
                 this.icon = app.e({
                     components: ["sprite"],
                     ready() {
-                        this.sprite.texture = guiTex["purse-overflowing.png"];
-                        this.sprite.anchor.set(1, 0.5);
+                        this.sprite.texture = guiTex["potion-health.png"];
+                        this.sprite.anchor.set(0, 0.5);
                     }
                 });
                 this.addChild(this.icon);
 
-                this.position = new fae.Vector(80, 142);
+                this.text.tint = 0xff9daa;
+                this.stroke.color = 0xf64f5e;
+
+                this.position = new fae.Vector(80, 122);
+                this.icon.position = new fae.Vector(-14, 10);
             },
 
             update(dt) {
-                this.text.text = app.purse.gold;
-                this.stroke
-                .clear()
-                .beginFill(0xfbae2b)
-                .drawRect(-1, 6, this.text.textWidth + 2, this.text.textHeight - 14)
-                .endFill();
+                this.setText(app.purse.potions.health);
+            }
+        });
 
-                if (app.purse.gold < 10) {
-                    this.icon.sprite.texture = guiTex["purse-empty.png"];
-                    this.x = 76;
-                }
-                else if (app.purse.gold < 30) {
-                    this.icon.sprite.texture = guiTex["purse-middling.png"];
-                    this.x = 78;
-                }
-                else if (app.purse.gold < 50) {
-                    this.icon.sprite.texture = guiTex["purse-full.png"];
-                    this.x = 80;
-                }
-                else {
-                    this.icon.sprite.texture = guiTex["purse-overflowing.png"];
-                    this.x = 84;
-                }
+        manaPotionCounter = app.e({
+            components: ["motion", "mediumText"],
+            parent: app.stage.gui,
+
+            ready() {
+                this.icon = app.e({
+                    components: ["sprite"],
+                    ready() {
+                        this.sprite.texture = guiTex["potion-mana.png"];
+                        this.sprite.anchor.set(0, 0.5);
+                    }
+                });
+                this.addChild(this.icon);
+
+                this.text.tint = 0xafe1ff;
+                this.stroke.color = 0x4a9ef1;
+
+                this.position = new fae.Vector(100, 122);
+                this.icon.position = new fae.Vector(-14, 10);
+            },
+
+            update(dt) {
+                this.setText(app.purse.potions.mana);
             }
         });
 
@@ -138,7 +160,6 @@ app.scene("main", {
 
                 this.sprite.texture = guiTex["pause-button.png"];
                 this.position = new fae.Vector(76, 130);
-                this.alpha = 0;
 
                 this.interactive = true;
                 this.buttonMode = true;
@@ -159,11 +180,6 @@ app.scene("main", {
                         this.sprite.texture = guiTex["pause-button.png"];
                     }
                 });
-            },
-
-            update(dt) {
-                if (this.alpha < 1) this.alpha += 0.1 * dt;
-                else this.alpha = 1;
             }
         });
 
@@ -177,13 +193,9 @@ app.scene("main", {
                 ready() {
                     this.sprite.texture = guiTex["full-crystal.png"];
                     this.position = new fae.Vector(15 + (i * 12), 129);
-                    this.alpha = 0;
                 },
 
                 update(dt) {
-                    if (this.alpha < 1) this.alpha += 0.05 * dt;
-                    else this.alpha = 1;
-
                     let tex = (player.mana < i + 1) ? "empty" : "full";
                     this.sprite.texture = guiTex[tex + "-crystal.png"];
                 }
@@ -196,13 +208,9 @@ app.scene("main", {
                 ready() {
                     this.sprite.texture = guiTex["full-heart.png"];
                     this.position = new fae.Vector(15 + (i * 12), 141);
-                    this.alpha = 0;
                 },
 
                 update(dt) {
-                    if (this.alpha < 1) this.alpha += 0.1 * dt;
-                    else this.alpha = 1;
-
                     let tex = (player.health < i + 1) ? "empty" : "full";
                     this.sprite.texture = guiTex[tex + "-heart.png"];
                 }
@@ -250,6 +258,12 @@ app.scene("main", {
         });
         goldCounter.on("update", (dt) => {
             goldCounter.velocity.y += 0.2 * dt;
+        });
+        healthPotionCounter.on("update", (dt) => {
+            healthPotionCounter.velocity.y += 0.1 * dt;
+        });
+        manaPotionCounter.on("update", (dt) => {
+            manaPotionCounter.velocity.y += 0.15 * dt;
         });
 
         const skull = app.e({

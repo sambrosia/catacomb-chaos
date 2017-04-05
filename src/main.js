@@ -215,15 +215,13 @@ app.scene("main", {
     exit(next) {
         const addProgressEvent = ga.GameAnalytics.addProgressionEvent;
         const status = ga.EGAProgressionStatus;
-        if (app.score > app.highScore) {
-            addProgressEvent(status.Complete, "main", null, null, app.score);
-        } else {
-            addProgressEvent(status.Fail, "main", null, null, app.score);
-        }
 
         if (app.score > app.highScore) {
             app.highScore = app.score;
             window.localStorage.setItem("catacombChaosHighScore", app.highScore);
+            addProgressEvent(status.Complete, "main", null, null, app.score);
+        } else {
+            addProgressEvent(status.Fail, "main", null, null, app.score);
         }
 
         app.resources.soundBGLoop.sound.stop();
@@ -245,6 +243,9 @@ app.scene("main", {
             t++;
         }
 
+        pauseButton.on("update", (dt) => {
+            pauseButton.velocity.y -= 0.1 * dt;
+        });
         scoreCounter.on("update", (dt) => {
             scoreCounter.velocity.y -= 0.2 * dt;
         });

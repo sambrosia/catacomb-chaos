@@ -58,7 +58,7 @@ export const waves = {
 
             app.e({
                 ready() {
-                    this.timeout(2400, next);
+                    this.timeout(2500, next);
                     app.event.once("spawningwave", () => {
                         this.destroy();
                     });

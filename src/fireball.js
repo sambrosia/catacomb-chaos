@@ -16,8 +16,8 @@ export const fireballTemplate = {
     parent: app.stage.world,
 
     ready() {
-        this.w = 6;
-        this.h = 6;
+        this.w = 8;
+        this.h = 8;
         this.collisionAnchor.set(0.5);
         this.collisionGroups.add("wall").add("enemy").add("arrow");
 

@@ -58,7 +58,7 @@ export const skeletonTemplate = {
 
         let r = Math.random();
         if (r < 0.01) this.bounty = 5;
-        else if (r < 0.2) this.bounty = 1;
+        else if (r < 1/3) this.bounty = 1;
     },
 
     update() {

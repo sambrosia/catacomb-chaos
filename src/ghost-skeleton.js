@@ -65,7 +65,7 @@ export const ghostSkeletonTemplate = {
 
         let r = Math.random();
         if (r < 0.01) this.bounty = 10;
-        else if (r < 1/3) this.bounty = 1;
+        else if (r < 0.5) this.bounty = 2;
     },
 
     update() {

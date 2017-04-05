@@ -53,12 +53,39 @@ export const skeletonTemplate = {
             speed: 1 + Math.random() * 0.5
         });
 
-        // TODO: Coin above skeleton
+        let startFrame = 0;
+        let endFrame = 1;
+        let offset = 4;
         this.bounty = 0;
 
         let r = Math.random();
-        if (r < 0.01) this.bounty = 5;
-        else if (r < 1/3) this.bounty = 1;
+        if (r < 0.01) { this.bounty = 5; }
+        else if (r < 1/3) {
+            this.bounty = 1;
+            startFrame = 2;
+            endFrame = 3;
+            offset = 5;
+        }
+
+        // Coin above skeleton
+        if (this.bounty > 0) {
+            app.e({
+                components: ["animatedsprite"],
+                parent: this,
+                ready() {
+                    this.sprite.anchor.set(0.5);
+                    this.sprite.textures = app.resources.misc.array;
+                    this.sprite.addAnimation("spin", {
+                        speed: 4,
+                        start: startFrame,
+                        end: endFrame
+                    });
+                    this.sprite.loopAnimation("spin");
+                    this.x = 2;
+                    this.y = -this.parent.height + offset;
+                }
+            });
+        }
     },
 
     update() {

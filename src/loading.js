@@ -18,6 +18,7 @@ app.scene("loading", {
         .add("mage", "sprites/mage/spritesheet.json")
         .add("skeleton", "sprites/skeleton/spritesheet.json")
         .add("archer", "sprites/archer/spritesheet.json")
+        .add("misc", "sprites/misc/spritesheet.json")
 
         .add("soundHurt", "sounds/hurt.mp3")
         .add("soundDeath", "sounds/death.mp3")

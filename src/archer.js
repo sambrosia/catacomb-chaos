@@ -94,7 +94,27 @@ export const archerTemplate = {
             speed: 1 + Math.random() * 0.5
         });
 
-        this.bounty = 1;
+        this.bounty = 1 * (Math.random() < 0.75);
+
+        // Coin above skeleton
+        if (this.bounty > 0) {
+            app.e({
+                components: ["animatedsprite"],
+                parent: this,
+                ready() {
+                    this.sprite.anchor.set(0.5);
+                    this.sprite.textures = app.resources.misc.array;
+                    this.sprite.addAnimation("spin", {
+                        speed: 4,
+                        start: 2,
+                        end: 3
+                    });
+                    this.sprite.loopAnimation("spin");
+                    this.x = 2;
+                    this.y = -this.parent.height + 4;
+                }
+            });
+        }
 
         this.timeout(1000, "playshootanimation");
     },

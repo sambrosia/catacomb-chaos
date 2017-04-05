@@ -12,6 +12,17 @@ export default class Purse {
         };
         this.gold = Number(localStorage.getItem(prefix + "Gold") || 0);
 
+        app.event.on("goldchanged", (gold) => {
+            localStorage.setItem(prefix + "Gold", gold);
+        });
+
+        app.event.on("potionchanged", (potions, type) => {
+            if (type == "health")
+                localStorage.setItem(prefix + "PotionsHealth", potions);
+            else if (type == "mana")
+                localStorage.setItem(prefix + "PotionsMana", potions);
+        });
+
         // TODO: Don't forget to remove this debug thing
         app.input.on("keydown", (key) => {
             if (key == "0") {

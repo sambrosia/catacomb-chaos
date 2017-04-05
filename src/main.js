@@ -232,8 +232,6 @@ app.scene("main", {
             window.localStorage.setItem("catacombChaosHighScore", app.highScore);
         }
 
-        window.localStorage.setItem("catacombChaosGold", app.purse.gold);
-
         app.resources.soundBGLoop.sound.stop();
         app.resources.soundDeath.sound.play();
 

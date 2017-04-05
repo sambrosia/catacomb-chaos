@@ -96,8 +96,6 @@ app.scene("main", {
             }
         });
 
-        // TODO: Fade in these counters (or just fade in entire gui layer?)
-
         healthPotionCounter = app.e({
             components: ["motion", "mediumText"],
             parent: app.stage.gui,
@@ -150,16 +148,13 @@ app.scene("main", {
             }
         });
 
-        // TODO: Rework pause button to be nicer and out of the way
         pauseButton = app.e({
             components: ["sprite", "motion"],
             parent: app.stage.gui,
 
             ready() {
-                this.visible = false;
-
                 this.sprite.texture = guiTex["pause-button.png"];
-                this.position = new fae.Vector(76, 130);
+                this.position = new fae.Vector(90, -3);
 
                 this.interactive = true;
                 this.buttonMode = true;
@@ -183,7 +178,6 @@ app.scene("main", {
             }
         });
 
-        // TODO: Clean this mess up
         statusIndicators = [];
         for (let i = 0; i < 3; i++) {
             statusIndicators.push(app.e({

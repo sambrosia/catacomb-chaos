@@ -53,65 +53,65 @@
 			"spriteSourceSize": {"x":0,"y":5,"w":16,"h":16},
 			"sourceSize": {"w":16,"h":24}
 		},
-		"pause-button.png":
+		"purse-full.png":
 		{
-			"frame": {"x":126,"y":60,"w":16,"h":15},
+			"frame": {"x":126,"y":60,"w":10,"h":14},
 			"rotated": false,
 			"trimmed": true,
-			"spriteSourceSize": {"x":4,"y":5,"w":16,"h":15},
-			"sourceSize": {"w":24,"h":24}
-		},
-		"unpause-button.png":
-		{
-			"frame": {"x":144,"y":60,"w":16,"h":15},
-			"rotated": false,
-			"trimmed": true,
-			"spriteSourceSize": {"x":4,"y":5,"w":16,"h":15},
-			"sourceSize": {"w":24,"h":24}
-		},
-		"empty-crystal.png":
-		{
-			"frame": {"x":97,"y":25,"w":4,"h":4},
-			"rotated": false,
-			"trimmed": true,
-			"spriteSourceSize": {"x":4,"y":4,"w":4,"h":4},
-			"sourceSize": {"w":12,"h":12}
+			"spriteSourceSize": {"x":0,"y":5,"w":10,"h":14},
+			"sourceSize": {"w":10,"h":24}
 		},
 		"potion-mana.png":
 		{
-			"frame": {"x":120,"y":78,"w":9,"h":12},
+			"frame": {"x":138,"y":60,"w":9,"h":12},
 			"rotated": false,
 			"trimmed": true,
 			"spriteSourceSize": {"x":3,"y":2,"w":9,"h":12},
 			"sourceSize": {"w":16,"h":16}
 		},
+		"empty-crystal.png":
+		{
+			"frame": {"x":159,"y":66,"w":4,"h":4},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":4,"y":4,"w":4,"h":4},
+			"sourceSize": {"w":12,"h":12}
+		},
 		"potion-health.png":
 		{
-			"frame": {"x":131,"y":78,"w":8,"h":12},
+			"frame": {"x":108,"y":78,"w":8,"h":12},
 			"rotated": false,
 			"trimmed": true,
 			"spriteSourceSize": {"x":4,"y":2,"w":8,"h":12},
 			"sourceSize": {"w":16,"h":16}
 		},
-		"purse-middling.png":
-		{
-			"frame": {"x":141,"y":78,"w":8,"h":12},
-			"rotated": false,
-			"trimmed": true,
-			"spriteSourceSize": {"x":0,"y":6,"w":8,"h":12},
-			"sourceSize": {"w":8,"h":24}
-		},
 		"purse-empty.png":
 		{
-			"frame": {"x":151,"y":78,"w":7,"h":12},
+			"frame": {"x":118,"y":78,"w":7,"h":12},
 			"rotated": false,
 			"trimmed": true,
 			"spriteSourceSize": {"x":0,"y":6,"w":7,"h":12},
 			"sourceSize": {"w":7,"h":24}
 		},
+		"pause-button.png":
+		{
+			"frame": {"x":127,"y":78,"w":11,"h":10},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":6,"y":7,"w":11,"h":10},
+			"sourceSize": {"w":24,"h":24}
+		},
+		"unpause-button.png":
+		{
+			"frame": {"x":140,"y":78,"w":11,"h":10},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":6,"y":7,"w":11,"h":10},
+			"sourceSize": {"w":24,"h":24}
+		},
 		"full-crystal.png":
 		{
-			"frame": {"x":67,"y":25,"w":10,"h":10},
+			"frame": {"x":153,"y":78,"w":10,"h":10},
 			"rotated": false,
 			"trimmed": true,
 			"spriteSourceSize": {"x":1,"y":1,"w":10,"h":10},
@@ -119,7 +119,7 @@
 		},
 		"full-heart.png":
 		{
-			"frame": {"x":79,"y":25,"w":10,"h":9},
+			"frame": {"x":67,"y":25,"w":10,"h":9},
 			"rotated": false,
 			"trimmed": true,
 			"spriteSourceSize": {"x":1,"y":2,"w":10,"h":9},
@@ -127,19 +127,19 @@
 		},
 		"empty-heart.png":
 		{
-			"frame": {"x":91,"y":25,"w":4,"h":4},
+			"frame": {"x":159,"y":60,"w":4,"h":4},
 			"rotated": false,
 			"trimmed": true,
 			"spriteSourceSize": {"x":4,"y":4,"w":4,"h":4},
 			"sourceSize": {"w":12,"h":12}
 		},
-		"purse-full.png":
+		"purse-middling.png":
 		{
-			"frame": {"x":108,"y":78,"w":10,"h":14},
+			"frame": {"x":149,"y":60,"w":8,"h":12},
 			"rotated": false,
 			"trimmed": true,
-			"spriteSourceSize": {"x":0,"y":5,"w":10,"h":14},
-			"sourceSize": {"w":10,"h":24}
+			"spriteSourceSize": {"x":0,"y":6,"w":8,"h":12},
+			"sourceSize": {"w":8,"h":24}
 		}
 	}
 }

@@ -75,9 +75,6 @@ app.scene("menu", {
                 });
             }
         });
-
-        // TODO: Button for Info/credit screen
-
     },
 
     exit(next) {

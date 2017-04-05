@@ -28,7 +28,6 @@ app.scene("gameover", {
             }
         });
 
-        // TODO: Show previous highscore if new score beats it
         highScore = app.e({
             components: ["motion", "mediumText"],
             parent : app.stage.gui,
@@ -137,7 +136,6 @@ app.scene("gameover", {
 
                 this.on("pointertap", () => {
                     app.purse.buyPotion("health");
-                    // TODO: Update gold counter
                 });
 
                 this.addChild(app.e({
@@ -194,7 +192,6 @@ app.scene("gameover", {
 
                 this.on("pointertap", () => {
                     app.purse.buyPotion("mana");
-                    // TODO: Update gold counter
                 });
 
                 this.addChild(app.e({

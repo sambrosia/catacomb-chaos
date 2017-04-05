@@ -6,7 +6,6 @@ import { sparkTemplate, poofTemplate } from "./enemy-effects";
 const arrowTemplate = {
     components: ["sprite", "motion", "collision"],
     groups: ["arrow"],
-    // TODO: Render above enemies, below player
     parent: app.stage.effects,
 
     ready() {

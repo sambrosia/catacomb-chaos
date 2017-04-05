@@ -89,7 +89,6 @@ export const playerTemplate = {
     },
 
     hitbyarrow(arrow) {
-        // TODO: leave arrow sticking out of player
         this.emit("injure");
         arrow.emit("kill");
     },

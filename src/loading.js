@@ -57,6 +57,7 @@ app.scene("loading", {
             PIXI.sound.volumeAll = 0.2;
 
             resources.soundBGLoop.sound.loop = true;
+            resources.soundBGLoop.sound.volume = 1.5;
 
             resources.soundHurt.sound.volume = 2;
             resources.soundDeath.sound.volume = 2;
@@ -67,7 +68,7 @@ app.scene("loading", {
             resources.soundExplosion3.sound.volume = 1.5;
             resources.soundExplosion4.sound.volume = 1.5;
 
-            resources.soundArrowShoot.sound.volume = 1.5;
+            resources.soundArrowShoot.sound.volume = 2;
             resources.soundSkeletonSpawn.sound.volume = 0.5;
 
             const finishTime = new Date().getTime();

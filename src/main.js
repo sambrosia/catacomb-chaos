@@ -162,14 +162,14 @@ app.scene("main", {
                 this.on("pointertap", () => {
                     if (app.ticker.started) {
                         app.resources.soundPause.sound.play();
-                        app.resources.soundBGLoop.sound.pause();
+                        app.resources.soundBGLoop.sound.stop();
 
                         this.sprite.texture = guiTex["unpause-button.png"];
                         app.ticker.stop();
                         app.ticker.update();
                     } else {
                         app.resources.soundUnpause.sound.play();
-                        app.resources.soundBGLoop.sound.resume();
+                        app.resources.soundBGLoop.sound.play();
 
                         app.ticker.start();
                         this.sprite.texture = guiTex["pause-button.png"];

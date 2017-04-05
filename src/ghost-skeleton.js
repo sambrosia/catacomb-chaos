@@ -60,6 +60,12 @@ export const ghostSkeletonTemplate = {
         app.resources.soundSkeletonSpawn.sound.play({
             speed: 1 + Math.random() * 0.5
         });
+
+        this.bounty = 0;
+
+        let r = Math.random();
+        if (r < 0.01) this.bounty = 10;
+        else if (r < 1/3) this.bounty = 1;
     },
 
     update() {
@@ -88,13 +94,7 @@ export const ghostSkeletonTemplate = {
             this.ghost.queueDestroy();
         }
         else if (this.hp <= 0) {
-            let bounty = 0;
-            if (Math.random() < 0.1) bounty = 3;
-            if (Math.random() < 0.01) bounty = 15;
-
-            // TODO: Animate coin(s) coming out of skeleton
-
-            app.purse.addGold(bounty);
+            app.purse.addGold(this.bounty);
             app.score += 20;
             this.emit("kill");
         }

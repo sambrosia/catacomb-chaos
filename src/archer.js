@@ -94,6 +94,8 @@ export const archerTemplate = {
             speed: 1 + Math.random() * 0.5
         });
 
+        this.bounty = 1;
+
         this.timeout(1000, "playshootanimation");
     },
 
@@ -123,13 +125,7 @@ export const archerTemplate = {
     },
 
     hitbyexplosion() {
-        let bounty = 0;
-        if (Math.random() < 0.1) bounty = 2;
-        if (Math.random() < 0.01) bounty = 10;
-
-        // TODO: Animate coin(s) coming out of skeleton
-
-        app.purse.addGold(bounty);
+        app.purse.addGold(this.bounty);
         app.score += 10;
         this.emit("kill");
     },

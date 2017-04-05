@@ -52,6 +52,13 @@ export const skeletonTemplate = {
         app.resources.soundSkeletonSpawn.sound.play({
             speed: 1 + Math.random() * 0.5
         });
+
+        // TODO: Coin above skeleton
+        this.bounty = 0;
+
+        let r = Math.random();
+        if (r < 0.01) this.bounty = 5;
+        else if (r < 0.2) this.bounty = 1;
     },
 
     update() {
@@ -72,13 +79,7 @@ export const skeletonTemplate = {
     },
 
     hitbyexplosion() {
-        let bounty = 0;
-        if (Math.random() < 0.1) bounty = 1;
-        if (Math.random() < 0.01) bounty = 10;
-
-        // TODO: Animate coin(s) coming out of skeleton
-
-        app.purse.addGold(bounty);
+        app.purse.addGold(this.bounty);
         app.score += 10;
         this.emit("kill");
     },

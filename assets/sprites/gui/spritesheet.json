@@ -1,7 +1,7 @@
 {
 	"meta": {
 		"image": "spritesheet.png",
-		"size": {"w":164,"h":96},
+		"size": {"w":164,"h":137},
 		"scale": "1"
 	},
 	"frames": {
@@ -29,9 +29,17 @@
 			"spriteSourceSize": {"x":32,"y":88,"w":55,"h":27},
 			"sourceSize": {"w":120,"h":120}
 		},
-		"fullscreen-button.png":
+		"back-button.png":
 		{
 			"frame": {"x":108,"y":30,"w":27,"h":28},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":3,"y":2,"w":27,"h":28},
+			"sourceSize": {"w":32,"h":32}
+		},
+		"options-button.png":
+		{
+			"frame": {"x":108,"y":60,"w":27,"h":28},
 			"rotated": false,
 			"trimmed": true,
 			"spriteSourceSize": {"x":3,"y":2,"w":27,"h":28},
@@ -45,9 +53,57 @@
 			"spriteSourceSize": {"x":3,"y":3,"w":26,"h":27},
 			"sourceSize": {"w":32,"h":32}
 		},
+		"fullscreen-on-button.png":
+		{
+			"frame": {"x":137,"y":60,"w":24,"h":27},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":4,"y":3,"w":24,"h":27},
+			"sourceSize": {"w":32,"h":32}
+		},
+		"music-off-button.png":
+		{
+			"frame": {"x":67,"y":25,"w":24,"h":27},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":4,"y":3,"w":24,"h":27},
+			"sourceSize": {"w":32,"h":32}
+		},
+		"music-on-button.png":
+		{
+			"frame": {"x":67,"y":54,"w":24,"h":27},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":4,"y":3,"w":24,"h":27},
+			"sourceSize": {"w":32,"h":32}
+		},
+		"sound-on-button.png":
+		{
+			"frame": {"x":1,"y":97,"w":24,"h":27},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":4,"y":3,"w":24,"h":27},
+			"sourceSize": {"w":32,"h":32}
+		},
+		"sound-off-button.png":
+		{
+			"frame": {"x":27,"y":97,"w":24,"h":27},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":4,"y":3,"w":24,"h":27},
+			"sourceSize": {"w":32,"h":32}
+		},
+		"fullscreen-off-button.png":
+		{
+			"frame": {"x":53,"y":97,"w":24,"h":27},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":4,"y":3,"w":24,"h":27},
+			"sourceSize": {"w":32,"h":32}
+		},
 		"purse-overflowing.png":
 		{
-			"frame": {"x":108,"y":60,"w":16,"h":16},
+			"frame": {"x":79,"y":97,"w":16,"h":16},
 			"rotated": false,
 			"trimmed": true,
 			"spriteSourceSize": {"x":0,"y":5,"w":16,"h":16},
@@ -55,7 +111,7 @@
 		},
 		"purse-full.png":
 		{
-			"frame": {"x":126,"y":60,"w":10,"h":14},
+			"frame": {"x":93,"y":25,"w":10,"h":14},
 			"rotated": false,
 			"trimmed": true,
 			"spriteSourceSize": {"x":0,"y":5,"w":10,"h":14},
@@ -63,71 +119,15 @@
 		},
 		"potion-mana.png":
 		{
-			"frame": {"x":138,"y":60,"w":9,"h":12},
+			"frame": {"x":93,"y":54,"w":9,"h":12},
 			"rotated": false,
 			"trimmed": true,
 			"spriteSourceSize": {"x":3,"y":2,"w":9,"h":12},
 			"sourceSize": {"w":16,"h":16}
 		},
-		"empty-crystal.png":
-		{
-			"frame": {"x":159,"y":66,"w":4,"h":4},
-			"rotated": false,
-			"trimmed": true,
-			"spriteSourceSize": {"x":4,"y":4,"w":4,"h":4},
-			"sourceSize": {"w":12,"h":12}
-		},
-		"potion-health.png":
-		{
-			"frame": {"x":108,"y":78,"w":8,"h":12},
-			"rotated": false,
-			"trimmed": true,
-			"spriteSourceSize": {"x":4,"y":2,"w":8,"h":12},
-			"sourceSize": {"w":16,"h":16}
-		},
-		"purse-empty.png":
-		{
-			"frame": {"x":118,"y":78,"w":7,"h":12},
-			"rotated": false,
-			"trimmed": true,
-			"spriteSourceSize": {"x":0,"y":6,"w":7,"h":12},
-			"sourceSize": {"w":7,"h":24}
-		},
-		"pause-button.png":
-		{
-			"frame": {"x":127,"y":78,"w":11,"h":10},
-			"rotated": false,
-			"trimmed": true,
-			"spriteSourceSize": {"x":6,"y":7,"w":11,"h":10},
-			"sourceSize": {"w":24,"h":24}
-		},
-		"unpause-button.png":
-		{
-			"frame": {"x":140,"y":78,"w":11,"h":10},
-			"rotated": false,
-			"trimmed": true,
-			"spriteSourceSize": {"x":6,"y":7,"w":11,"h":10},
-			"sourceSize": {"w":24,"h":24}
-		},
-		"full-crystal.png":
-		{
-			"frame": {"x":153,"y":78,"w":10,"h":10},
-			"rotated": false,
-			"trimmed": true,
-			"spriteSourceSize": {"x":1,"y":1,"w":10,"h":10},
-			"sourceSize": {"w":12,"h":12}
-		},
-		"full-heart.png":
-		{
-			"frame": {"x":67,"y":25,"w":10,"h":9},
-			"rotated": false,
-			"trimmed": true,
-			"spriteSourceSize": {"x":1,"y":2,"w":10,"h":9},
-			"sourceSize": {"w":12,"h":12}
-		},
 		"empty-heart.png":
 		{
-			"frame": {"x":159,"y":60,"w":4,"h":4},
+			"frame": {"x":114,"y":90,"w":4,"h":4},
 			"rotated": false,
 			"trimmed": true,
 			"spriteSourceSize": {"x":4,"y":4,"w":4,"h":4},
@@ -135,11 +135,115 @@
 		},
 		"purse-middling.png":
 		{
-			"frame": {"x":149,"y":60,"w":8,"h":12},
+			"frame": {"x":67,"y":83,"w":8,"h":12},
 			"rotated": false,
 			"trimmed": true,
 			"spriteSourceSize": {"x":0,"y":6,"w":8,"h":12},
 			"sourceSize": {"w":8,"h":24}
+		},
+		"purse-empty.png":
+		{
+			"frame": {"x":77,"y":83,"w":7,"h":12},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":0,"y":6,"w":7,"h":12},
+			"sourceSize": {"w":7,"h":24}
+		},
+		"unpause-button.png":
+		{
+			"frame": {"x":93,"y":41,"w":11,"h":10},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":11,"h":10},
+			"sourceSize": {"w":11,"h":10}
+		},
+		"unmute-sound-button.png":
+		{
+			"frame": {"x":86,"y":83,"w":11,"h":10},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":11,"h":10},
+			"sourceSize": {"w":11,"h":10}
+		},
+		"enter-fullscreen-button.png":
+		{
+			"frame": {"x":97,"y":97,"w":11,"h":10},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":11,"h":10},
+			"sourceSize": {"w":11,"h":10}
+		},
+		"mute-music-button.png":
+		{
+			"frame": {"x":110,"y":97,"w":11,"h":10},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":11,"h":10},
+			"sourceSize": {"w":11,"h":10}
+		},
+		"exit-fullscreen-button.png":
+		{
+			"frame": {"x":123,"y":97,"w":11,"h":10},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":11,"h":10},
+			"sourceSize": {"w":11,"h":10}
+		},
+		"unmute-music-button.png":
+		{
+			"frame": {"x":136,"y":97,"w":11,"h":10},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":11,"h":10},
+			"sourceSize": {"w":11,"h":10}
+		},
+		"pause-button.png":
+		{
+			"frame": {"x":149,"y":97,"w":11,"h":10},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":11,"h":10},
+			"sourceSize": {"w":11,"h":10}
+		},
+		"mute-sound-button.png":
+		{
+			"frame": {"x":1,"y":126,"w":11,"h":10},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":11,"h":10},
+			"sourceSize": {"w":11,"h":10}
+		},
+		"full-crystal.png":
+		{
+			"frame": {"x":14,"y":126,"w":10,"h":10},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":1,"y":1,"w":10,"h":10},
+			"sourceSize": {"w":12,"h":12}
+		},
+		"full-heart.png":
+		{
+			"frame": {"x":79,"y":115,"w":10,"h":9},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":1,"y":2,"w":10,"h":9},
+			"sourceSize": {"w":12,"h":12}
+		},
+		"empty-crystal.png":
+		{
+			"frame": {"x":108,"y":90,"w":4,"h":4},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":4,"y":4,"w":4,"h":4},
+			"sourceSize": {"w":12,"h":12}
+		},
+		"potion-health.png":
+		{
+			"frame": {"x":93,"y":68,"w":8,"h":12},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":4,"y":2,"w":8,"h":12},
+			"sourceSize": {"w":16,"h":16}
 		}
 	}
 }

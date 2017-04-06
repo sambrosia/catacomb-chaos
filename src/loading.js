@@ -1,6 +1,7 @@
 import * as fae from "fae";
 import { app } from "./app";
 
+import { makeDungeon } from "./dungeon";
 import "./menu";
 
 app.scene("loading", {
@@ -55,10 +56,11 @@ app.scene("loading", {
         })
 
         .load((loader, resources) => {
-            PIXI.sound.volumeAll = 0.2;
+            PIXI.sound.volumeAll = app.settings.soundVolume;
 
+            resources.soundBGLoop.sound.singleInstance = true;
             resources.soundBGLoop.sound.loop = true;
-            resources.soundBGLoop.sound.volume = 1.5;
+            resources.soundBGLoop.sound.volume = app.settings.musicVolume;
 
             resources.soundHurt.sound.volume = 2;
             resources.soundDeath.sound.volume = 2;
@@ -74,6 +76,9 @@ app.scene("loading", {
 
             const finishTime = new Date().getTime();
             console.log("Resources loaded in ", finishTime - startTime, "ms");
+
+            app.stage.dungeon.position = new fae.Vector(-4, 0);
+            makeDungeon(8, 11);
 
             app.scene("menu");
         });

@@ -57,6 +57,126 @@ app.scene("main", {
 
         guiTex = app.resources.gui.textures;
 
+        const settingsContainer = app.e({
+            components: ["motion"],
+            parent: app.stage.gui,
+
+            ready() {
+                this.visible = false;
+            }
+        });
+
+        let pauseTime = performance.now();
+
+        pauseButton = app.e({
+            components: ["sprite", "motion"],
+            parent: app.stage.gui,
+
+            ready() {
+                this.sprite.texture = guiTex["pause-button.png"];
+                this.position = new fae.Vector(97, 4);
+
+                this.interactive = true;
+                this.buttonMode = true;
+
+                this.on("pointertap", () => {
+                    if (app.ticker.started) {
+                        app.resources.soundPause.sound.play();
+                        app.resources.soundBGLoop.sound.stop();
+
+                        this.sprite.texture = guiTex["unpause-button.png"];
+                        settingsContainer.visible = true;
+
+                        pauseTime = performance.now();
+                        app.ticker.stop();
+                        app.ticker.update(pauseTime);
+                    } else {
+                        app.resources.soundUnpause.sound.play();
+                        app.resources.soundBGLoop.sound.play();
+
+                        this.sprite.texture = guiTex["pause-button.png"];
+                        settingsContainer.visible = false;
+
+                        app.ticker.start();
+                    }
+                });
+            }
+        });
+
+        app.e({
+            components: ["sprite"],
+            parent: settingsContainer,
+
+            ready() {
+                this.sprite.texture = guiTex["enter-fullscreen-button.png"];
+                this.position = new fae.Vector(85, 4);
+
+                this.interactive = true;
+                this.buttonMode = true;
+
+                this.on("pointertap", () => {
+                    app.resources.soundButton.sound.play();
+                    // TODO: fullscreen functionality here
+                    toggleFullscreen(app.view);
+                    app.ticker.update(pauseTime += 0.1);
+                });
+            }
+        });
+
+        app.e({
+            components: ["sprite"],
+            parent: settingsContainer,
+
+            ready() {
+                this.sprite.texture = guiTex[app.settings.musicMuted ? "unmute-music-button.png" : "mute-music-button.png"];
+                this.position = new fae.Vector(12, 4);
+
+                this.interactive = true;
+                this.buttonMode = true;
+
+                this.on("pointertap", () => {
+                    app.resources.soundButton.sound.play();
+                    if (app.settings.musicMuted) {
+                        app.resources.soundBGLoop.sound.volume = app.settings.musicVolume;
+                        app.settings.musicMuted = false;
+                        this.sprite.texture = guiTex["mute-music-button.png"];
+                    } else {
+                        app.resources.soundBGLoop.sound.volume = 0;
+                        app.settings.musicMuted = true;
+                        this.sprite.texture = guiTex["unmute-music-button.png"];
+                    }
+                    app.ticker.update(pauseTime += 0.1);
+                });
+            }
+        });
+
+        app.e({
+            components: ["sprite"],
+            parent: settingsContainer,
+
+            ready() {
+                this.sprite.texture = guiTex[PIXI.sound.volumeAll < app.settings.soundVolume ? "unmute-sound-button.png" : "mute-sound-button.png"];
+                this.position = new fae.Vector(24, 4);
+
+                this.interactive = true;
+                this.buttonMode = true;
+
+                this.on("pointertap", () => {
+                    app.resources.soundButton.sound.play();
+                    if (PIXI.sound.volumeAll < app.settings.soundVolume) {
+                        PIXI.sound.volumeAll = app.settings.soundVolume;
+                        app.resources.soundBGLoop.sound.volume = app.settings.musicVolume * !app.settings.musicMuted;
+                        this.sprite.texture = guiTex["mute-sound-button.png"];
+                    } else {
+                        PIXI.sound.volumeAll = app.settings.soundVolume / 1000;
+                        app.resources.soundBGLoop.sound.volume = app.settings.musicVolume * !app.settings.musicMuted * 1000;
+                        this.sprite.texture = guiTex["unmute-sound-button.png"];
+                    }
+                    app.ticker.update(pauseTime += 0.1);
+                });
+            }
+        });
+
         scoreCounter = app.e({
             components: ["motion", "mediumText"],
             parent: app.stage.gui,
@@ -145,36 +265,6 @@ app.scene("main", {
 
             update(dt) {
                 this.setText(app.purse.potions.mana);
-            }
-        });
-
-        pauseButton = app.e({
-            components: ["sprite", "motion"],
-            parent: app.stage.gui,
-
-            ready() {
-                this.sprite.texture = guiTex["pause-button.png"];
-                this.position = new fae.Vector(90, -3);
-
-                this.interactive = true;
-                this.buttonMode = true;
-
-                this.on("pointertap", () => {
-                    if (app.ticker.started) {
-                        app.resources.soundPause.sound.play();
-                        app.resources.soundBGLoop.sound.stop();
-
-                        this.sprite.texture = guiTex["unpause-button.png"];
-                        app.ticker.stop();
-                        app.ticker.update();
-                    } else {
-                        app.resources.soundUnpause.sound.play();
-                        app.resources.soundBGLoop.sound.play();
-
-                        app.ticker.start();
-                        this.sprite.texture = guiTex["pause-button.png"];
-                    }
-                });
             }
         });
 

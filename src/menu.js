@@ -1,7 +1,6 @@
 import * as fae from "fae";
 import { app } from "./app";
 
-import { makeDungeon } from "./dungeon";
 import "./main";
 import "./settings";
 
@@ -9,9 +8,6 @@ let logo, playButton, optionsButton;
 
 app.scene("menu", {
     enter() {
-        app.stage.dungeon.position = new fae.Vector(-4, 0);
-        makeDungeon(8, 11);
-
         // TODO: Animate text?
         logo = [];
         for (const tex of ["skull", "catacomb", "chaos"]) {
@@ -59,8 +55,7 @@ app.scene("menu", {
             parent: app.stage.gui,
 
             ready() {
-                // TODO: Change to settings texture
-                this.sprite.texture = app.resources.gui.textures["fullscreen-button.png"];
+                this.sprite.texture = app.resources.gui.textures["options-button.png"];
                 this.sprite.anchor.set(0.5);
                 this.position = new fae.Vector(80, 136);
 
@@ -99,15 +94,3 @@ app.scene("menu", {
         playButton.timeout(600, next);
     }
 });
-
-function toggleFullscreen(element) {
-    if (document.fullscreenElement == element) document.exitFullscreen();
-    else if (document.webkitFullscreenElement == element) document.webkitExitFullscreen();
-    else if (document.mozRequestFullscreen == element) document.mozExitFullscreen();
-    else if (document.msRequestFullscreen == element) document.msExitFullscreen();
-
-    else if (element.requestFullscreen) element.requestFullscreen();
-    else if (element.webkitRequestFullscreen) element.webkitRequestFullscreen();
-    else if (element.mozRequestFullscreen) element.mozRequestFullscreen();
-    else if (element.msRequestFullscreen) element.msRequestFullscreen();
-}

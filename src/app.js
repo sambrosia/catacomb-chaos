@@ -72,3 +72,10 @@ app.event.on("update", () => {
 app.score = 0;
 app.highScore = Number(window.localStorage.getItem("catacombChaosHighScore") || 0);
 app.purse = new Purse(app);
+
+app.settings = {
+    musicMuted: false,
+    musicVolume: 1.5,
+    soundVolume: 0.2,
+    fullscreen: false
+};

@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = {
     devtool: "source-map",
     entry: "./src/boot.js",
@@ -11,5 +13,22 @@ module.exports = {
     },
     node: {
         fs: "empty"
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                include: [
+                    path.resolve(__dirname, "src"),
+                    path.resolve(__dirname, "node_modules/fae")
+                ],
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["env"]
+                    }
+                }
+            }
+        ]
     }
 };

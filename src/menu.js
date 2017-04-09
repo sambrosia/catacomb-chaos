@@ -2,7 +2,7 @@ import * as fae from "fae";
 import { app } from "./app";
 
 import "./main";
-import "./settings";
+import "./info";
 
 let logo, playButton, optionsButton;
 
@@ -66,7 +66,7 @@ app.scene("menu", {
 
                 this.on("pointertap", () => {
                     app.resources.soundButton.sound.play();
-                    app.scene("settings");
+                    app.scene("info");
                 });
             }
         });

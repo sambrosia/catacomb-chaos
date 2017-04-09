@@ -51,7 +51,7 @@ export default class Purse {
         if (n < 0) return;
 
         const playSoundAndBumpGold = (i) => {
-                const speed = 0.8 + i * 0.3 / n;
+                const speed = 0.8 + Math.random() * 0.05 + i * 0.3 / n;
                 app.resources.soundCoin.sound.play({ speed: speed });
                 this.gold++;
                 app.event.emit("goldchanged", this.gold);

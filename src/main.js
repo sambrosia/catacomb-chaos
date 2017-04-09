@@ -2,6 +2,8 @@ import * as fae from "fae";
 import ga from "gameanalytics";
 import { app } from "./app";
 
+import * as fs from "./fullscreen";
+
 import { purseIconTemplate } from "./purse";
 import { playerTemplate } from "./player";
 import { waves } from "./waves";
@@ -116,8 +118,14 @@ app.scene("main", {
 
                 this.on("pointertap", () => {
                     app.resources.soundButton.sound.play();
-                    // TODO: fullscreen functionality here
-                    toggleFullscreen(app.view);
+                    if (!fs.isFullscreen(app.view)) {
+                        fs.enterFullscreen(app.view);
+                        this.sprite.texture = guiTex["exit-fullscreen-button.png"];
+                    }
+                    else {
+                        fs.exitFullscreen();
+                        this.sprite.texture = guiTex["enter-fullscreen-button.png"];
+                    }
                     app.ticker.update(pauseTime += 0.1);
                 });
             }

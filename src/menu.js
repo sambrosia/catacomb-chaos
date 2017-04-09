@@ -8,7 +8,14 @@ let logo, playButton, optionsButton;
 
 app.scene("menu", {
     enter() {
-        // TODO: Animate text?
+        app.stage.gui.alpha = 0;
+
+        app.e({
+            update(dt) {
+                if (app.stage.gui.alpha < 1) app.stage.gui.alpha += 0.1 * dt;
+            }
+        });
+
         logo = [];
         for (const tex of ["skull", "catacomb", "chaos"]) {
             logo.push(app.e({
@@ -55,7 +62,7 @@ app.scene("menu", {
             parent: app.stage.gui,
 
             ready() {
-                this.sprite.texture = app.resources.gui.textures["options-button.png"];
+                this.sprite.texture = app.resources.gui.textures["info-button.png"];
                 this.sprite.anchor.set(0.5);
                 this.position = new fae.Vector(80, 136);
 
@@ -75,22 +82,22 @@ app.scene("menu", {
     exit(next) {
         playButton.interactive = false;
         playButton.on("update", (dt) => {
-            playButton.velocity.y += 0.3 * dt;
+            playButton.velocity.y += 0.4 * dt;
         });
 
         optionsButton.timeout(100, () => {
             optionsButton.interactive = false;
             optionsButton.on("update", (dt) => {
-                optionsButton.velocity.y += 0.3 * dt;
+                optionsButton.velocity.y += 0.4 * dt;
             });
         });
 
         for (let i = 0; i < logo.length; i++) {
             logo[i].on("update", (dt) => {
-                logo[i].alpha -= 0.03 * (1 + i) * dt;
+                logo[i].alpha -= 0.04 * (1 + i) * dt;
             });
         }
 
-        playButton.timeout(600, next);
+        playButton.timeout(400, next);
     }
 });

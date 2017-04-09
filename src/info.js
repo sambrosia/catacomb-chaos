@@ -1,4 +1,5 @@
 import * as fae from "fae";
+import ga from "gameanalytics";
 import { app } from "./app";
 
 let container;
@@ -47,6 +48,7 @@ app.scene("info", {
             }
         });
 
+        // Back button
         app.e({
             components: ["sprite"],
             parent: container,
@@ -55,12 +57,13 @@ app.scene("info", {
                 this.buttonMode = true;
 
                 this.sprite.anchor.set(0.5);
-                this.position = new fae.Vector(41, 104);
+                this.position = new fae.Vector(41, 112);
                 this.hitArea = new PIXI.Circle(1, 1, 14);
 
                 this.sprite.texture = guiTex["back-button.png"];
 
                 this.on("pointertap", () => {
+                    app.resources.soundButton.sound.play();
                     app.scene("menu");
                 });
             }
@@ -71,7 +74,7 @@ app.scene("info", {
             components: ["smallText"],
             parent: container,
             ready() {
-                this.y = 124;
+                this.y = 133;
                 this.setText("Privacy");
 
                 this.underline = this.addChild(new PIXI.Graphics());
@@ -84,42 +87,6 @@ app.scene("info", {
 
                 this.on("pointertap", () => {
                     window.open("http://www.gameanalytics.com/privacy");
-                });
-            }
-        });
-
-        app.e({
-            components: ["smallText"],
-            parent: container,
-            ready() {
-                this.y = 133;
-                this.text.tint = 0x72ee97;
-                this.setText("Disable Analytics");
-
-                this.underline = this.addChild(new PIXI.Graphics());
-                this.underline.lineStyle(1, this.text.tint)
-                .moveTo(0, 6.5)
-                .lineTo(this.text.textWidth - 1, 6.5);
-
-                this.interactive = true;
-                this.buttonMode = true;
-                this.toggled = true;
-
-                // TODO: toggle analytics
-                this.on("pointertap", () => {
-                    if (this.toggled) {
-                        this.text.tint = 0x72ee97;
-                        this.setText("Disable Analytics");
-                    } else {
-                        this.text.tint = 0xf64f5e;
-                        this.setText("Enable Analytics");
-                    }
-                    this.underline.clear()
-                    .lineStyle(1, this.text.tint)
-                    .moveTo(0, 6.5)
-                    .lineTo(this.text.textWidth - 1, 6.5);
-
-                    this.toggled = !this.toggled;
                 });
             }
         });

@@ -30,7 +30,6 @@ app.c("mediumText", mediumText);
 app.c("largeText", largeText);
 
 // Set up view stretching
-// TODO: Expand to fill vertical space
 function resize() {
     const parentWidth = app.view.parentElement.clientWidth;
     const parentHeight = app.view.parentElement.clientHeight;

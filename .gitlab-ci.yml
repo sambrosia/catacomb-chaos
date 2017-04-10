@@ -1,11 +1,6 @@
 pages:
-    script:
-    - mkdir public
-    - cp index.* public
-    - cp dist/* public
-    - cp -r assets public
     artifacts:
         paths:
         - public
     only:
-    - master
+    - pages

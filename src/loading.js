@@ -9,7 +9,7 @@ app.scene("loading", {
         // Start loading resources
         const startTime = new Date().getTime();
 
-        app.loader.baseUrl = "assets";
+        app.loader.baseUrl = "./assets";
         app.loader
         .add("fontSharpRetro", "fonts/Sharp-Retro.xml")
         .add("fontMinimal3x5", "fonts/Minimal3x5.fnt")

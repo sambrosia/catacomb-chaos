@@ -1,10 +1,10 @@
 const path = require("path");
 
 module.exports = {
-    devtool: "source-map",
+    devtool: "cheap-module-source-map",
     entry: "./src/boot.js",
     output: {
-        filename: "catacomb-chaos.js"
+        filename: "dist/catacomb-chaos.js"
     },
     resolve: {
         alias: {

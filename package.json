@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --progress --colors --host 0.0.0.0",
-    "build": "webpack --progress --colors"
+    "build": "webpack --progress --colors",
+    "build:prod": "webpack -p --progress --colors"
   },
   "author": "Sam Woodruff",
   "private": true,

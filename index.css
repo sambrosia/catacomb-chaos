@@ -46,3 +46,8 @@ a {
     image-rendering: -webkit-optimize-contrast;
     image-rendering: pixelated;
 }
+
+.footer-link {
+    font: 32px "Sharp-Retro";
+    color: #afe1ff;
+}

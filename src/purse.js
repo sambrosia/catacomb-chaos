@@ -22,29 +22,6 @@ export default class Purse {
             else if (type == "mana")
                 localStorage.setItem(prefix + "PotionsMana", potions);
         });
-
-        // TODO: Don't forget to remove this debug thing
-        app.input.on("keydown", (key) => {
-            if (key == "0") {
-                this.gold = 0;
-            }
-            else if (key == "1") {
-                this.addGold(1);
-            }
-            else if (key == "2") {
-                this.addGold(10);
-            }
-            else if (key == "3") {
-                this.addGold(100);
-            }
-
-            else if (key == "h") {
-                this.buyPotion("health");
-            }
-            else if (key == "m") {
-                this.buyPotion("mana");
-            }
-        });
     }
 
     addGold(n) {

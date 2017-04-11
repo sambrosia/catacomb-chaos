@@ -44,9 +44,9 @@ ga.GameAnalytics.setEnabledInfoLog(false);
 ga.GameAnalytics.setEnabledVerboseLog(false);
 // ga.GameAnalytics.setEnabledManualSessionHandling(true);
 
-ga.GameAnalytics.configureBuild("html5 0.1.0");
+ga.GameAnalytics.configureBuild("html5 1.0.0");
 
-ga.GameAnalytics.initialize("d2874ef493b5e62c0a632b94933445e1", "9965ecf15c5e8d6d6aa692e3ee33388a84ccf2f2");
+ga.GameAnalytics.initialize("6d7b36314a3779c2de7e46eb33a2d455", "4e4359337f0177622ef1f9dc5c2be18a1b50d5cb");
 
 // ga.GameAnalytics.startSession();
 // window.addEventListener("beforeunload", ga.GameAnalytics.endSession);

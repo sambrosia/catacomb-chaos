@@ -98,6 +98,18 @@ app.scene("info", {
             ready() {
                 this.y = 142;
                 this.setText("(c) 2017 Sam Woodruff");
+
+                this.underline = this.addChild(new PIXI.Graphics());
+                this.underline.lineStyle(1, this.text.tint)
+                .moveTo(28, 6.5)
+                .lineTo(this.text.textWidth - 1, 6.5);
+
+                this.interactive = true;
+                this.buttonMode = true;
+
+                this.on("pointertap", () => {
+                    window.open("mailto:samuelcwoodruff@gmail.com");
+                });
             }
         });
     },

@@ -1,6 +1,5 @@
 import * as fae from 'fae'
-import { app } from './app'
-
+import { app } from '../app'
 import { explosionTemplate } from './explosion'
 
 const fireGraphics = new PIXI.Graphics()

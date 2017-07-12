@@ -1,7 +1,6 @@
 import * as fae from 'fae'
 import ga from 'gameanalytics'
-
-import { smallText, mediumText, largeText } from './text'
+import { smallText, mediumText, largeText } from './menus/text'
 import Purse from './purse'
 
 // Configure analytics

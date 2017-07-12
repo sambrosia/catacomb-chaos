@@ -1,9 +1,7 @@
 import * as fae from 'fae'
-import { app } from './app'
-
+import { app } from '../app'
 import { fireballTemplate } from './fireball'
-
-import './gameover'
+import '../menus/gameover'
 
 export const playerTemplate = {
   components: ['animatedsprite', 'collision'],

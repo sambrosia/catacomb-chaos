@@ -1,5 +1,4 @@
-import { app } from './app'
-
+import { app } from '../app'
 import { sparkTemplate, poofTemplate } from './enemy-effects'
 
 const arrowTemplate = {

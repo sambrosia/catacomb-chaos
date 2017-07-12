@@ -1,6 +1,5 @@
 import * as fae from 'fae'
-import { app } from './app'
-
+import { app } from '../app'
 import { fireTexture } from './fireball'
 
 export const explosionTemplate = {

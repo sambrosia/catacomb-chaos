@@ -1,5 +1,5 @@
 import * as fae from 'fae'
-import { app } from './app'
+import { app } from '../app'
 
 let container
 

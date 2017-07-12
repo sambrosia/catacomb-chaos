@@ -1,7 +1,7 @@
 import * as fae from 'fae'
-import { app } from './app'
+import { app } from '../app'
 
-import { purseIconTemplate } from './purse'
+import { purseIconTemplate } from '../purse'
 
 let score, highScore, gold, playButton, healthPotionButton, manaPotionButton
 

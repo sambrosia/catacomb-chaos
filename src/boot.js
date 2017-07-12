@@ -1,6 +1,6 @@
 import 'babel-polyfill'
 import { app } from './app'
 
-import './loading'
+import './menus/loading'
 
 app.scene('loading')

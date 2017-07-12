@@ -1,15 +1,15 @@
 import * as fae from 'fae'
-import { app } from './app'
+import { app } from '../app'
 
-import { makeDungeon } from './dungeon'
-import './menu'
+import { makeDungeon } from '../dungeon'
+import '../menus/menu'
 
 app.scene('loading', {
   enter () {
     // Start loading resources
     const startTime = new Date().getTime()
 
-    app.loader.baseUrl = './assets'
+    app.loader.baseUrl = '/assets'
     app.loader
     .add('fontSharpRetro', 'fonts/Sharp-Retro.xml')
     .add('fontMinimal3x5', 'fonts/Minimal3x5.fnt')

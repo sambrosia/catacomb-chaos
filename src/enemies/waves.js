@@ -1,5 +1,4 @@
-import { app } from './app'
-
+import { app } from '../app'
 import { skeletonTemplate } from './skeleton'
 import { ghostSkeletonTemplate } from './ghost-skeleton'
 import { archerTemplate } from './archer'

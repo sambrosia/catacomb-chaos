@@ -1,9 +1,9 @@
 import * as fae from 'fae'
-import { app } from './app'
+import { app } from '../app'
 
-import { sparkTemplate, poofTemplate, ghostlyTemplate } from './enemy-effects'
+import { sparkTemplate, poofTemplate } from './enemy-effects'
 
-export const ghostSkeletonTemplate = {
+export const skeletonTemplate = {
   components: ['animatedsprite', 'motion', 'steering', 'collision'],
   groups: ['enemy'],
   parent: app.stage.world,
@@ -49,14 +49,6 @@ export const ghostSkeletonTemplate = {
     })
     this.sprite.loopAnimation('walk')
 
-    this.ghost = app.e(ghostlyTemplate)
-    this.addChild(this.ghost)
-    this.ghost.x = 2
-    this.ghost.y = -13
-
-    this.hp = 2
-    this.hitExplosions = []
-
     app.resources.soundSkeletonSpawn.sound.play({
       speed: 1 + Math.random() * 0.5
     })
@@ -67,14 +59,14 @@ export const ghostSkeletonTemplate = {
     this.bounty = 0
 
     let r = Math.random()
-    if (r < 0.01) { this.bounty = 10 } else if (r < 0.5) {
-      this.bounty = 2
+    if (r < 0.01) { this.bounty = 5 } else if (r < 1 / 3) {
+      this.bounty = 1
       startFrame = 2
       endFrame = 3
       offset = 5
     }
 
-        // Coin above skeleton
+    // Coin above skeleton
     if (this.bounty > 0) {
       app.e({
         components: ['animatedsprite'],
@@ -111,18 +103,10 @@ export const ghostSkeletonTemplate = {
     fireball.emit('landedhit')
   },
 
-  hitbyexplosion (explosion) {
-    if (this.hitExplosions.includes(explosion)) return
-    this.hitExplosions.push(explosion)
-
-    this.hp--
-    if (this.hp === 1) {
-      this.ghost.queueDestroy()
-    } else if (this.hp <= 0) {
-      app.purse.addGold(this.bounty)
-      app.score += 20
-      this.emit('kill')
-    }
+  hitbyexplosion () {
+    app.purse.addGold(this.bounty)
+    app.score += 10
+    this.emit('kill')
   },
 
   kill () {

@@ -4,8 +4,8 @@ import { app } from './app'
 import * as fs from './fullscreen'
 
 import { purseIconTemplate } from './purse'
-import { playerTemplate } from './player'
-import { waves } from './waves'
+import { playerTemplate } from './player/player'
+import { waves } from './enemies/waves'
 
 let guiTex
 

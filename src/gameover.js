@@ -198,7 +198,7 @@ app.scene('gameover', {
           components: ['smallText'],
           ready () {
             this.text.tint = 0xffce7a
-            this.setText('10 gp')
+            this.setText('25 gp')
 
             this.x = -this.text.textWidth / 2
             this.y = -12

@@ -48,7 +48,7 @@ export default class Purse {
         break
 
       case 'mana':
-        price = 10
+        price = 25
         break
 
       default:

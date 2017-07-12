@@ -1,72 +1,72 @@
-import * as fae from "fae";
-import { app } from "./app";
+import * as fae from 'fae'
+import { app } from './app'
 
 const particleGraphics = new PIXI.Graphics()
 .beginFill(0x601ac9)
-.drawRect(0,0,2,2)
-.endFill();
-const particleTexture = app.renderer.generateTexture(particleGraphics);
+.drawRect(0, 0, 2, 2)
+.endFill()
+const particleTexture = app.renderer.generateTexture(particleGraphics)
 
 export const poofTemplate = {
-    components: ["emitter"],
-    parent: app.stage.effects,
+  components: ['emitter'],
+  parent: app.stage.effects,
 
-    ready() {
-        this.emitOptions = {
-            texture: particleTexture,
-            lifetime: 300,
-            period: 20,
-            area: 20,
-            scale: 3,
-            scaleRandom: 2,
-            rotationRandom: 1,
-            endAlpha: 0.01,
-            velocityRandom: new fae.Vector(0.5, 0.5)
-        };
-
-        this.timeout(100, "kill");
-    },
-
-    kill() {
-        this.queueDestroy();
+  ready () {
+    this.emitOptions = {
+      texture: particleTexture,
+      lifetime: 300,
+      period: 20,
+      area: 20,
+      scale: 3,
+      scaleRandom: 2,
+      rotationRandom: 1,
+      endAlpha: 0.01,
+      velocityRandom: new fae.Vector(0.5, 0.5)
     }
-};
+
+    this.timeout(100, 'kill')
+  },
+
+  kill () {
+    this.queueDestroy()
+  }
+}
 
 export const sparkTemplate = {
-    components: ["emitter"],
+  components: ['emitter'],
 
-    ready() {
-        this.emitOptions = {
-            texture: particleTexture,
-            lifetime: 300,
-            period: 50,
-            area: 4,
-            scale: 0.5,
-            scaleRandom: 0.3,
-            endAlpha: 0.01,
-            velocityRandom: new fae.Vector(1, 1)
-        };
-    },
-
-    kill() {
-        this.queueDestroy();
+  ready () {
+    this.emitOptions = {
+      texture: particleTexture,
+      lifetime: 300,
+      period: 50,
+      area: 4,
+      scale: 0.5,
+      scaleRandom: 0.3,
+      endAlpha: 0.01,
+      velocityRandom: new fae.Vector(1, 1)
     }
-};
+  },
+
+  kill () {
+    this.queueDestroy()
+  }
+}
 
 export const ghostlyTemplate = {
-    components: ["emitter"],
+  components: ['emitter'],
 
-    ready() {
-        this.emitOptions = {
-            texture: particleTexture,
-            lifetime: 400,
-            period: 100,
-            area: 2,
-            scale: 4,
-            scaleRandom: 1,
-            endScale: 0.01,
-            rotationRandom: 2,
-            velocityRandom: new fae.Vector(0.2)
-        };
+  ready () {
+    this.emitOptions = {
+      texture: particleTexture,
+      lifetime: 400,
+      period: 100,
+      area: 2,
+      scale: 4,
+      scaleRandom: 1,
+      endScale: 0.01,
+      rotationRandom: 2,
+      velocityRandom: new fae.Vector(0.2)
     }
-};
+  }
+}

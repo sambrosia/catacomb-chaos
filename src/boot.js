@@ -1,7 +1,6 @@
-import "babel-polyfill";
-import * as fae from "fae";
-import { app } from "./app";
+import 'babel-polyfill'
+import { app } from './app'
 
-import "./loading";
+import './loading'
 
-app.scene("loading");
+app.scene('loading')

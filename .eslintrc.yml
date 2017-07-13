@@ -1,0 +1,15 @@
+extends:
+  - eslint:recommended
+  - standard
+plugins:
+  - html
+env:
+  browser: true
+globals:
+  PIXI: true
+rules:
+  no-trailing-spaces: off
+  no-console: off
+  spaced-comment:
+    - warn
+    - always

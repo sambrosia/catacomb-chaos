@@ -132,12 +132,13 @@ export function makeDungeon (w, h) {
               tex = 'wall-e'
               break
 
-            default:
+            default: {
               tex = 'floor'
 
               let r = Math.random()
               if (r < 0.15) tex = 'floor-tile'
               else if (r < 0.3) tex = 'floor-tiles'
+            }
           }
       }
 

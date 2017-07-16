@@ -82,7 +82,7 @@ function load () {
 
 app.scene('loading', {
   enter () {
-    app.loader.baseUrl = '/assets'
+    app.loader.baseUrl = './assets'
 
     app.loader
     .add('fontMinimal3x5', 'fonts/Minimal3x5.fnt')

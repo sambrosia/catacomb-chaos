@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --progress --colors --content-base ./dist --host 0.0.0.0",
+    "start": "webpack-dev-server --progress --colors",
     "build": "webpack --progress --colors"
   },
   "author": "Sam Woodruff",

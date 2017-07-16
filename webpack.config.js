@@ -1,11 +1,11 @@
 const path = require('path')
 
 module.exports = {
-  devtool: false,
-  // devtool: "source-map",
+  devtool: 'source-map',
   entry: './src/boot.js',
   output: {
-    filename: 'dist/catacomb-chaos.js'
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'catacomb-chaos.js'
   },
   resolve: {
     alias: {
@@ -31,5 +31,9 @@ module.exports = {
         }
       }
     ]
+  },
+  devServer: {
+    contentBase: 'dist',
+    host: '0.0.0.0'
   }
 }

@@ -109,7 +109,7 @@
 			"spriteSourceSize": {"x":4,"y":4,"w":4,"h":4},
 			"sourceSize": {"w":12,"h":12}
 		},
-		"pause-button.png":
+		"unmute-sound-button.png":
 		{
 			"frame": {"x":150,"y":78,"w":11,"h":10},
 			"rotated": false,
@@ -117,7 +117,7 @@
 			"spriteSourceSize": {"x":0,"y":0,"w":11,"h":10},
 			"sourceSize": {"w":11,"h":10}
 		},
-		"unmute-sound-button.png":
+		"enter-fullscreen-button.png":
 		{
 			"frame": {"x":76,"y":41,"w":11,"h":10},
 			"rotated": false,
@@ -125,7 +125,7 @@
 			"spriteSourceSize": {"x":0,"y":0,"w":11,"h":10},
 			"sourceSize": {"w":11,"h":10}
 		},
-		"enter-fullscreen-button.png":
+		"exit-fullscreen-button.png":
 		{
 			"frame": {"x":89,"y":41,"w":11,"h":10},
 			"rotated": false,
@@ -133,7 +133,7 @@
 			"spriteSourceSize": {"x":0,"y":0,"w":11,"h":10},
 			"sourceSize": {"w":11,"h":10}
 		},
-		"exit-fullscreen-button.png":
+		"unmute-music-button.png":
 		{
 			"frame": {"x":67,"y":55,"w":11,"h":10},
 			"rotated": false,
@@ -141,7 +141,7 @@
 			"spriteSourceSize": {"x":0,"y":0,"w":11,"h":10},
 			"sourceSize": {"w":11,"h":10}
 		},
-		"unmute-music-button.png":
+		"mute-music-button.png":
 		{
 			"frame": {"x":80,"y":55,"w":11,"h":10},
 			"rotated": false,
@@ -149,7 +149,7 @@
 			"spriteSourceSize": {"x":0,"y":0,"w":11,"h":10},
 			"sourceSize": {"w":11,"h":10}
 		},
-		"mute-music-button.png":
+		"mute-sound-button.png":
 		{
 			"frame": {"x":93,"y":55,"w":11,"h":10},
 			"rotated": false,
@@ -157,17 +157,9 @@
 			"spriteSourceSize": {"x":0,"y":0,"w":11,"h":10},
 			"sourceSize": {"w":11,"h":10}
 		},
-		"mute-sound-button.png":
-		{
-			"frame": {"x":67,"y":67,"w":11,"h":10},
-			"rotated": false,
-			"trimmed": false,
-			"spriteSourceSize": {"x":0,"y":0,"w":11,"h":10},
-			"sourceSize": {"w":11,"h":10}
-		},
 		"full-crystal.png":
 		{
-			"frame": {"x":80,"y":67,"w":10,"h":10},
+			"frame": {"x":67,"y":67,"w":10,"h":10},
 			"rotated": false,
 			"trimmed": true,
 			"spriteSourceSize": {"x":1,"y":1,"w":10,"h":10},
@@ -175,11 +167,19 @@
 		},
 		"full-heart.png":
 		{
-			"frame": {"x":92,"y":67,"w":10,"h":9},
+			"frame": {"x":79,"y":67,"w":10,"h":9},
 			"rotated": false,
 			"trimmed": true,
 			"spriteSourceSize": {"x":1,"y":2,"w":10,"h":9},
 			"sourceSize": {"w":12,"h":12}
+		},
+		"pause-button.png":
+		{
+			"frame": {"x":91,"y":67,"w":9,"h":9},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":1,"y":0,"w":9,"h":9},
+			"sourceSize": {"w":11,"h":10}
 		},
 		"empty-crystal.png":
 		{

@@ -3,6 +3,10 @@ import ga from 'gameanalytics'
 import { smallText, mediumText, largeText } from './menus/text'
 import Purse from './purse'
 
+// TODO: Change pause button sprite to gear
+// TODO: Re-enable analytics
+// TODO: Increment version
+
 // Configure analytics
 ga.logging.GALogger.debugEnabled = false
 ga.GameAnalytics.setEnabledInfoLog(false)
@@ -20,7 +24,7 @@ ga.GameAnalytics.configureBuild('html5 1.0.0')
 // Create application
 export const app = new fae.Application(480, 640, {
   view: document.getElementById('catacomb-chaos-canvas'),
-  transparent: true,
+  backgroundColor: 0x40456c,
   resolution: 1
 })
 

@@ -3,8 +3,6 @@ import ga from 'gameanalytics'
 import { smallText, mediumText, largeText } from './menus/text'
 import Purse from './purse'
 
-// TODO: Re-enable production analytics
-
 // Configure analytics
 ga.logging.GALogger.debugEnabled = false
 ga.GameAnalytics.setEnabledInfoLog(false)

@@ -3,7 +3,6 @@ import ga from 'gameanalytics'
 import { smallText, mediumText, largeText } from './menus/text'
 import Purse from './purse'
 
-// TODO: Change pause button sprite to gear
 // TODO: Re-enable analytics
 // TODO: Increment version
 

@@ -4,7 +4,6 @@ import { smallText, mediumText, largeText } from './menus/text'
 import Purse from './purse'
 
 // TODO: Re-enable analytics
-// TODO: Increment version
 
 // Configure analytics
 ga.logging.GALogger.debugEnabled = false
@@ -12,7 +11,7 @@ ga.GameAnalytics.setEnabledInfoLog(false)
 ga.GameAnalytics.setEnabledVerboseLog(false)
 // ga.GameAnalytics.setEnabledManualSessionHandling(true);
 
-ga.GameAnalytics.configureBuild('html5 1.0.0')
+ga.GameAnalytics.configureBuild('html5 1.1.0')
 
 // ga.GameAnalytics.initialize('6d7b36314a3779c2de7e46eb33a2d455', '4e4359337f0177622ef1f9dc5c2be18a1b50d5cb')
 

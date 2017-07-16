@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'cheap-module-source-map',
   entry: './src/boot.js',
   output: {
     path: path.resolve(__dirname, 'dist'),

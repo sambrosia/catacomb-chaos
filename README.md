@@ -30,7 +30,7 @@ There plenty of other things I could and probably would do:
 - HMR for game logic? (*I'll have to experiment with this some time*)
 
 ## But why?
-***"Why bother with all that work?"***, I hear you ask. ***"The performance is good. No major bugs. The game seems to work fine, aside from not running in a handful major browsers."***, you say. Okay, you probably don't say that last one.
+**"Why bother with all that work?"**, I hear you ask. **"The performance is good. No major bugs. The game seems to work fine, aside from not running in a handful major browsers."**, you say. Okay, you probably don't say that last one.
 
 Rhetorical setup aside, the reason is productivity (*and browser support*). A good webpack setup allows for faster iteration and deploys. A UI framework allows for *way* faster creation and improvement of the interface.
 
